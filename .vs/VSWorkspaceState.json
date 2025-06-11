@@ -13,13 +13,12 @@
   },
   "ExpandedNodes": [
     "",
-    "\\build",
     "\\build\\_deps",
     "\\build\\_deps\\googletest-build",
     "\\cmake",
     "\\src",
     "\\test"
   ],
-  "SelectedNode": "\\build\\Dependencies.sln",
+  "SelectedNode": "\\src\\bimapping.cpp",
   "PreviewInSolutionExplorer": false
 }
