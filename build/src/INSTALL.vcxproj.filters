@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="G:\VS_repos\CMakeProject1\build\CMakeFiles\ae790c350eef87b658d6bc2a278d684d\INSTALL_force.rule">
+    <CustomBuild Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\CMakeFiles\37b0cd2c32e00d714e6c3aef09a714aa\INSTALL_force.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">
-      <UniqueIdentifier>{FC67FC1A-73E5-3530-AA52-F496492C86A1}</UniqueIdentifier>
+      <UniqueIdentifier>{8D2FA974-0F58-39E8-8DB0-5E48F9356DE8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

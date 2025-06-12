@@ -2,13 +2,13 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>G:\VS_repos\CMakeProject1\build\_deps\googletest-subbuild\x64\Debug\ZERO_CHECK</FullPath>
+      <FullPath>G:\VS_repos\PortfolioProjects\6502-Emulator\build\_deps\googletest-subbuild\x64\Debug\ZERO_CHECK</FullPath>
     </ProjectOutput>
     <ProjectOutput>
-      <FullPath>G:\VS_repos\CMakeProject1\build\_deps\googletest-subbuild\x64\Debug\googletest-populate</FullPath>
+      <FullPath>G:\VS_repos\PortfolioProjects\6502-Emulator\build\_deps\googletest-subbuild\x64\Debug\googletest-populate</FullPath>
     </ProjectOutput>
     <ProjectOutput>
-      <FullPath>G:\VS_repos\CMakeProject1\build\_deps\googletest-subbuild\x64\Debug\ALL_BUILD</FullPath>
+      <FullPath>G:\VS_repos\PortfolioProjects\6502-Emulator\build\_deps\googletest-subbuild\x64\Debug\ALL_BUILD</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

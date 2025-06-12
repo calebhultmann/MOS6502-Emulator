@@ -1,5 +1,5 @@
-if(EXISTS "G:/VS_repos/CMakeProject1/build/test/unit_tests[1]_tests.cmake")
-  include("G:/VS_repos/CMakeProject1/build/test/unit_tests[1]_tests.cmake")
+if(EXISTS "G:/VS_repos/PortfolioProjects/6502-Emulator/build/test/unit_tests[1]_tests.cmake")
+  include("G:/VS_repos/PortfolioProjects/6502-Emulator/build/test/unit_tests[1]_tests.cmake")
 else()
   add_test(unit_tests_NOT_BUILT unit_tests_NOT_BUILT)
 endif()

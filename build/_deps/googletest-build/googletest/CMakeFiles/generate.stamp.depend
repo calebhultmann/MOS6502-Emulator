@@ -11,8 +11,8 @@ C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtens
 C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.31/Modules/FindThreads.cmake
 C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake
 C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.31/Modules/WriteBasicConfigVersionFile.cmake
-G:/VS_repos/CMakeProject1/build/_deps/googletest-src/googletest/CMakeLists.txt
-G:/VS_repos/CMakeProject1/build/_deps/googletest-src/googletest/cmake/Config.cmake.in
-G:/VS_repos/CMakeProject1/build/_deps/googletest-src/googletest/cmake/gtest.pc.in
-G:/VS_repos/CMakeProject1/build/_deps/googletest-src/googletest/cmake/gtest_main.pc.in
-G:/VS_repos/CMakeProject1/build/_deps/googletest-src/googletest/cmake/internal_utils.cmake
+G:/VS_repos/PortfolioProjects/6502-Emulator/build/_deps/googletest-src/googletest/CMakeLists.txt
+G:/VS_repos/PortfolioProjects/6502-Emulator/build/_deps/googletest-src/googletest/cmake/Config.cmake.in
+G:/VS_repos/PortfolioProjects/6502-Emulator/build/_deps/googletest-src/googletest/cmake/gtest.pc.in
+G:/VS_repos/PortfolioProjects/6502-Emulator/build/_deps/googletest-src/googletest/cmake/gtest_main.pc.in
+G:/VS_repos/PortfolioProjects/6502-Emulator/build/_deps/googletest-src/googletest/cmake/internal_utils.cmake

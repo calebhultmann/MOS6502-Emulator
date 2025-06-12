@@ -1,4 +1,4 @@
-# Install script for directory: G:/VS_repos/CMakeProject1/test
+# Install script for directory: G:/VS_repos/PortfolioProjects/6502-Emulator/test
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,12 +34,12 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("G:/VS_repos/CMakeProject1/build/_deps/googletest-build/cmake_install.cmake")
+  include("G:/VS_repos/PortfolioProjects/6502-Emulator/build/_deps/googletest-build/cmake_install.cmake")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "G:/VS_repos/CMakeProject1/build/test/install_local_manifest.txt"
+  file(WRITE "G:/VS_repos/PortfolioProjects/6502-Emulator/build/test/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

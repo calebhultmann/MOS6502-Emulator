@@ -12,6 +12,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(src)
 
 add_executable(rooster main.cpp)
-target_link_libraries(rooster PRIVATE calculator)
+target_link_libraries(rooster PRIVATE emulator)
 
 add_subdirectory(test)

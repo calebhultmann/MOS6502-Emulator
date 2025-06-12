@@ -13,9 +13,6 @@
   },
   "ExpandedNodes": [
     "",
-    "\\build\\_deps",
-    "\\build\\_deps\\googletest-build",
-    "\\cmake",
     "\\src",
     "\\test"
   ],

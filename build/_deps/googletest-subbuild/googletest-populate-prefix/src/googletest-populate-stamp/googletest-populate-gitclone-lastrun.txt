@@ -3,9 +3,9 @@
 # No other meaning or use of this file is supported.
 
 method=git
-command=C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;G:/VS_repos/CMakeProject1/build/_deps/googletest-subbuild/googletest-populate-prefix/tmp/googletest-populate-gitclone.cmake
-source_dir=G:/VS_repos/CMakeProject1/build/_deps/googletest-src
-work_dir=G:/VS_repos/CMakeProject1/build/_deps
+command=C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;G:/VS_repos/PortfolioProjects/6502-Emulator/build/_deps/googletest-subbuild/googletest-populate-prefix/tmp/googletest-populate-gitclone.cmake
+source_dir=G:/VS_repos/PortfolioProjects/6502-Emulator/build/_deps/googletest-src
+work_dir=G:/VS_repos/PortfolioProjects/6502-Emulator/build/_deps
 repository=https://github.com/google/googletest.git
 remote=origin
 init_submodules=TRUE
