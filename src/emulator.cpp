@@ -1,6 +1,8 @@
 #include "emulator.h"
 #include "instructions.h"
-
+#include "mappings.h"
+#include <stdexcept>
+#include <iostream>
 struct Mem
 {
     // Set all memory bytes to 0x00, initialize start vector at 0xFFFC/0xFFFD to 0x0200
@@ -103,12 +105,46 @@ struct CPU
         }
     }
 
-    // Execute instructions
-    void Execute(u32 Cycles)
+	// Fetch the next instruction from memory
+    pair<string, TokenType> FetchInstruction() {
+        Byte Opcode = mem.FetchByte(Cycles, PC);
+
+        try {
+            pair<string, TokenType> instruction = instruction_opcode_bimap.right.at(Opcode);
+        } catch (std::out_of_range& e) {
+			std::cout << "Unrecognized opcode: " << std::hex << (int)Opcode << std::dec << std::endl;
+            return std::make_pair("Unknown", UNKNOWN);
+        }
+		return instruction;
+    }
+
+    // Fetch data for the current instruction based on address mode
+    void FetchData() {
+
+    }
+
+	// Execute the current instruction
+    void ExecuteInstruction(pair<string, TokenType> instruction) {
+		string operation = instruction.first;
+        switch (operation) {
+        case "Unknown":
+            return;
+        
+        case "LDA":
+        {
+
+        }
+
+        }
+
+    }
+
+    // Run the emulator
+    void Run(u32 Cycles)
     {
         while (Cycles > 0)
         {
-            Byte Instruction = mem.FetchByte(Cycles, PC);
+
             switch (Instruction)
             {
                 // AND - Logical AND

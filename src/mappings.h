@@ -1,5 +1,5 @@
 #include <map>
-#include "abstraction.h"
+#include "bimap.h"
 // Instruction and their valid addressing modes
 static const map<string, vector<TokenType>> instruction_to_token_types =
 {
