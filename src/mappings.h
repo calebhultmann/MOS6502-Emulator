@@ -1,7 +1,7 @@
 #include <map>
 #include "bimap.h"
 // Instruction and their valid addressing modes
-static const map<string, vector<TokenType>> instruction_to_token_types =
+static const map<string, vector<AddressMode>> instruction_to_token_types =
 {
     {"ADC", {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE_RELATIVE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
     {"AND", {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE_RELATIVE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},

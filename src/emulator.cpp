@@ -35,7 +35,14 @@ struct Mem
         return Value;
     }
 
-    // Word ReadWord(u32 &Cycles, Word Address) ?
+    Word ReadWord(u32& Cycles, Word Address)
+    {
+        Word Value = Data[Address];
+        Address++;
+        Value |= (Data[Address] << 8);
+        Cycles -= 2;
+        return Value;
+    }
 
     Byte FetchByte(u32& Cycles, Word& PC)
     {
@@ -71,11 +78,29 @@ struct Mem
 
 struct CPU
 {
+    Word PC; // Program Counter
+    Byte A;  // Accumulator
+    Byte X;  // Index Register X
+    Byte Y;  // Index Register Y
+    Byte S;  // Stack Pointer
+    Byte P;  // Processor Status
+
+    Byte C : 1; // Carry Flag
+    Byte Z : 1; // Zero Flag
+    Byte I : 1; // Interrupt Disable Flag
+    Byte D : 1; // Decimal Mode Flag
+    Byte B : 1; // Break Command Flag
+    Byte V : 1; // Overflow Flag
+    Byte N : 1; // Negative Flag
+
+    u32 Cycles;
+    Mem mem;
+
     // Set the Z and N flags with respect to a register; Very common result of many opcodes
-    void RegisterSetZNStatus(Byte& Register)
+    void RegisterSetZNStatus(Byte Data)
     {
-        Z = (Register == 0);
-        N = (Register & 0b10000000) > 0;
+        Z = (Data == 0);
+        N = (Data & 0b10000000) > 0;
     }
 
     // Turn a zero-page byte into a workable 16-bit address
@@ -105,35 +130,182 @@ struct CPU
         }
     }
 
-	// Fetch the next instruction from memory
-    pair<string, TokenType> FetchInstruction() {
+	// Fetch the next operation from memory
+    Operation FetchOperation() {
         Byte Opcode = mem.FetchByte(Cycles, PC);
-
+        Operation instruction;
         try {
-            pair<string, TokenType> instruction = instruction_opcode_bimap.right.at(Opcode);
+            instruction = instruction_opcode_bimap.right.at(Opcode);
         } catch (std::out_of_range& e) {
 			std::cout << "Unrecognized opcode: " << std::hex << (int)Opcode << std::dec << std::endl;
-            return std::make_pair("Unknown", UNKNOWN);
+            instruction = { "Unknown", UNKNOWN };
         }
 		return instruction;
     }
 
     // Fetch data for the current instruction based on address mode
-    void FetchData() {
+    Byte FetchData(Operation operation) {
+        // label, labelref, opcode, implied: not used
 
+        AddressMode mode = operation.mode;
+        switch (mode) {
+        case ACCUMULATOR:
+            return A;
+        case IMMEDIATE:
+            return mem.FetchByte(Cycles, PC);
+        case ABSOLUTE_RELATIVE:
+            return mem.FetchWord(Cycles, PC);
+        case X_ABSOLUTE:
+            return mem.FetchByte(Cycles, PC) + X;
+        case Y_ABSOLUTE:
+            return mem.FetchByte(Cycles, PC) + Y;
+        case ABS_INDIRECT:
+        {
+            Word address = mem.FetchWord(Cycles, PC);
+            
+            //return mem.ReadWord(Cycles, address);
+        }
+        case ZERO_PAGE:
+            Byte ZPByte = mem.FetchByte(Cycles, PC);
+            return mem.ReadWord
+        }
+        
     }
 
 	// Execute the current instruction
-    void ExecuteInstruction(pair<string, TokenType> instruction) {
-		string operation = instruction.first;
-        switch (operation) {
+    void ExecuteInstruction(Operation operation) {
+		// do jump and jsr first as they require a word from memory not a byte
+        // have to do every instruction that involves writing back to memory, not currently implemented
+        
+        string instruction = operation.first;
+        switch (instruction) {
         case "Unknown":
             return;
-        
         case "LDA":
+            A = FetchData(operation);
+            RegisterSetZNStatus(A);
+            return;
+        case "LDX":
+            X = FetchData(operation);
+            RegisterSetZNStatus(X);
+            return;
+        case "LDY":
+            Y = FetchData(operation);
+            RegisterSetZNStatus(Y);
+            return;
+        case "STA": // NOT DONE
+        case "STX": // NOT DONE
+        case "STY": // NOT DONE
+        case "TAX":
+            X = A;
+            RegisterSetZNStatus(X);
+            return;
+        case "TAY":
+            Y = A;
+            RegisterSetZNStatus(Y);
+            return;
+        case "TXA":
+            A = X;
+            RegisterSetZNStatus(A);
+            return;
+        case "TYA":
+            A = Y;
+            RegisterSetZNStatus(A);
+            return;
+        case "TSX":
+            X = S;
+            RegisterSetZNStatus(X);
+            return;
+        case "TXS":
+            S = X;
+            return;
+        case "PHA": // NOT DONE
+        case "PHP": // NOT DONE
+        case "PLA": // NOT DONE
+        case "PLP": // NOT DONE
+        case "AND":
+            A = A & FetchData(operation);
+            RegisterSetZNStatus(A);
+            return;
+        case "EOR":
+            A = A ^ FetchData(operation);
+            RegisterSetZNStatus(A);
+            return;
+        case "ORA":
+            A = A | FetchData(operation);
+            RegisterSetZNStatus(A);
+            return;
+        case "BIT":
         {
-
+            Byte result = A & FetchData(operation);
+            RegisterSetZNStatus(result);
+            V = (result & 0b01000000) > 0;
+            return;
         }
+        case "ADC": // NOT DONE
+        case "SBC": // NOT DONE
+        case "CMP": // NOT DONE
+        case "CPX": // NOT DONE
+        case "CPY": // NOT DONE
+        case "INC": // NOT DONE
+        case "INX":
+            X++;
+            RegisterSetZNStatus(X);
+            return;
+        case "INY":
+            Y++;
+            RegisterSetZNStatus(Y);
+            return;
+        case "DEC": // NOT DONE
+        case "DEX":
+            X--;
+            RegisterSetZNStatus(X);
+            return;
+        case "DEY":
+            Y--;
+            RegisterSetZNStatus(X);
+            return;
+        case "ASL": // NOT DONE
+        case "LSR": // NOT DONE
+        case "ROL": // NOT DONE
+        case "ROR": // NOT DONE
+        case "JMP": // NOT DONE
+        case "JSR": // NOT DONE
+        case "RTS": // NOT DONE
+        case "BCC": // NOT DONE
+        case "BCS": // NOT DONE
+        case "BEQ": // NOT DONE
+        case "BMI": // NOT DONE
+        case "BNE": // NOT DONE
+        case "BPL": // NOT DONE
+        case "BVC": // NOT DONE
+        case "BVS": // NOT DONE
+        case "CLC":
+            C = 0;
+            return;
+        case "CLD":
+            D = 0;
+            return;
+        case "CLI":
+            I = 0;
+            return;
+        case "CLV":
+            V = 0;
+            return;
+        case "SEC":
+            C = 1;
+            return;
+        case "SED":
+            D = 1;
+            return;
+        case "SEI":
+            I = 1;
+            return;
+        case "BRK": // NOT DONE
+        case "NOP":
+            return;
+        case "RTI": // NOT DONE
+
 
         }
 

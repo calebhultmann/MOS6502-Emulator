@@ -13,9 +13,7 @@
   },
   "ExpandedNodes": [
     "",
-    "\\src",
-    "\\test"
+    "\\src"
   ],
-  "SelectedNode": "\\src\\emulator.cpp",
   "PreviewInSolutionExplorer": false
 }

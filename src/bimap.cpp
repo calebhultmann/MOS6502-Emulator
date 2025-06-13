@@ -5,8 +5,8 @@ using namespace std;
 using Byte = uint8_t;
 
 //instruction_opcode_map
-const boost::bimap< pair<string, TokenType>, Byte>& construct_bimap() {
-	static const boost::bimap< pair<string, TokenType>, Byte> bimap = [] {
+const boost::bimap<Operation, Byte>& construct_bimap() {
+	static const boost::bimap<Operation, Byte> bimap = [] {
 		boost::bimap< pair<string, TokenType>, Byte> bm;
 		bm.insert({ {"ADC", IMMEDIATE}, INS_ADC_IM });
 		bm.insert({ {"ADC", ZERO_PAGE}, INS_ADC_ZP });

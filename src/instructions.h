@@ -170,7 +170,7 @@ static const unordered_set<string> valid_instructions =
   "BEQ", "BMI", "BNE", "BPL", "BVC", "BVS", "CLC", "CLD", "CLI", "CLV", "SEC", "SED", "SEI", "NOP" };
 
 // Address Modes
-enum TokenType {
+enum AddressMode {
     LABEL,
     LABELREF,
     OPCODE,              // Hex:    | Regex:
@@ -190,7 +190,7 @@ enum TokenType {
     UNKNOWN
 };
 
-struct Token {
-    TokenType type;
-    string value;
+struct Operation {
+    AddressMode mode;
+    string instruction;
 };
