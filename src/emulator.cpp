@@ -153,7 +153,7 @@ struct CPU
             return A;
         case IMMEDIATE:
             return mem.FetchByte(Cycles, PC);
-        case ABSOLUTE_RELATIVE:
+        case ABSOLUTE:
             // THIS ISN'T RIGHT
             return mem.FetchWord(Cycles, PC);
         case X_ABSOLUTE:
@@ -163,12 +163,12 @@ struct CPU
         case ABS_INDIRECT:
         {
             Word address = mem.FetchWord(Cycles, PC);
-            
+            return;
             //return mem.ReadWord(Cycles, address);
         }
         case ZERO_PAGE:
             Byte ZPByte = mem.FetchByte(Cycles, PC);
-            return mem.ReadWord
+            return;
         }
         
     }
