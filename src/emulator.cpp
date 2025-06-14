@@ -91,22 +91,30 @@ struct CPU
     Byte S;  // Stack Pointer
     Byte P;  // Processor Status
 
-    Byte C : 1; // Carry Flag
-    Byte Z : 1; // Zero Flag
-    Byte I : 1; // Interrupt Disable Flag
-    Byte D : 1; // Decimal Mode Flag
-    Byte B : 1; // Break Command Flag
-    Byte V : 1; // Overflow Flag
-    Byte N : 1; // Negative Flag
+    const Byte C = 0b00000001; // Carry Flag
+    const Byte Z = 0b00000010; // Zero Flag
+    const Byte I = 0b00000100; // Interrupt Disable Flag
+    const Byte D = 0b00001000; // Decimal Mode Flag
+    const Byte B = 0b00010000; // Break Command Flag
+    const Byte V = 0b01000000; // Overflow Flag
+    const Byte N = 0b10000000; // Negative Flag
 
     u32 Cycles;
     Mem mem;
 
+    void SetFlag(Byte flag) {
+        P |= flag;
+    }
+
+    void ClearFlag(Byte flag) {
+        P &= ~flag;
+    }
+
     // Set the Z and N flags with respect to a register; Very common result of many opcodes
     void RegisterSetZNStatus(Byte Data)
     {
-        Z = (Data == 0);
-        N = (Data & 0b10000000) > 0;
+        P = (P & ~Z) | ((Data == 0) * Z);
+        P = (P & ~N) | (Data & N);
     }
 
     // Turn a zero-page byte into a workable 16-bit address
@@ -122,8 +130,8 @@ struct CPU
         mem.initialize();
         Word startAdd = (mem[0xFFFC] | (mem[0xFFFD] << 8));
         PC = mem[startAdd];
-        SP = 0xFF;
-        C = Z = I = D = B = V = N = 0;
+        S = 0xFF;
+        P = 0;
         A = X = Y = 0;
     }
 
@@ -307,7 +315,19 @@ struct CPU
         case "ADC": // NOT DONE
         {
             Byte data = FetchData(operation);
-            Byte something = ()
+            Byte neg_data = (data & N);
+            Byte neg_acc = (A & N);
+            Byte similar_sign = ~(neg_data ^ neg_acc);
+            A += (data + C);
+            if (similar_sign != (A & N)) {
+                SetFlag(C);
+                SetFlag(V);
+            }
+            else {
+                ClearFlag(C);
+                ClearFlag(V);
+            }
+            RegisterSetZNStatus(A);
         }
         case "SBC": // NOT DONE
         case "CMP": // NOT DONE
@@ -351,25 +371,25 @@ struct CPU
         case "BVC": // NOT DONE
         case "BVS": // NOT DONE
         case "CLC":
-            C = 0;
+            ClearFlag(C);
             return;
         case "CLD":
-            D = 0;
+            ClearFlag(D);
             return;
         case "CLI":
-            I = 0;
+            ClearFlag(I);
             return;
         case "CLV":
-            V = 0;
+            ClearFlag(V);
             return;
         case "SEC":
-            C = 1;
+            SetFlag(C);
             return;
         case "SED":
-            D = 1;
+            SetFlag(D);
             return;
         case "SEI":
-            I = 1;
+            SetFlag(I);
             return;
         case "BRK": // NOT DONE
         case "NOP":
