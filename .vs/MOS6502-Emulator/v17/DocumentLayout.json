@@ -3,28 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\emulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\emulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\bimap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\bimap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\mappings.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\mappings.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\instructions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\instructions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\emulator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\emulator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\bimap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\bimap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\emulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\emulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\instructions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\instructions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\mappings.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\mappings.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\bimap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\bimap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\bimap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\bimap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -33,12 +33,12 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 210,
-          "SelectedChildIndex": 0,
+          "DockedWidth": 293,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "bimap.cpp",
               "DocumentMoniker": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\bimap.cpp",
               "RelativeDocumentMoniker": "src\\bimap.cpp",
@@ -51,7 +51,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "mappings.h",
               "DocumentMoniker": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\mappings.h",
               "RelativeDocumentMoniker": "src\\mappings.h",
@@ -64,20 +64,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "emulator.cpp",
               "DocumentMoniker": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\emulator.cpp",
               "RelativeDocumentMoniker": "src\\emulator.cpp",
               "ToolTip": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\emulator.cpp",
               "RelativeToolTip": "src\\emulator.cpp",
-              "ViewState": "AQIAAI0AAAAAAAAAAADwv6UAAAASAAAA",
+              "ViewState": "AQIAADABAAAAAAAAAAAYwGMAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-13T00:29:55.053Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "bimap.h",
               "DocumentMoniker": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\bimap.h",
               "RelativeDocumentMoniker": "src\\bimap.h",
@@ -85,37 +85,36 @@
               "RelativeToolTip": "src\\bimap.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-13T00:29:17.363Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-13T00:29:17.363Z"
             }
           ]
         },
         {
-          "DockedWidth": 190,
-          "SelectedChildIndex": 1,
+          "DockedWidth": 107,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "instructions.h",
               "DocumentMoniker": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\instructions.h",
               "RelativeDocumentMoniker": "src\\instructions.h",
               "ToolTip": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\instructions.h",
               "RelativeToolTip": "src\\instructions.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAOMAAABaAAAA",
+              "ViewState": "AQIAANIAAAAAAAAAAAAAAPQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-13T00:28:52.612Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "emulator.h",
               "DocumentMoniker": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\emulator.h",
               "RelativeDocumentMoniker": "src\\emulator.h",
               "ToolTip": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\emulator.h",
               "RelativeToolTip": "src\\emulator.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACUAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-13T00:29:50.722Z",
               "EditorCaption": ""

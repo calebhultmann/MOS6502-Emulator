@@ -232,22 +232,41 @@ static const unordered_set<string> valid_instructions =
 enum AddressMode {
     LABEL,
     LABELREF,
-    OPCODE,              // Hex:    | Regex:
-    IMPLIED,             // N/A     | N/A          ** How to use? **
+    OPCODE,
+                         // Hex:    | Regex:
     ACCUMULATOR,         // A       | ^A$
+    RELATIVE,            // BNE *+4 | Note: Can also come in the form of BEQ LABEL, indicated by a LABELREF token
     IMMEDIATE,           // #$nn    | ^#\$[0-9a-fA-F]{2}$
                          // #nn     | ^#[0-9]{2}$
-    ABSOLUTE,            // $nnnn   | ^\$[0-9a-fA-F]{4}$   Note: this token is relative when used for branch instructions, and absolute otherwise 
-    RELATIVE,            //BNE * +4 | Note: Can also come in the form of BEQ LABEL, indicated by a LABELREF token
+    ABSOLUTE,            // $nnnn   | ^\$[0-9a-fA-F]{4}$ 
+    ZERO_PAGE,           // $nn     | ^\$[0-9a-fA-F]{2}$
+    IMPLIED,             // -       | -          ** How to use? **
+    ABS_INDIRECT,        // ($nnnn) | ^\(\$[0-9a-fA-F]{4}\)$
     X_ABSOLUTE,          // $nnnn,X | ^\$[0-9a-fA-F]{4},X$
     Y_ABSOLUTE,          // $nnnn,Y | ^\$[0-9a-fA-F]{4},Y$
-    ABS_INDIRECT,        // ($nnnn) | ^\(\$[0-9a-fA-F]{4}\)$
-    ZERO_PAGE,           // $nn     | ^\$[0-9a-fA-F]{2}$
     X_ZERO_PAGE,         // $nn,X   | ^\$[0-9a-fA-F]{2},X$
     Y_ZERO_PAGE,         // $nn,Y   | ^\$[0-9a-fA-F]{2},Y$
     X_INDEX_ZP_INDIRECT, // ($nn,X) | ^\(\$[0-9a-fA-F]{2},X\)$
     ZP_INDIRECT_Y_INDEX, // ($nn),Y | ^\(\$[0-9a-fA-F]{2}\),Y$
     UNKNOWN
+
+    /*
+    Accumulator         | A
+    Relative            | nn, nnnn
+    Immediate           | nn
+Y    Absolute            | nnnn
+Y    Zero Page           | nn
+    Implied             | -
+    Indirect Absolute   | (nnnn)
+Y    Absolute Indexed, X | nnnn, X
+    Absolute Indexed, Y | nnnn, Y
+Y    Zero Page Indexed, X| nn, X
+    Zero Page Indexed, Y| nn, Y
+    Indexed Indirect    | (nn, X)
+    Indirect Indexed    | (nn), Y
+
+    */
+
 };
 
 struct Operation {

@@ -3,6 +3,12 @@
 #include "mappings.h"
 #include <stdexcept>
 #include <iostream>
+
+using SByte = int8_t;
+using Byte = uint8_t;
+using Word = uint16_t;
+using u32 = uint32_t;
+
 struct Mem
 {
     // Set all memory bytes to 0x00, initialize start vector at 0xFFFC/0xFFFD to 0x0200
@@ -151,24 +157,71 @@ struct CPU
         switch (mode) {
         case ACCUMULATOR:
             return A;
+        case RELATIVE:
+            return mem.FetchByte(Cycles, PC);
         case IMMEDIATE:
             return mem.FetchByte(Cycles, PC);
         case ABSOLUTE:
-            // THIS ISN'T RIGHT
-            return mem.FetchWord(Cycles, PC);
-        case X_ABSOLUTE:
-            return mem.FetchByte(Cycles, PC) + X;
-        case Y_ABSOLUTE:
-            return mem.FetchByte(Cycles, PC) + Y;
-        case ABS_INDIRECT:
         {
-            Word address = mem.FetchWord(Cycles, PC);
-            return;
-            //return mem.ReadWord(Cycles, address);
+            Word addr = mem.FetchWord(Cycles, PC);
+            return mem.ReadByte(Cycles, addr);
         }
         case ZERO_PAGE:
+        {
             Byte ZPByte = mem.FetchByte(Cycles, PC);
-            return;
+            Word ZPAddr = ZPByteToAddress(Cycles, ZPByte);
+            return mem.ReadByte(Cycles, ZPByteToAddress(Cycles, ZPByte));
+        }
+        case IMPLIED:
+            return 0;
+        case ABS_INDIRECT:
+        {
+            Word absolute_address = mem.FetchWord(Cycles, PC);
+            Word indirect_address = mem.ReadWord(Cycles, absolute_address);
+            return mem.ReadByte(Cycles, indirect_address);
+        }
+        case X_ABSOLUTE:
+        {
+            Word addr = mem.FetchWord(Cycles, PC);
+            addr += X;
+            return mem.ReadByte(Cycles, addr);
+        }
+        case Y_ABSOLUTE:
+        {
+            Word addr = mem.FetchWord(Cycles, PC);
+            addr += Y;
+            return mem.ReadByte(Cycles, addr);  
+        }
+        case X_ZERO_PAGE:
+        {
+            Byte ZPBYte = mem.FetchByte(Cycles, PC);
+            Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
+            ZPAddr += X;
+            return mem.ReadByte(Cycles, ZPAddr);
+        }
+        case Y_ZERO_PAGE:
+        {
+            Byte ZPBYte = mem.FetchByte(Cycles, PC);
+            Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
+            ZPAddr += Y;
+            return mem.ReadByte(Cycles, ZPAddr);
+        }
+        case X_INDEX_ZP_INDIRECT:
+        {
+            Byte ZPBYte = mem.FetchByte(Cycles, PC);
+            Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
+            ZPAddr += X;
+            Word indirect_addr = mem.ReadWord(Cycles, ZPAddr);
+            return mem.ReadByte(Cycles, indirect_addr);
+        }
+        case ZP_INDIRECT_Y_INDEX:
+        {
+            Byte ZPByte = mem.FetchByte(Cycles, PC);
+            Word ZPAddr = ZPByteToAddress(Cycles, ZPByte);
+            Word indirect_addr = mem.ReadWord(Cycles, ZPAddr);
+            indirect_addr += Y;
+            return mem.ReadByte(Cycles, indirect_addr);
+        }
         }
         
     }
@@ -252,6 +305,10 @@ struct CPU
             return;
         }
         case "ADC": // NOT DONE
+        {
+            Byte data = FetchData(operation);
+            Byte something = ()
+        }
         case "SBC": // NOT DONE
         case "CMP": // NOT DONE
         case "CPX": // NOT DONE
