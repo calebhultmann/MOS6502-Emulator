@@ -166,7 +166,7 @@ struct CPU
         case ACCUMULATOR:
             return A;
         case RELATIVE:
-            return mem.FetchByte(Cycles, PC);
+            return mem.FetchByte(Cycles, PC); // NOT CORRECT
         case IMMEDIATE:
             return mem.FetchByte(Cycles, PC);
         case ABSOLUTE:
@@ -234,10 +234,20 @@ struct CPU
         
     }
 
-    std::pair<int, int> FetchDataWithAddress(Operation operation) {
+    Word FetchAddress(Operation operation) {
         AddressMode mode = operation.mode;
         switch (mode) {
-
+        case ACCUMULATOR:
+            return 0;
+        case RELATIVE:
+        {
+            Byte offset = mem.FetchByte(Cycles, PC);
+            return PC + offset; // DOES THIS WORK WITH SIGNED NUMBERS?
+        }
+        case IMMEDIATE:
+            return ++PC;
+        case ABSOLUTE:
+            return mem.FetchWord(Cycles, PC);
         }
     }
 
