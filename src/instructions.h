@@ -230,6 +230,7 @@ static const unordered_set<string> valid_instructions =
 
 // Address Modes
 enum AddressMode {
+    // These three are used for tokenizing in the assembler but not for addressing modes
     LABEL,
     LABELREF,
     OPCODE,

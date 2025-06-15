@@ -11,6 +11,10 @@ using u32 = uint32_t;
 
 struct Mem
 {
+    // 64KB memory
+    static constexpr u32 MAX_MEM = 1024 * 64;
+    Byte Data[MAX_MEM];
+
     // Set all memory bytes to 0x00, initialize start vector at 0xFFFC/0xFFFD to 0x0200
     void initialize()
     {
@@ -128,8 +132,7 @@ struct CPU
     void Reset()
     {
         mem.initialize();
-        Word startAdd = (mem[0xFFFC] | (mem[0xFFFD] << 8));
-        PC = mem[startAdd];
+        PC = (mem[0xFFFC] | (mem[0xFFFD] << 8));
         S = 0xFF;
         P = 0;
         A = X = Y = 0;
@@ -234,6 +237,7 @@ struct CPU
         
     }
 
+    // Acquires the effective address of the current instruction. Useful for instructions that write to memory
     Word FetchAddress(Operation operation) {
         AddressMode mode = operation.mode;
         switch (mode) {
@@ -241,13 +245,61 @@ struct CPU
             return 0;
         case RELATIVE:
         {
-            Byte offset = mem.FetchByte(Cycles, PC);
+            SByte offset = mem.FetchByte(Cycles, PC);
             return PC + offset; // DOES THIS WORK WITH SIGNED NUMBERS?
         }
         case IMMEDIATE:
             return ++PC;
         case ABSOLUTE:
             return mem.FetchWord(Cycles, PC);
+        case ZERO_PAGE:
+        {
+            Byte ZPByte = mem.FetchByte(Cycles, PC);
+            return ZPByteToAddress(Cycles, ZPByte);
+        }
+        case IMPLIED:
+            return 0;
+        case ABS_INDIRECT:
+        {
+            Word absolute_address = mem.FetchWord(Cycles, PC);
+            return mem.ReadWord(Cycles, absolute_address);
+        }
+        case X_ABSOLUTE:
+        {
+            Word addr = mem.FetchWord(Cycles, PC);
+            return addr += X;
+        }
+        case Y_ABSOLUTE:
+        {
+            Word addr = mem.FetchWord(Cycles, PC);
+            return addr += Y;
+        }
+        case X_ZERO_PAGE:
+        {
+            Byte ZPBYte = mem.FetchByte(Cycles, PC);
+            Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
+            return ZPAddr += X;
+        }
+        case Y_ZERO_PAGE:
+        {
+            Byte ZPBYte = mem.FetchByte(Cycles, PC);
+            Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
+            return ZPAddr += Y;
+        }
+        case X_INDEX_ZP_INDIRECT:
+        {
+            Byte ZPBYte = mem.FetchByte(Cycles, PC);
+            Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
+            ZPAddr += X;
+            return mem.ReadWord(Cycles, ZPAddr);
+        }
+        case ZP_INDIRECT_Y_INDEX:
+        {
+            Byte ZPByte = mem.FetchByte(Cycles, PC);
+            Word ZPAddr = ZPByteToAddress(Cycles, ZPByte);
+            Word indirect_addr = mem.ReadWord(Cycles, ZPAddr);
+            return indirect_addr += Y;
+        }
         }
     }
 
@@ -273,9 +325,15 @@ struct CPU
             Y = FetchData(operation);
             RegisterSetZNStatus(Y);
             return;
-        case "STA": // NOT DONE
-        case "STX": // NOT DONE
-        case "STY": // NOT DONE
+        case "STA": 
+            Word addr = FetchAddress(operation);
+            mem.WriteByte(Cycles, addr, A);
+        case "STX":
+            Word addr = FetchAddress(operation);
+            mem.WriteByte(Cycles, addr, X);
+        case "STY":
+            Word addr = FetchAddress(operation);
+            mem.WriteByte(Cycles, addr, Y);
         case "TAX":
             X = A;
             RegisterSetZNStatus(X);

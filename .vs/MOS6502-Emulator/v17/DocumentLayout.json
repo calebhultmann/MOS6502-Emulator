@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\emulator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\instructions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\instructions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\emulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\emulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\instructions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\instructions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\mappings.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -68,7 +68,7 @@
               "RelativeDocumentMoniker": "src\\emulator.cpp",
               "ToolTip": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\emulator.cpp",
               "RelativeToolTip": "src\\emulator.cpp",
-              "ViewState": "AQIAAMwAAAAAAAAAAAAAAPkAAAAtAAAA",
+              "ViewState": "AQIAAPQAAAAAAAAAAAAAAE8BAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-13T00:29:55.053Z",
               "EditorCaption": ""
@@ -89,32 +89,33 @@
         },
         {
           "DockedWidth": 108,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "instructions.h",
               "DocumentMoniker": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\instructions.h",
               "RelativeDocumentMoniker": "src\\instructions.h",
               "ToolTip": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\instructions.h",
               "RelativeToolTip": "src\\instructions.h",
-              "ViewState": "AQIAANUAAAAAAAAAAAAIwPQAAAAAAAAA",
+              "ViewState": "AQIAAPMAAAAAAAAAAAAAAOsAAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-13T00:28:52.612Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "emulator.h",
               "DocumentMoniker": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\emulator.h",
               "RelativeDocumentMoniker": "src\\emulator.h",
               "ToolTip": "C:\\Users\\caleb\\source\\repos\\MOS6502-Emulator\\src\\emulator.h",
               "RelativeToolTip": "src\\emulator.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAVAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-13T00:29:50.722Z"
+              "WhenOpened": "2025-06-13T00:29:50.722Z",
+              "EditorCaption": ""
             }
           ]
         }
