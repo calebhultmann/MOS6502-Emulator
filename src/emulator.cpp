@@ -84,6 +84,18 @@ struct Mem
         Data[Address + 1] = (Value >> 8) & 0xFF;
         Cycles -= 2;
     }
+
+    void PushStack(Byte& SP, Byte Value)
+    {
+        Data[SP--] = Value;
+    }
+
+    Byte PullStack(Byte& SP)
+    {
+        Byte Value = Data[++SP];
+        Data[SP] = 0x00;
+        return Value;
+    }
 };
 
 struct CPU
@@ -306,7 +318,6 @@ struct CPU
 	// Execute the current instruction
     void ExecuteInstruction(Operation operation) {
 		// do jump and jsr first as they require a word from memory not a byte
-        // have to do every instruction that involves writing back to memory, not currently implemented
         // operations that don't use FetchData() must manually modify PC accordingly
 
         string instruction = operation.first;
@@ -357,10 +368,19 @@ struct CPU
         case "TXS":
             S = X;
             return;
-        case "PHA": // NOT DONE
-        case "PHP": // NOT DONE
-        case "PLA": // NOT DONE
-        case "PLP": // NOT DONE
+        case "PHA":
+            mem.PushStack(S, A);
+            return;
+        case "PHP":
+            mem.PushStack(S, P);
+            return;
+        case "PLA":
+            A = mem.PullStack(S);
+            RegisterSetZNStatus(A);
+            return;
+        case "PLP":
+            P = mem.PullStack(S);
+            return;
         case "AND":
             A = A & FetchData(operation);
             RegisterSetZNStatus(A);
@@ -383,11 +403,9 @@ struct CPU
         case "ADC": // NOT DONE
         {
             Byte data = FetchData(operation);
-            Byte neg_data = (data & N);
-            Byte neg_acc = (A & N);
-            Byte similar_sign = ~(neg_data ^ neg_acc);
-            A += (data + C);
-            if (similar_sign != (A & N)) {
+            Byte similar_sign = ~((data & N) ^ (A & N));
+            A += (data + (P & C));
+            if ((similar_sign & N) != (A & N)) {
                 SetFlag(C);
                 SetFlag(V);
             }
@@ -402,6 +420,9 @@ struct CPU
         case "CPX": // NOT DONE
         case "CPY": // NOT DONE
         case "INC": // NOT DONE
+            Word addr = FetchAddress(operation);
+            RegisterSetZNStatus(++mem[addr]);
+            return;
         case "INX":
             X++;
             RegisterSetZNStatus(X);
@@ -410,7 +431,10 @@ struct CPU
             Y++;
             RegisterSetZNStatus(Y);
             return;
-        case "DEC": // NOT DONE
+        case "DEC":
+            Word addr = FetchAddress(operation);
+            RegisterSetZNStatus(--mem[addr]);
+            return;
         case "DEX":
             X--;
             RegisterSetZNStatus(X);
@@ -461,7 +485,6 @@ struct CPU
             return;
         case "BRK": // NOT DONE
         case "NOP":
-            PC++;
             return;
         case "RTI": // NOT DONE
 
@@ -698,80 +721,6 @@ struct CPU
                     }
                 }
             } break;
-            // DEC - Decrement Memory
-            case INS_DEC_ZP:
-            {
-                Byte ZPByte = mem.FetchByte(Cycles, PC);
-                Byte Value = mem.ReadByte(Cycles, ZPByteToAddress(Cycles, ZPByte));
-                mem.WriteByte(Cycles, ZPByteToAddress(Cycles, ZPByte), Value - 1);
-                Z = (Value == 0);
-                N = (Value & 0b10000000) > 0;
-            } break;
-            case INS_DEC_ZPX:
-            {
-                Byte ZPByte = mem.FetchByte(Cycles, PC);
-                ZPByte += X;
-                Cycles--;
-                Byte Value = mem.ReadByte(Cycles, ZPByteToAddress(Cycles, ZPByte));
-                mem.WriteByte(Cycles, ZPByteToAddress(Cycles, ZPByte), Value - 1);
-                Z = (Value == 0);
-                N = (Value & 0b10000000) > 0;
-            } break;
-            case INS_DEC_ABS:
-            {
-                Word AbsAddress = mem.FetchWord(Cycles, PC);
-                Byte Value = mem.ReadByte(Cycles, AbsAddress);
-                mem.WriteByte(Cycles, AbsAddress, Value - 1);
-                Z = (Value == 0);
-                N = (Value & 0b10000000) > 0;
-            } break;
-            case INS_DEC_ABSX:
-            {
-                Word AbsAddress = mem.FetchWord(Cycles, PC);
-                AbsAddress += X;
-                Cycles--;
-                Byte Value = mem.ReadByte(Cycles, AbsAddress);
-                mem.WriteByte(Cycles, AbsAddress, Value - 1);
-                Z = (Value == 0);
-                N = (Value & 0b10000000) > 0;
-            } break;
-            // INC - Increment Memory
-            case INS_INC_ZP:
-            {
-                Byte ZPByte = mem.FetchByte(Cycles, PC);
-                Byte Value = mem.ReadByte(Cycles, ZPByteToAddress(Cycles, ZPByte));
-                mem.WriteByte(Cycles, ZPByteToAddress(Cycles, ZPByte), Value + 1);
-                Z = (Value == 0);
-                N = (Value & 0b10000000) > 0;
-            } break;
-            case INS_INC_ZPX:
-            {
-                Byte ZPByte = mem.FetchByte(Cycles, PC);
-                ZPByte += X;
-                Cycles--;
-                Byte Value = mem.ReadByte(Cycles, ZPByteToAddress(Cycles, ZPByte));
-                mem.WriteByte(Cycles, ZPByteToAddress(Cycles, ZPByte), Value + 1);
-                Z = (Value == 0);
-                N = (Value & 0b10000000) > 0;
-            } break;
-            case INS_INC_ABS:
-            {
-                Word AbsAddress = mem.FetchWord(Cycles, PC);
-                Byte Value = mem.ReadByte(Cycles, AbsAddress);
-                mem.WriteByte(Cycles, AbsAddress, Value + 1);
-                Z = (Value == 0);
-                N = (Value & 0b10000000) > 0;
-            } break;
-            case INS_INC_ABSX:
-            {
-                Word AbsAddress = mem.FetchWord(Cycles, PC);
-                AbsAddress += X;
-                Cycles--;
-                Byte Value = mem.ReadByte(Cycles, AbsAddress);
-                mem.WriteByte(Cycles, AbsAddress, Value + 1);
-                Z = (Value == 0);
-                N = (Value & 0b10000000) > 0;
-            } break;
             // JSR - Jump to Subroutine
             case INS_JSR_ABS:
             {
@@ -859,79 +808,6 @@ struct CPU
             {
 
             } break;
-            // ROR - Rotate Right
-
-            // STA - Store Accumulator
-            case INS_STA_ZP:
-            {
-                Byte ZeroPageByte = mem.FetchByte(Cycles, PC);
-                mem.WriteByte(Cycles, ZPByteToAddress(Cycles, ZeroPageByte), A);
-            } break;
-            case INS_STA_ZPX:
-            {
-                Byte ZeroPageByte = mem.FetchByte(Cycles, PC);
-                ZeroPageByte += X;
-                Cycles--;
-                mem.WriteByte(Cycles, ZPByteToAddress(Cycles, ZeroPageByte), A);
-            } break;
-            case INS_STA_ABS:
-            {
-                Word Address = mem.FetchWord(Cycles, PC);
-                mem.WriteByte(Cycles, Address, A);
-            } break;
-            case INS_STA_ABSX:
-            {
-                Word Address = mem.FetchWord(Cycles, PC);
-                Address += X;
-                Cycles--;
-                mem.WriteByte(Cycles, Address, A);
-            } break;
-            case INS_STA_ABSY:
-            {
-                Word Address = mem.FetchWord(Cycles, PC);
-                Address += Y;
-                Cycles--;
-                mem.WriteByte(Cycles, Address, A);
-            } break;
-
-            // STX - Store X Register
-            case INS_STX_ZP:
-            {
-                Byte ZeroPageByte = mem.FetchByte(Cycles, PC);
-                mem.WriteByte(Cycles, ZPByteToAddress(Cycles, ZeroPageByte), X);
-            } break;
-            case INS_STX_ZPY:
-            {
-                Byte ZeroPageByte = mem.FetchByte(Cycles, PC);
-                ZeroPageByte += Y;
-                Cycles--;
-                mem.WriteByte(Cycles, ZPByteToAddress(Cycles, ZeroPageByte), X);
-            } break;
-            case INS_STX_ABS:
-            {
-                Word Address = mem.FetchWord(Cycles, PC);
-                mem.WriteByte(Cycles, Address, X);
-            } break;
-
-            // STY - Store Y Register
-            case INS_STY_ZP:
-            {
-                Byte ZeroPageByte = mem.FetchByte(Cycles, PC);
-                mem.WriteByte(Cycles, ZPByteToAddress(Cycles, ZeroPageByte), Y);
-            } break;
-            case INS_STY_ZPX:
-            {
-                Byte ZeroPageByte = mem.FetchByte(Cycles, PC);
-                ZeroPageByte += X;
-                Cycles--;
-                mem.WriteByte(Cycles, ZPByteToAddress(Cycles, ZeroPageByte), Y);
-            } break;
-            case INS_STY_ABS:
-            {
-                Word Address = mem.FetchWord(Cycles, PC);
-                mem.WriteByte(Cycles, Address, Y);
-            } break;
-
 
             // Unresolved opcode
             default:
