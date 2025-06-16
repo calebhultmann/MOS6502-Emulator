@@ -42,8 +42,7 @@
               "RelativeToolTip": "src\\emulator.h",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAADgAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-12T04:59:24.472Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T04:59:24.472Z"
             },
             {
               "$type": "Document",
@@ -55,8 +54,7 @@
               "RelativeToolTip": "test\\cpu_testing.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-12T04:57:19.4Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T04:57:19.4Z"
             },
             {
               "$type": "Document",
@@ -78,7 +76,7 @@
               "RelativeDocumentMoniker": "src\\emulator.cpp",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.cpp",
               "RelativeToolTip": "src\\emulator.cpp",
-              "ViewState": "AgIAAPwBAAAAAAAAAAAQwAoCAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAAAGAAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-12T04:59:49.903Z",
               "EditorCaption": ""

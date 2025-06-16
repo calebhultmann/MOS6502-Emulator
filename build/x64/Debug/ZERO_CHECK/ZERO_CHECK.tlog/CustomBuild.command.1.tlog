@@ -1,6 +1,6 @@
-^G:\VS_REPOS\CMAKEPROJECT1\BUILD\CMAKEFILES\36A2B52D70900AFA3DE5D8A6474559EB\GENERATE.STAMP.RULE
+^G:\VS_REPOS\PORTFOLIOPROJECTS\6502-EMULATOR\BUILD\CMAKEFILES\A3A91CDAB4CEB425109A03607155DE75\GENERATE.STAMP.RULE
 setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SG:/VS_repos/CMakeProject1 -BG:/VS_repos/CMakeProject1/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file G:/VS_repos/CMakeProject1/build/Dependencies.sln
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SG:/VS_repos/PortfolioProjects/6502-Emulator -BG:/VS_repos/PortfolioProjects/6502-Emulator/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file G:/VS_repos/PortfolioProjects/6502-Emulator/build/Dependencies.sln
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

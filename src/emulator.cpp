@@ -87,13 +87,13 @@ struct Mem
 
     void PushStack(Byte& SP, Byte Value)
     {
-        Data[SP--] = Value;
+        Data[0x100 | SP--] = Value;
     }
 
     Byte PullStack(Byte& SP)
     {
-        Byte Value = Data[++SP];
-        Data[SP] = 0x00;
+        Byte Value = Data[0x100 | ++SP];
+        Data[0x100 | SP] = 0x00;
         return Value;
     }
 };
@@ -400,7 +400,7 @@ struct CPU
             V = (result & 0b01000000) > 0;
             return;
         }
-        case "ADC": // NOT DONE
+        case "ADC":
         {
             Byte data = FetchData(operation);
             Byte similar_sign = ~((data & N) ^ (A & N));
@@ -520,14 +520,126 @@ struct CPU
         case "JMP": // NOT DONE
         case "JSR": // NOT DONE
         case "RTS": // NOT DONE
-        case "BCC": // NOT DONE
-        case "BCS": // NOT DONE
-        case "BEQ": // NOT DONE
-        case "BMI": // NOT DONE
-        case "BNE": // NOT DONE
-        case "BPL": // NOT DONE
-        case "BVC": // NOT DONE
-        case "BVS": // NOT DONE
+        case "BCC":
+            Byte offset = mem.FetchByte(Cycles, PC);
+
+            if ((P & C) == 0)
+            {
+                const Word oldPC = PC;
+                PC += static_cast<SByte>(offset);
+                Cycles--;
+
+                const bool PageCross = (PC >> 8) != (oldPC >> 8);
+                if (PageCross)
+                {
+                    Cycles--;
+                }
+            }
+        case "BCS":
+            Byte offset = mem.FetchByte(Cycles, PC);
+
+            if ((P & C) == C)
+            {
+                const Word oldPC = PC;
+                PC += static_cast<SByte>(offset);
+                Cycles--;
+
+                const bool PageCross = (PC >> 8) != (oldPC >> 8);
+                if (PageCross)
+                {
+                    Cycles--;
+                }
+            }
+        case "BEQ":
+            Byte offset = mem.FetchByte(Cycles, PC);
+
+            if ((P & Z) == Z)
+            {
+                const Word oldPC = PC;
+                PC += static_cast<SByte>(offset);
+                Cycles--;
+
+                const bool PageCross = (PC >> 8) != (oldPC >> 8);
+                if (PageCross)
+                {
+                    Cycles--;
+                }
+            }
+        case "BMI":
+            Byte offset = mem.FetchByte(Cycles, PC);
+
+            if ((P & N) == N)
+            {
+                const Word oldPC = PC;
+                PC += static_cast<SByte>(offset);
+                Cycles--;
+
+                const bool PageCross = (PC >> 8) != (oldPC >> 8);
+                if (PageCross)
+                {
+                    Cycles--;
+                }
+            }
+        case "BNE":
+            Byte offset = mem.FetchByte(Cycles, PC);
+
+            if ((P & Z) == 0)
+            {
+                const Word oldPC = PC;
+                PC += static_cast<SByte>(offset);
+                Cycles--;
+
+                const bool PageCross = (PC >> 8) != (oldPC >> 8);
+                if (PageCross)
+                {
+                    Cycles--;
+                }
+            }
+        case "BPL":
+            Byte offset = mem.FetchByte(Cycles, PC);
+
+            if ((P & N) == 0)
+            {
+                const Word oldPC = PC;
+                PC += static_cast<SByte>(offset);
+                Cycles--;
+
+                const bool PageCross = (PC >> 8) != (oldPC >> 8);
+                if (PageCross)
+                {
+                    Cycles--;
+                }
+            }
+        case "BVC":
+            Byte offset = mem.FetchByte(Cycles, PC);
+
+            if ((P & V) == 0)
+            {
+                const Word oldPC = PC;
+                PC += static_cast<SByte>(offset);
+                Cycles--;
+
+                const bool PageCross = (PC >> 8) != (oldPC >> 8);
+                if (PageCross)
+                {
+                    Cycles--;
+                }
+            }
+        case "BVS":
+            Byte offset = mem.FetchByte(Cycles, PC);
+
+            if ((P & V) == V)
+            {
+                const Word oldPC = PC;
+                PC += static_cast<SByte>(offset);
+                Cycles--;
+
+                const bool PageCross = (PC >> 8) != (oldPC >> 8);
+                if (PageCross)
+                {
+                    Cycles--;
+                }
+            }
         case "CLC":
             ClearFlag(C);
             return;
@@ -567,63 +679,6 @@ struct CPU
 
             switch (Instruction)
             {
-            // BCC - Branch if Carry Clear
-            case INS_BCC:
-            {
-                Byte offset = mem.FetchByte(Cycles, PC);
-
-                if (!C)
-                {
-                    const Word oldPC = PC;
-                    PC += static_cast<SByte>(offset);
-                    Cycles--;
-
-                    const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                    if (PageCross)
-                    {
-                        Cycles--;
-                    }
-                }
-            } break;
-
-            // BCS - Branch if Carry Set
-            case INS_BCS:
-            {
-                Byte offset = mem.FetchByte(Cycles, PC);
-
-                if (C)
-                {
-                    const Word oldPC = PC;
-                    PC += static_cast<SByte>(offset);
-                    Cycles--;
-
-                    const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                    if (PageCross)
-                    {
-                        Cycles--;
-                    }
-                }
-            } break;
-
-            // BEQ - Branch if Equal
-            case INS_BEQ:
-            {
-                Byte offset = mem.FetchByte(Cycles, PC);
-
-                if (Z)
-                {
-                    const Word oldPC = PC;
-                    PC += static_cast<SByte>(offset);
-                    Cycles--;
-
-                    const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                    if (PageCross)
-                    {
-                        Cycles--;
-                    }
-                }
-            } break;
-
             // BIT - Bit Test
             case INS_BIT_ZP:
             {
@@ -644,100 +699,6 @@ struct CPU
                 N = (Value & 0b10000000 == 0b10000000);
             } break;
 
-            // BMI - Branch if Minus
-            case INS_BMI:
-            {
-                Byte offset = mem.FetchByte(Cycles, PC);
-
-                if (N)
-                {
-                    const Word oldPC = PC;
-                    PC += static_cast<SByte>(offset);
-                    Cycles--;
-
-                    const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                    if (PageCross)
-                    {
-                        Cycles--;
-                    }
-                }
-            } break;
-
-            // BNE - Branch if Not Equal
-            case INS_BNE:
-            {
-                Byte offset = mem.FetchByte(Cycles, PC);
-
-                if (!Z)
-                {
-                    const Word oldPC = PC;
-                    PC += static_cast<SByte>(offset);
-                    Cycles--;
-
-                    const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                    if (PageCross)
-                    {
-                        Cycles--;
-                    }
-                }
-            } break;
-
-            // BPL - Branch if Positive
-            case INS_BPL:
-            {
-                Byte offset = mem.FetchByte(Cycles, PC);
-
-                if (!N)
-                {
-                    const Word oldPC = PC;
-                    PC += static_cast<SByte>(offset);
-                    Cycles--;
-
-                    const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                    if (PageCross)
-                    {
-                        Cycles--;
-                    }
-                }
-            } break;
-
-            // BVC - Branch if Overflow Clear
-            case INS_BVC:
-            {
-                Byte offset = mem.FetchByte(Cycles, PC);
-
-                if (!V)
-                {
-                    const Word oldPC = PC;
-                    PC += static_cast<SByte>(offset);
-                    Cycles--;
-
-                    const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                    if (PageCross)
-                    {
-                        Cycles--;
-                    }
-                }
-            } break;
-
-            // BVS - Branch if Overflow Set
-            case INS_BVS:
-            {
-                Byte offset = mem.FetchByte(Cycles, PC);
-
-                if (V)
-                {
-                    const Word oldPC = PC;
-                    PC += static_cast<SByte>(offset);
-                    Cycles--;
-
-                    const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                    if (PageCross)
-                    {
-                        Cycles--;
-                    }
-                }
-            } break;
             // JSR - Jump to Subroutine
             case INS_JSR_ABS:
             {
