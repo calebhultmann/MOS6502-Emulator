@@ -12,10 +12,13 @@ struct Mem
 	void initialize();
 
 	Byte ReadByte(u32& Cycles, Word addr);
-	Byte FetchByte(u32& Cycles, Word &PC);
+	Word ReadWord(u32& Cycles, Word Address);
+	Byte FetchByte(u32& Cycles, Word& PC);
 	Word FetchWord(u32& Cycles, Word& PC);
 	void WriteByte(u32& Cycles, Word Address, Byte Value);
 	void WriteWord(u32& Cycles, Word Address, Word Value);
+	void PushStack(Byte& SP, Byte Value);
+	Byte PullStack(Byte& SP);
 };
 
 struct CPU
@@ -27,21 +30,28 @@ struct CPU
 	Byte S;  // Stack Pointer
 	Byte P;  // Processor Status
 
-	Byte C : 1; // Carry Flag
-	Byte Z : 1; // Zero Flag
-	Byte I : 1; // Interrupt Disable Flag
-	Byte D : 1; // Decimal Mode Flag
-	Byte B : 1; // Break Command Flag
-	Byte V : 1; // Overflow Flag
-	Byte N : 1; // Negative Flag
+	const Byte C = 0b00000001; // Carry Flag
+	const Byte Z = 0b00000010; // Zero Flag
+	const Byte I = 0b00000100; // Interrupt Disable Flag
+	const Byte D = 0b00001000; // Decimal Mode Flag
+	const Byte B = 0b00010000; // Break Command Flag
+	const Byte V = 0b01000000; // Overflow Flag
+	const Byte N = 0b10000000; // Negative Flag
 
 	u32 Cycles;
 	Mem mem;
 
+	void SetFlag(Byte flag);
+	void ClearFlag(Byte flag);
 
-	void RegisterSetZNStatus(Byte& reg);
+	void RegisterSetZNStatus(Byte Data);
 	Word ZPByteToAddress(u32& Cycles, Byte ZPByte);
 	
 	void Reset();
-	void Execute(u32 Cycles);
+
+	Operation FetchOperation();
+	Byte FetchData(Operation operation);
+	Word FetchAddress(Operation operation);
+	void ExecuteInstruction(Operation operation);
+	void Run(u32 Cycles);
 };
