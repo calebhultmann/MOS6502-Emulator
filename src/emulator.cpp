@@ -443,14 +443,80 @@ struct CPU
             Y--;
             RegisterSetZNStatus(X);
             return;
-        case "ASL": // NOT DONE
-            
-            if (operation.mode != ACCUMULATOR) {
-
+        case "ASL":
+            if (operation.mode == ACCUMULATOR) {
+                if (A & 0x10000000) {
+                    SetFlag(C);
+                }
+                else {
+                    ClearFlag(C);
+                }
+                A <<= 1;
+                RegisterSetZNStatus(A);
             }
-        case "LSR": // NOT DONE
-        case "ROL": // NOT DONE
-        case "ROR": // NOT DONE
+            else {
+				Word addr = FetchAddress(operation);
+                Byte value = mem.ReadByte(Cycles, addr);
+                if (value & 0x10000000) {
+                    SetFlag(C);
+                }
+                else {
+                    ClearFlag(C);
+                }
+                value <<= 1;
+                mem.WriteByte(Cycles, addr, value);
+				RegisterSetZNStatus(value);
+            }
+            return;
+        case "LSR":
+            if (operation.mode == ACCUMULATOR) {
+				(A & 1) ? SetFlag(C) : Clearflag(C);
+                A >>= 1;
+                RegisterSetZNStatus(A);
+            }
+            else {
+                Word addr = FetchAddress(operation);
+                Byte value = mem.ReadByte(Cycles, addr);
+				(value & 1) ? SetFlag(C) : ClearFlag(C);
+                value >>= 1;
+                mem.WriteByte(Cycles, addr, value);
+				RegisterSetZNStatus(value);
+            }
+            return;
+        case "ROL":
+            if (operation.mode == ACCUMULATOR) {
+                Byte carry = (P & C) ? 1 : 0;
+                (A & N) > 1 ? SetFlag(C) : ClearFlag(C);
+                A = (A << 1) | carry;
+                RegisterSetZNStatus(A);
+            }
+            else {
+				Word addr = FetchAddress(operation);
+                Byte value = mem.ReadByte(Cycles, addr);
+                Byte carry = (P & C) ? 1 : 0;
+                (value & N) > 1 ? SetFlag(C) : ClearFlag(C);
+                value = (value << 1) | carry;
+				mem.WriteByte(Cycles, addr, value);
+				RegisterSetZNStatus(value);
+            }
+            return;
+        case "ROR":
+            if (operation.mode == ACCUMULATOR) {
+                Byte carry = (P & C) ? 0x80 : 0;
+                (A & 1) ? SetFlag(C) : ClearFlag(C);
+                A = (A >> 1) | carry;
+                RegisterSetZNStatus(A);
+            }
+            else {
+                Word addr = FetchAddress(operation);
+                Byte value = mem.ReadByte(Cycles, addr);
+                Byte carry = (P & C) ? 0x80 : 0;
+                (value & 1) ? SetFlag(C) : ClearFlag(C);
+                value = (value >> 1) | carry;
+				mem.WriteByte(Cycles, addr, value);
+				RegisterSetZNStatus(value);
+            }
+            return;
         case "JMP": // NOT DONE
         case "JSR": // NOT DONE
         case "RTS": // NOT DONE
@@ -501,55 +567,6 @@ struct CPU
 
             switch (Instruction)
             {
-            // ASL - Arithmetic Shift Left
-            case INS_ASL_ACC:
-            {
-                C = A & 0x10000000;
-                A = A << 1;
-                Cycles--;
-                RegisterSetZNStatus(A);
-            } break;
-            case INS_ASL_ZP:
-            {
-                Byte ZeroPageByte = mem.FetchByte(Cycles, PC);
-                Byte Value = mem.ReadByte(Cycles, ZPByteToAddress(Cycles, ZeroPageByte));
-                C = Value & 0x10000000;
-                Value = Value << 1;
-                Cycles--;
-                mem.WriteByte(Cycles, ZeroPageByte, Value);
-            } break;
-            case INS_ASL_ZPX:
-            {
-                Byte ZeroPageByte = mem.FetchByte(Cycles, PC);
-                ZeroPageByte += X;
-                Cycles--;
-                Byte Value = mem.ReadByte(Cycles, ZPByteToAddress(Cycles, ZeroPageByte));
-                C = Value & 0x10000000;
-                Value = Value << 1;
-                Cycles--;
-                mem.WriteByte(Cycles, ZeroPageByte, Value);
-            } break;
-            case INS_ASL_ABS:
-            {
-                Word AbsAddress = mem.FetchWord(Cycles, PC);
-                Byte Value = mem.ReadByte(Cycles, AbsAddress);
-                C = Value & 0x10000000;
-                Value = Value << 1;
-                Cycles--;
-                mem.WriteByte(Cycles, AbsAddress, Value);
-            } break;
-            case INS_ASL_ABSX:
-            {
-                Word AbsAddress = mem.FetchWord(Cycles, PC);
-                AbsAddress += X;
-                Cycles--;
-                Byte Value = mem.ReadByte(Cycles, AbsAddress);
-                C = Value & 0x10000000;
-                Value = Value << 1;
-                Cycles--;
-                mem.WriteByte(Cycles, AbsAddress, Value);
-            } break;
-
             // BCC - Branch if Carry Clear
             case INS_BCC:
             {
@@ -730,85 +747,6 @@ struct CPU
                 PC = SubRoutineAddress;
                 Cycles--;
             } break;
-
-            // LSR - Logical Shift Right
-            case INS_LSR_ACC:
-            {
-                C = A & 1;
-                A = A >> 1;
-                Cycles--;
-                RegisterSetZNStatus(A);
-            } break;
-            case INS_LSR_ZP:
-            {
-                Byte ZeroPageByte = mem.FetchByte(Cycles, PC);
-                Byte Value = mem.ReadByte(Cycles, ZPByteToAddress(Cycles, ZeroPageByte));
-                C = Value & 1;
-                Value = Value >> 1;
-                Cycles--;
-                mem.WriteByte(Cycles, ZeroPageByte, Value);
-                Z = (Value == 0);
-                N = (Value & 0b10000000);
-            } break;
-            case INS_LSR_ZPX:
-            {
-                Byte ZeroPageByte = mem.FetchByte(Cycles, PC);
-                ZeroPageByte += X;
-                Cycles--;
-                Byte Value = mem.ReadByte(Cycles, ZPByteToAddress(Cycles, ZeroPageByte));
-                C = Value & 1;
-                Value = Value >> 1;
-                Cycles--;
-                mem.WriteByte(Cycles, ZeroPageByte, Value);
-                Z = (Value == 0);
-                N = (Value & 0b10000000);
-            } break;
-            case INS_LSR_ABS:
-            {
-                Word AbsAddress = mem.FetchWord(Cycles, PC);
-                Byte Value = mem.ReadByte(Cycles, AbsAddress);
-                C = Value & 1;
-                Value = Value >> 1;
-                Cycles--;
-                mem.WriteByte(Cycles, AbsAddress, Value);
-                Z = (Value == 0);
-                N = (Value & 0b10000000);
-            } break;
-            case INS_LSR_ABSX:
-            {
-                Word AbsAddress = mem.FetchWord(Cycles, PC);
-                AbsAddress += X;
-                Cycles--;
-                Byte Value = mem.ReadByte(Cycles, AbsAddress);
-                C = Value & 1;
-                Value = Value >> 1;
-                Cycles--;
-                mem.WriteByte(Cycles, AbsAddress, Value);
-                Z = (Value == 0);
-                N = (Value & 0b10000000);
-            } break;
-            // ROL - Rotate Left
-            case INS_ROL_ACC:
-            {
-
-            } break;
-            case INS_ROL_ZP:
-            {
-
-            } break;
-            case INS_ROL_ZPX:
-            {
-
-            } break;
-            case INS_ROL_ABS:
-            {
-
-            } break;
-            case INS_ROL_ABSX:
-            {
-
-            } break;
-
             // Unresolved opcode
             default:
             {
