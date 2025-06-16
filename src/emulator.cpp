@@ -38,6 +38,7 @@ struct Mem
         return Data[Address];
     }
 
+	// Read a byte from a memory address
     Byte ReadByte(u32& Cycles, Word Address)
     {
         Byte Value = Data[Address];
@@ -45,6 +46,7 @@ struct Mem
         return Value;
     }
 
+	// Read a word (2 bytes) from a memory address
     Word ReadWord(u32& Cycles, Word Address)
     {
         Word Value = Data[Address];
@@ -54,6 +56,7 @@ struct Mem
         return Value;
     }
 
+	// Fetch a byte from the program counter and increment it
     Byte FetchByte(u32& Cycles, Word& PC)
     {
         Byte Value = Data[PC];
@@ -62,6 +65,7 @@ struct Mem
         return Value;
     }
 
+	// Fetch a word (2 bytes) from the program counter and increment it
     Word FetchWord(u32& Cycles, Word& PC)
     {
         Word Value = Data[PC];
@@ -72,12 +76,14 @@ struct Mem
         return Value;
     }
 
+	// Write a byte to a memory address
     void WriteByte(u32& Cycles, Word Address, Byte Value)
     {
         Data[Address] = Value;
         Cycles--;
     }
 
+	// Write a word (2 bytes) to a memory address
     void WriteWord(u32& Cycles, Word Address, Word Value)
     {
         Data[Address] = Value & 0xFF;
@@ -85,11 +91,13 @@ struct Mem
         Cycles -= 2;
     }
 
+	// Push a byte onto the stack
     void PushStack(Byte& SP, Byte Value)
     {
         Data[0x100 | SP--] = Value;
     }
 
+	// Pull a byte from the stack
     Byte PullStack(Byte& SP)
     {
         Byte Value = Data[0x100 | ++SP];
@@ -118,10 +126,12 @@ struct CPU
     u32 Cycles;
     Mem mem;
 
+	// Sets a given flag in the processor status register
     void SetFlag(Byte flag) {
         P |= flag;
     }
 
+	// Clears a given flag in the processor status register
     void ClearFlag(Byte flag) {
         P &= ~flag;
     }
@@ -419,7 +429,7 @@ struct CPU
         case "CMP": // NOT DONE
         case "CPX": // NOT DONE
         case "CPY": // NOT DONE
-        case "INC": // NOT DONE
+        case "INC":
             Word addr = FetchAddress(operation);
             RegisterSetZNStatus(++mem[addr]);
             return;
@@ -661,12 +671,21 @@ struct CPU
         case "SEI":
             SetFlag(I);
             return;
-        case "BRK": // NOT DONE
+        case "BRK":
+            mem.PushStack(S, (PC >> 8) & 0xFF);
+            mem.PushStack(S, PC & 0xFF);
+            mem.PushStack(S, P);
+            SetFlag(B);
+            PC = mem.ReadWord(Cycles, 0xFFFE);
+            return;
         case "NOP":
             return;
-        case "RTI": // NOT DONE
-
-
+        case "RTI":
+			P = mem.PullStack(S);
+			Word low = mem.PullStack(S);
+			Word high = mem.PullStack(S);
+            S = low | high << 8;
+            return;
         }
 
     }
@@ -679,26 +698,6 @@ struct CPU
 
             switch (Instruction)
             {
-            // BIT - Bit Test
-            case INS_BIT_ZP:
-            {
-                Byte ZeroPageByte = mem.FetchByte(Cycles, PC);
-                Byte Value = mem.ReadByte(Cycles, ZPByteToAddress(Cycles, ZeroPageByte));
-
-                Z = (A & Value == 0);
-                V = (Value & 0b01000000 == 0b01000000);
-                N = (Value & 0b10000000 == 0b10000000);
-            } break;
-            case INS_BIT_ABS:
-            {
-                Word AbsAddress = mem.FetchWord(Cycles, PC);
-                Byte Value = mem.ReadByte(Cycles, AbsAddress);
-
-                Z = (A & Value == 0);
-                V = (Value & 0b01000000 == 0b01000000);
-                N = (Value & 0b10000000 == 0b10000000);
-            } break;
-
             // JSR - Jump to Subroutine
             case INS_JSR_ABS:
             {
