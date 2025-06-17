@@ -527,9 +527,24 @@ struct CPU
 				RegisterSetZNStatus(value);
             }
             return;
-        case "JMP": // NOT DONE
-        case "JSR": // NOT DONE
-        case "RTS": // NOT DONE
+        case "JMP":
+			Word addr = FetchAddress(operation);
+			Word jmp_addr = mem.ReadWord(Cycles, addr);
+            PC = jmp_addr;
+			return;
+        case "JSR":
+			Word addr = FetchAddress(operation);
+			Word jmp_addr = mem.ReadWord(Cycles, addr);
+            mem.PushStack(S, (PC >> 8) & 0xFF);
+            mem.PushStack(S, PC & 0xFF);
+			PC = jmp_addr;
+            return;
+        case "RTS":
+			Word low = mem.PullStack(S);
+            Word high = mem.PullStack(S);
+            Word return_addr = (low | (high << 8));
+            PC = return_addr;
+			return;
         case "BCC":
             Byte offset = mem.FetchByte(Cycles, PC);
 
