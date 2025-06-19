@@ -3,10 +3,6 @@
   "WorkspaceRootPath": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\emulator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\cpu_testing.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:test\\cpu_testing.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -15,12 +11,28 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\emulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\instructions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\instructions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\CMakeLists.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CMakeLists.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\emulator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\bimap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\bimap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\bimap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\bimap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\mappings.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\mappings.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,68 +42,111 @@
       "DocumentGroups": [
         {
           "DockedWidth": 260,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "bimap.h",
+              "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\bimap.h",
+              "RelativeDocumentMoniker": "src\\bimap.h",
+              "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\bimap.h",
+              "RelativeToolTip": "src\\bimap.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-19T02:31:10.819Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "mappings.h",
+              "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\mappings.h",
+              "RelativeDocumentMoniker": "src\\mappings.h",
+              "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\mappings.h",
+              "RelativeToolTip": "src\\mappings.h",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-19T02:30:53.078Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "bimap.cpp",
+              "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\bimap.cpp",
+              "RelativeDocumentMoniker": "src\\bimap.cpp",
+              "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\bimap.cpp",
+              "RelativeToolTip": "src\\bimap.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-19T02:30:45.737Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "instructions.h",
+              "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\instructions.h",
+              "RelativeDocumentMoniker": "src\\instructions.h",
+              "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\instructions.h",
+              "RelativeToolTip": "src\\instructions.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-19T02:29:44.971Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "emulator.h",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h",
               "RelativeDocumentMoniker": "src\\emulator.h",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h",
               "RelativeToolTip": "src\\emulator.h",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAADgAAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAM4CAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-12T04:59:24.472Z"
+              "WhenOpened": "2025-06-12T04:59:24.472Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "cpu_testing.cpp",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\cpu_testing.cpp",
               "RelativeDocumentMoniker": "test\\cpu_testing.cpp",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\cpu_testing.cpp",
               "RelativeToolTip": "test\\cpu_testing.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-12T04:57:19.4Z"
+              "WhenOpened": "2025-06-12T04:57:19.4Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "main.cpp",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-12T04:56:34.231Z"
+              "WhenOpened": "2025-06-12T04:56:34.231Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "emulator.cpp",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.cpp",
               "RelativeDocumentMoniker": "src\\emulator.cpp",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.cpp",
               "RelativeToolTip": "src\\emulator.cpp",
-              "ViewState": "AgIAAJQCAAAAAAAAAAAAALkCAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAAAM0CAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-12T04:59:49.903Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CMakeLists.txt",
-              "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\CMakeLists.txt",
-              "RelativeDocumentMoniker": "CMakeLists.txt",
-              "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\CMakeLists.txt",
-              "RelativeToolTip": "CMakeLists.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-06-12T04:52:09.656Z"
             }
           ]
         }

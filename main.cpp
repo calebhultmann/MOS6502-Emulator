@@ -1,6 +1,5 @@
 #include <iostream>
-
-#include "calculator.h"
+#include "src/emulator.h"
 
 int main() {
     CPU cpu;

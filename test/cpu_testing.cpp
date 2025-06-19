@@ -1,5 +1,18 @@
 #include <gtest/gtest.h>
 #include "emulator.h"
+#include "instructions.h"
+
+TEST(LDA_TEST, LDA_Immediate) {
+	CPU cpu;
+	cpu.Reset();
+
+	cpu.mem[0x200] = INS_LDA_IM;
+	cpu.mem[0x201] = 0x42;
+
+	cpu.Run();
+	EXPECT_EQ(cpu.A, 0x42); // Check if accumulator A has the value 0x42
+	EXPECT_EQ(cpu.PC, 0x202); // Check if program counter PC has moved to the next instruction
+}
 
 //TEST(CalculatorTest, Add) {
 //    Calculator calc;

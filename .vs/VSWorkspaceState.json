@@ -13,7 +13,11 @@
   },
   "ExpandedNodes": [
     "",
-    "\\src"
+    "\\build",
+    "\\build\\src",
+    "\\src",
+    "\\test"
   ],
+  "SelectedNode": "\\build\\src\\emulator.vcxproj",
   "PreviewInSolutionExplorer": false
 }
