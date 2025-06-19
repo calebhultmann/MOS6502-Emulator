@@ -1,7 +1,10 @@
 #pragma once
 
-#include <stdint.h>
+#include "emulator.h"
 #include "instructions.h"
+#include "mappings.h"
+#include <stdexcept>
+#include <iostream>
 
 using SByte = int8_t;
 using Byte = uint8_t;
@@ -20,7 +23,7 @@ struct Mem
     {
         for (u32 i = 0; i < MAX_MEM; i++)
         {
-            Data[i] = 0;
+            Data[i] = 0xFF;
         }
         Data[0xFFFC] = 0x00;
         Data[0xFFFD] = 0x02;
@@ -178,7 +181,7 @@ struct CPU
         }
         catch (std::out_of_range& e) {
             std::cout << "Unrecognized opcode: " << std::hex << (int)Opcode << std::dec << std::endl;
-            instruction = { "Unknown", UNKNOWN };
+            instruction = Operation{ Instruction::INVALID, UNKNOWN };
         }
         return instruction;
     }
@@ -255,7 +258,8 @@ struct CPU
             return mem.ReadByte(Cycles, indirect_addr);
         }
         }
-
+		throw std::runtime_error("Invalid address mode encountered while fetching data.");
+		return 0; // Default return value, should not be reached
     }
 
     // Acquires the effective address of the current instruction. Useful for instructions that write to memory
@@ -322,91 +326,99 @@ struct CPU
             return indirect_addr += Y;
         }
         }
+        throw std::runtime_error("Invalid address mode encountered while fetching data.");
+        return 0; // Default return value, should not be reached
     }
 
     // Execute the current instruction
     void ExecuteInstruction(Operation operation) {
-        string instruction = operation.first;
+        Instruction instruction = operation.instruction;
         switch (instruction) {
-        case "Unknown":
+        case Instruction::INVALID:
             return;
-        case "LDA":
+        case Instruction::LDA:
             A = FetchData(operation);
             RegisterSetZNStatus(A);
             return;
-        case "LDX":
+        case Instruction::LDX:
             X = FetchData(operation);
             RegisterSetZNStatus(X);
             return;
-        case "LDY":
+        case Instruction::LDY:
             Y = FetchData(operation);
             RegisterSetZNStatus(Y);
             return;
-        case "STA":
+        case Instruction::STA:
+        {
             Word addr = FetchAddress(operation);
             mem.WriteByte(Cycles, addr, A);
-        case "STX":
+        }
+        case Instruction::STX:
+        {
             Word addr = FetchAddress(operation);
             mem.WriteByte(Cycles, addr, X);
-        case "STY":
+        }
+        case Instruction::STY:
+        {
             Word addr = FetchAddress(operation);
             mem.WriteByte(Cycles, addr, Y);
-        case "TAX":
+        }
+        case Instruction::TAX:
             X = A;
             RegisterSetZNStatus(X);
             return;
-        case "TAY":
+        case Instruction::TAY:
             Y = A;
             RegisterSetZNStatus(Y);
             return;
-        case "TXA":
+        case Instruction::TXA:
             A = X;
             RegisterSetZNStatus(A);
             return;
-        case "TYA":
+        case Instruction::TYA:
             A = Y;
             RegisterSetZNStatus(A);
             return;
-        case "TSX":
+        case Instruction::TSX:
             X = S;
             RegisterSetZNStatus(X);
             return;
-        case "TXS":
+        case Instruction::TXS:
             S = X;
             return;
-        case "PHA":
+        case Instruction::PHA:
             mem.PushStack(S, A);
             return;
-        case "PHP":
+        case Instruction::PHP:
             mem.PushStack(S, P);
             return;
-        case "PLA":
+        case Instruction::PLA:
             A = mem.PullStack(S);
             RegisterSetZNStatus(A);
             return;
-        case "PLP":
+        case Instruction::PLP:
             P = mem.PullStack(S);
             return;
-        case "AND":
+        case Instruction::AND:
             A = A & FetchData(operation);
             RegisterSetZNStatus(A);
             return;
-        case "EOR":
+        case Instruction::EOR:
             A = A ^ FetchData(operation);
             RegisterSetZNStatus(A);
             return;
-        case "ORA":
+        case Instruction::ORA:
             A = A | FetchData(operation);
             RegisterSetZNStatus(A);
             return;
-        case "BIT":
+        case Instruction::BIT:
         {
             Byte result = A & FetchData(operation);
             RegisterSetZNStatus(result);
-            V = (result & 0b01000000) > 0;
+			((result & 0b01000000) > 0) ? SetFlag(V) : ClearFlag(V);
             return;
         }
-        case "ADC":
+        case Instruction::ADC:
         {
             Byte data = FetchData(operation);
             Byte similar_sign = ~((data & N) ^ (A & N));
@@ -421,62 +433,59 @@ struct CPU
             }
             RegisterSetZNStatus(A);
         }
-        case "SBC": // NOT DONE
-        case "CMP": // NOT DONE
-        case "CPX": // NOT DONE
-        case "CPY": // NOT DONE
-        case "INC":
+        case Instruction::SBC: // NOT DONE
+        case Instruction::CMP: // NOT DONE
+        case Instruction::CPX: // NOT DONE
+        case Instruction::CPY: // NOT DONE
+        case Instruction::INC:
+        {
             Word addr = FetchAddress(operation);
             RegisterSetZNStatus(++mem[addr]);
             return;
-        case "INX":
+        }
+        case Instruction::INX:
             X++;
             RegisterSetZNStatus(X);
             return;
-        case "INY":
+        case Instruction::INY:
             Y++;
             RegisterSetZNStatus(Y);
             return;
-        case "DEC":
+        case Instruction::DEC:
+        {
             Word addr = FetchAddress(operation);
             RegisterSetZNStatus(--mem[addr]);
             return;
-        case "DEX":
+        }
+        case Instruction::DEX:
             X--;
             RegisterSetZNStatus(X);
             return;
-        case "DEY":
+        case Instruction::DEY:
             Y--;
             RegisterSetZNStatus(X);
             return;
-        case "ASL":
+        case Instruction::ASL:
+        {
             if (operation.mode == ACCUMULATOR) {
-                if (A & 0x10000000) {
-                    SetFlag(C);
-                }
-                else {
-                    ClearFlag(C);
-                }
+				(A & 0x10000000) ? SetFlag(C) : ClearFlag(C);
                 A <<= 1;
                 RegisterSetZNStatus(A);
             }
             else {
                 Word addr = FetchAddress(operation);
                 Byte value = mem.ReadByte(Cycles, addr);
-                if (value & 0x10000000) {
-                    SetFlag(C);
-                }
-                else {
-                    ClearFlag(C);
-                }
+				(value & 0x10000000) ? SetFlag(C) : ClearFlag(C);
                 value <<= 1;
                 mem.WriteByte(Cycles, addr, value);
                 RegisterSetZNStatus(value);
             }
             return;
-        case "LSR":
+        }
+        case Instruction::LSR:
+        {
             if (operation.mode == ACCUMULATOR) {
-                (A & 1) ? SetFlag(C) : Clearflag(C);
+                (A & 1) ? SetFlag(C) : ClearFlag(C);
                 A >>= 1;
                 RegisterSetZNStatus(A);
             }
@@ -489,7 +498,9 @@ struct CPU
                 RegisterSetZNStatus(value);
             }
             return;
-        case "ROL":
+        }
+        case Instruction::ROL:
+        {
             if (operation.mode == ACCUMULATOR) {
                 Byte carry = (P & C) ? 1 : 0;
                 (A & N) > 1 ? SetFlag(C) : ClearFlag(C);
@@ -506,7 +517,9 @@ struct CPU
                 RegisterSetZNStatus(value);
             }
             return;
-        case "ROR":
+        }
+        case Instruction::ROR:
+        {
             if (operation.mode == ACCUMULATOR) {
                 Byte carry = (P & C) ? 0x80 : 0;
                 (A & 1) ? SetFlag(C) : ClearFlag(C);
@@ -523,25 +536,33 @@ struct CPU
                 RegisterSetZNStatus(value);
             }
             return;
-        case "JMP":
+        }
+        case Instruction::JMP:
+        {
             Word addr = FetchAddress(operation);
             Word jmp_addr = mem.ReadWord(Cycles, addr);
             PC = jmp_addr;
             return;
-        case "JSR":
+        }
+        case Instruction::JSR:
+        {
             Word addr = FetchAddress(operation);
             Word jmp_addr = mem.ReadWord(Cycles, addr);
             mem.PushStack(S, (PC >> 8) & 0xFF);
             mem.PushStack(S, PC & 0xFF);
             PC = jmp_addr;
             return;
-        case "RTS":
+        }
+        case Instruction::RTS:
+        {
             Word low = mem.PullStack(S);
             Word high = mem.PullStack(S);
             Word return_addr = (low | (high << 8));
             PC = return_addr;
             return;
-        case "BCC":
+        }
+        case Instruction::BCC:
+        {
             Byte offset = mem.FetchByte(Cycles, PC);
 
             if ((P & C) == 0)
@@ -556,7 +577,9 @@ struct CPU
                     Cycles--;
                 }
             }
-        case "BCS":
+        }
+        case Instruction::BCS:
+        {
             Byte offset = mem.FetchByte(Cycles, PC);
 
             if ((P & C) == C)
@@ -571,7 +594,9 @@ struct CPU
                     Cycles--;
                 }
             }
-        case "BEQ":
+        }
+        case Instruction::BEQ:
+        {
             Byte offset = mem.FetchByte(Cycles, PC);
 
             if ((P & Z) == Z)
@@ -586,7 +611,9 @@ struct CPU
                     Cycles--;
                 }
             }
-        case "BMI":
+        }
+        case Instruction::BMI:
+        {
             Byte offset = mem.FetchByte(Cycles, PC);
 
             if ((P & N) == N)
@@ -601,7 +628,9 @@ struct CPU
                     Cycles--;
                 }
             }
-        case "BNE":
+        }
+        case Instruction::BNE:
+        {
             Byte offset = mem.FetchByte(Cycles, PC);
 
             if ((P & Z) == 0)
@@ -616,7 +645,9 @@ struct CPU
                     Cycles--;
                 }
             }
-        case "BPL":
+        }
+        case Instruction::BPL:
+        {
             Byte offset = mem.FetchByte(Cycles, PC);
 
             if ((P & N) == 0)
@@ -631,7 +662,9 @@ struct CPU
                     Cycles--;
                 }
             }
-        case "BVC":
+        }
+        case Instruction::BVC:
+        {
             Byte offset = mem.FetchByte(Cycles, PC);
 
             if ((P & V) == 0)
@@ -646,7 +679,9 @@ struct CPU
                     Cycles--;
                 }
             }
-        case "BVS":
+        }
+        case Instruction::BVS:
+        {
             Byte offset = mem.FetchByte(Cycles, PC);
 
             if ((P & V) == V)
@@ -661,42 +696,45 @@ struct CPU
                     Cycles--;
                 }
             }
-        case "CLC":
+        }
+        case Instruction::CLC:
             ClearFlag(C);
             return;
-        case "CLD":
+        case Instruction::CLD:
             ClearFlag(D);
             return;
-        case "CLI":
+        case Instruction::CLI:
             ClearFlag(I);
             return;
-        case "CLV":
+        case Instruction::CLV:
             ClearFlag(V);
             return;
-        case "SEC":
+        case Instruction::SEC:
             SetFlag(C);
             return;
-        case "SED":
+        case Instruction::SED:
             SetFlag(D);
             return;
-        case "SEI":
+        case Instruction::SEI:
             SetFlag(I);
             return;
-        case "BRK":
+        case Instruction::BRK:
             mem.PushStack(S, (PC >> 8) & 0xFF);
             mem.PushStack(S, PC & 0xFF);
             mem.PushStack(S, P);
             SetFlag(B);
             PC = mem.ReadWord(Cycles, 0xFFFE);
             return;
-        case "NOP":
+        case Instruction::NOP:
             return;
-        case "RTI":
+        case Instruction::RTI:
+        {
             P = mem.PullStack(S);
             Word low = mem.PullStack(S);
             Word high = mem.PullStack(S);
             S = low | high << 8;
             return;
+        }
         }
 
     }
@@ -704,10 +742,10 @@ struct CPU
     // Run the emulator
     void Run(u32 Cycles)
     {
-        while true
+        while (true)
         {
             Operation operation = FetchOperation();
-            if (operation.type == UNKNOWN)
+            if (operation.instruction == Instruction::INVALID)
             {
                 std::cout << "Unknown operation encountered. Stopping execution." << std::endl;
                 break;

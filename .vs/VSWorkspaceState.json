@@ -13,11 +13,9 @@
   },
   "ExpandedNodes": [
     "",
-    "\\build",
-    "\\build\\src",
     "\\src",
     "\\test"
   ],
-  "SelectedNode": "\\build\\src\\emulator.vcxproj",
+  "SelectedNode": "\\TODO.txt",
   "PreviewInSolutionExplorer": false
 }

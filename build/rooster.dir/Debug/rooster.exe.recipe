@@ -2,10 +2,10 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>G:\VS_repos\CMakeProject1\build\x64\Debug\ZERO_CHECK</FullPath>
+      <FullPath>G:\VS_repos\PortfolioProjects\6502-Emulator\build\x64\Debug\ZERO_CHECK</FullPath>
     </ProjectOutput>
     <ProjectOutput>
-      <FullPath>G:\VS_repos\CMakeProject1\build\Debug\rooster.exe</FullPath>
+      <FullPath>G:\VS_repos\PortfolioProjects\6502-Emulator\build\Debug\rooster.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

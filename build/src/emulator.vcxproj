@@ -276,7 +276,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="G:\VS_repos\PortfolioProjects\6502-Emulator\src\emulator.cpp" />
     <ClInclude Include="G:\VS_repos\PortfolioProjects\6502-Emulator\src\emulator.h" />
     <ClCompile Include="G:\VS_repos\PortfolioProjects\6502-Emulator\src\bimap.cpp" />
     <ClInclude Include="G:\VS_repos\PortfolioProjects\6502-Emulator\src\bimap.h" />

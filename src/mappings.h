@@ -1,85 +1,85 @@
 #include <map>
 #include "bimap.h"
 // Instruction and their valid addressing modes
-static const map<string, vector<AddressMode>> instruction_to_token_types =
+static const map<Instruction, vector<AddressMode>> instruction_to_token_types =
 {
     // Load/Store Operations
-    {"LDA", {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
-    {"LDX", {IMMEDIATE, ZERO_PAGE, Y_ZERO_PAGE, ABSOLUTE, Y_ABSOLUTE}},
-    {"LDY", {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
-    {"STA", {ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
-    {"STX", {ZERO_PAGE, Y_ZERO_PAGE, ABSOLUTE}},
-    {"STY", {ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE}},
+    {Instruction::LDA, {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
+    {Instruction::LDX, {IMMEDIATE, ZERO_PAGE, Y_ZERO_PAGE, ABSOLUTE, Y_ABSOLUTE}},
+    {Instruction::LDY, {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
+    {Instruction::STA, {ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
+    {Instruction::STX, {ZERO_PAGE, Y_ZERO_PAGE, ABSOLUTE}},
+    {Instruction::STY, {ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE}},
 
     // Register Transfers
-    {"TAX", {IMPLIED}},
-    {"TAY", {IMPLIED}},
-    {"TXA", {IMPLIED}},
-    {"TYA", {IMPLIED}},
+    {Instruction::TAX, {IMPLIED}},
+    {Instruction::TAY, {IMPLIED}},
+    {Instruction::TXA, {IMPLIED}},
+    {Instruction::TYA, {IMPLIED}},
 
     // Stack Operations
-    {"TSX", {IMPLIED}},
-    {"TXS", {IMPLIED}},
-    {"PHA", {IMPLIED}},
-    {"PHP", {IMPLIED}},
-    {"PLA", {IMPLIED}},
-    {"PLP", {IMPLIED}},
+    {Instruction::TSX, {IMPLIED}},
+    {Instruction::TXS, {IMPLIED}},
+    {Instruction::PHA, {IMPLIED}},
+    {Instruction::PHP, {IMPLIED}},
+    {Instruction::PLA, {IMPLIED}},
+    {Instruction::PLP, {IMPLIED}},
 
     // Logical
-    {"AND", {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
-    {"EOR", {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
-    {"ORA", {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
-    {"BIT", {ZERO_PAGE, ABSOLUTE}},
+    {Instruction::AND, {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
+    {Instruction::EOR, {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
+    {Instruction::ORA, {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
+    {Instruction::BIT, {ZERO_PAGE, ABSOLUTE}},
 
     // Arithmetic
-    {"ADC", {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
-    {"SBC", {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
-    {"CMP", {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
-    {"CPX", {IMMEDIATE, ZERO_PAGE, ABSOLUTE}},
-    {"CPY", {IMMEDIATE, ZERO_PAGE, ABSOLUTE}},
+    {Instruction::ADC, {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
+    {Instruction::SBC, {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
+    {Instruction::CMP, {IMMEDIATE, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE, Y_ABSOLUTE, X_INDEX_ZP_INDIRECT, ZP_INDIRECT_Y_INDEX}},
+    {Instruction::CPX, {IMMEDIATE, ZERO_PAGE, ABSOLUTE}},
+    {Instruction::CPY, {IMMEDIATE, ZERO_PAGE, ABSOLUTE}},
 
     // Increments & Decrements
-    {"INC", {ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
-    {"INX", {IMPLIED}},
-    {"INY", {IMPLIED}},
-    {"DEC", {ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
-    {"DEX", {IMPLIED}},
-    {"DEY", {IMPLIED}},
+    {Instruction::INC, {ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
+    {Instruction::INX, {IMPLIED}},
+    {Instruction::INY, {IMPLIED}},
+    {Instruction::DEC, {ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
+    {Instruction::DEX, {IMPLIED}},
+    {Instruction::DEY, {IMPLIED}},
 
     // Shifts
-    {"ASL", {ACCUMULATOR, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
-    {"LSR", {ACCUMULATOR, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
-    {"ROL", {ACCUMULATOR, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
-    {"ROR", {ACCUMULATOR, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
+    {Instruction::ASL, {ACCUMULATOR, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
+    {Instruction::LSR, {ACCUMULATOR, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
+    {Instruction::ROL, {ACCUMULATOR, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
+    {Instruction::ROR, {ACCUMULATOR, ZERO_PAGE, X_ZERO_PAGE, ABSOLUTE, X_ABSOLUTE}},
 
     // Jumps & Calls
-    {"JMP", {ABSOLUTE, ABS_INDIRECT}},
-    {"JSR", {ABSOLUTE}},
-    {"RTS", {IMPLIED}},
+    {Instruction::JMP, {ABSOLUTE, ABS_INDIRECT}},
+    {Instruction::JSR, {ABSOLUTE}},
+    {Instruction::RTS, {IMPLIED}},
 
     // Branches
-    {"BCC", {RELATIVE}},
-    {"BCS", {RELATIVE}},
-    {"BEQ", {RELATIVE}},
-    {"BMI", {RELATIVE}},
-    {"BNE", {RELATIVE}},
-    {"BPL", {RELATIVE}},
-    {"BVC", {RELATIVE}},
-    {"BVS", {RELATIVE}},
+    {Instruction::BCC, {RELATIVE}},
+    {Instruction::BCS, {RELATIVE}},
+    {Instruction::BEQ, {RELATIVE}},
+    {Instruction::BMI, {RELATIVE}},
+    {Instruction::BNE, {RELATIVE}},
+    {Instruction::BPL, {RELATIVE}},
+    {Instruction::BVC, {RELATIVE}},
+    {Instruction::BVS, {RELATIVE}},
 
     // Status Flag Changes
-    {"CLC", {IMPLIED}},
-    {"CLD", {IMPLIED}},
-    {"CLI", {IMPLIED}},
-    {"CLV", {IMPLIED}},
-    {"SEC", {IMPLIED}},
-    {"SED", {IMPLIED}},
-    {"SEI", {IMPLIED}},
+    {Instruction::CLC, {IMPLIED}},
+    {Instruction::CLD, {IMPLIED}},
+    {Instruction::CLI, {IMPLIED}},
+    {Instruction::CLV, {IMPLIED}},
+    {Instruction::SEC, {IMPLIED}},
+    {Instruction::SED, {IMPLIED}},
+    {Instruction::SEI, {IMPLIED}},
 
     // System Functions
-    {"BRK", {IMPLIED}},
-    {"NOP", {IMPLIED}},
-    {"RTI", {IMPLIED}},
+    {Instruction::BRK, {IMPLIED}},
+    {Instruction::NOP, {IMPLIED}},
+    {Instruction::RTI, {IMPLIED}},
 };
 
 inline const auto& instruction_opcode_bimap = construct_bimap();
