@@ -1,0 +1,5 @@
+Each test should check:
+1. Correct PC
+2. Correct Processor status
+3. Correct Cycle count
+4. Correct instruction result (registers, memory, etc.)

@@ -173,14 +173,14 @@ struct CPU
     }
 
     // Fetch the next operation from memory
-    Operation FetchOperation() {
+    Operation FetchOperation(u32& Cycles) {
         Byte Opcode = mem.FetchByte(Cycles, PC);
         Operation instruction;
         try {
             instruction = instruction_opcode_bimap.right.at(Opcode);
         }
         catch (std::out_of_range& e) {
-            std::cout << "Unrecognized opcode: " << std::hex << (int)Opcode << std::dec << std::endl;
+            //std::cout << "Unrecognized opcode: " << std::hex << (int)Opcode << std::dec << std::endl;
             instruction = Operation{ Instruction::INVALID, UNKNOWN };
         }
         return instruction;
@@ -192,8 +192,6 @@ struct CPU
         switch (mode) {
         case ACCUMULATOR:
             return A;
-        case RELATIVE:
-            return mem.FetchByte(Cycles, PC); // NOT CORRECT
         case IMMEDIATE:
             return mem.FetchByte(Cycles, PC);
         case ABSOLUTE:
@@ -740,14 +738,14 @@ struct CPU
     }
 
     // Run the emulator
-    void Run(u32 Cycles)
+    void Run(u32 Cycles, bool noStop = false)
     {
-        while (true)
+        while (Cycles > 0 || noStop)
         {
-            Operation operation = FetchOperation();
+            Operation operation = FetchOperation(Cycles);
             if (operation.instruction == Instruction::INVALID)
             {
-                std::cout << "Unknown operation encountered. Stopping execution." << std::endl;
+                //std::cout << "Unknown operation encountered. Stopping execution." << std::endl;
                 break;
             }
             ExecuteInstruction(operation);

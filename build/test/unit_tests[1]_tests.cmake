@@ -1,3 +1,5 @@
 add_test([=[LDA_TEST.LDA_Immediate]=]  G:/VS_repos/PortfolioProjects/6502-Emulator/build/test/Debug/unit_tests.exe [==[--gtest_filter=LDA_TEST.LDA_Immediate]==] --gtest_also_run_disabled_tests)
 set_tests_properties([=[LDA_TEST.LDA_Immediate]=]  PROPERTIES WORKING_DIRECTORY G:/VS_repos/PortfolioProjects/6502-Emulator/build/test SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
-set(  unit_tests_TESTS LDA_TEST.LDA_Immediate)
+add_test([=[LDA_TEST.LDA_ZeroPage]=]  G:/VS_repos/PortfolioProjects/6502-Emulator/build/test/Debug/unit_tests.exe [==[--gtest_filter=LDA_TEST.LDA_ZeroPage]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[LDA_TEST.LDA_ZeroPage]=]  PROPERTIES WORKING_DIRECTORY G:/VS_repos/PortfolioProjects/6502-Emulator/build/test SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set(  unit_tests_TESTS LDA_TEST.LDA_Immediate LDA_TEST.LDA_ZeroPage)
