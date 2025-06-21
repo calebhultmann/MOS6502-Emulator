@@ -738,18 +738,30 @@ struct CPU
     }
 
     // Run the emulator
-    void Run(u32 Cycles, bool noStop = false)
+    int Run(u32 Cycles, bool noStop = false)
     {
+        int exit_status = 0;
         while (Cycles > 0 || noStop)
         {
             Operation operation = FetchOperation(Cycles);
             if (operation.instruction == Instruction::INVALID)
             {
                 //std::cout << "Unknown operation encountered. Stopping execution." << std::endl;
+                return -1;
                 break;
             }
             ExecuteInstruction(operation);
         }
+
+        if (exit_status != 0) {
+            return exit_status;
+        }
+
+        if (Cycles < 0 && !noStop) {
+            return 0 - Cycles;
+        }
+
+        return 0;
     }
 
 };
