@@ -21,17 +21,22 @@ TEST(___, ___) {
 
 // 2, 2
 TEST(LDA_TEST, LDA_Immediate) {
+	// Initialize CPU
 	CPU cpu;
 	cpu.Reset();
+
+	// Initialize memory
 	cpu.mem[0x200] = INS_LDA_IM;
-	cpu.mem[0x201] = 0x42;
+	cpu.mem[0x201] = 0x4F;
 
-	cpu.Run(2);
+	// Run the expected number of cycles
+	int status = cpu.Run(2);
 
-	EXPECT_EQ(cpu.PC, 0x203); // Check if program counter PC has moved to the next instruction (increments to 0x203 due to trying to fetch another instruction
+	EXPECT_EQ(status, 0); // Ensure the run was successful
+	EXPECT_EQ(cpu.PC, 0x203); // Check if program counter PC has moved to the next instruction
 
 	EXPECT_EQ(cpu.P, 0);
-	EXPECT_EQ(cpu.A, 0x42); // Check if accumulator A has the value 0x42
+	EXPECT_EQ(cpu.A, 0x4F); // Check if accumulator A has the value 0x42
 }
 
 // 2, 3
@@ -43,13 +48,13 @@ TEST(LDA_TEST, LDA_ZeroPage) {
 	// Initialize memory
 	cpu.mem[0x200] = INS_LDA_ZP;
 	cpu.mem[0x201] = 0x10; // Zero page address
-	cpu.mem[0x10] = 0x84; // Value at zero page address
+	cpu.mem[0x10] = 0x4F; // Value at zero page address
 
 	// Run the expected number of cycles
 	cpu.Run(3);
 
 	// Ensure correctness of the results
-	EXPECT_EQ(cpu.A, 0x84); // Check if accumulator A has the value 0x84
+	EXPECT_EQ(cpu.A, 0x4F); // Check if accumulator A has the value 0x84
 	EXPECT_EQ(cpu.PC, 0x203); // Check if program counter PC has moved to the next instruction
 }
 

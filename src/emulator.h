@@ -10,7 +10,7 @@ using SByte = int8_t;
 using Byte = uint8_t;
 using Word = uint16_t;
 using u32 = uint32_t;
-
+using s32 = int32_t;
 
 struct Mem
 {
@@ -42,7 +42,7 @@ struct Mem
     }
 
     // Read a byte from a memory address
-    Byte ReadByte(u32& Cycles, Word Address)
+    Byte ReadByte(S32& Cycles, Word Address)
     {
         Byte Value = Data[Address];
         Cycles--;
@@ -50,7 +50,7 @@ struct Mem
     }
 
     // Read a word (2 bytes) from a memory address
-    Word ReadWord(u32& Cycles, Word Address)
+    Word ReadWord(s32& Cycles, Word Address)
     {
         Word Value = Data[Address];
         Address++;
@@ -60,7 +60,7 @@ struct Mem
     }
 
     // Fetch a byte from the program counter and increment it
-    Byte FetchByte(u32& Cycles, Word& PC)
+    Byte FetchByte(s32& Cycles, Word& PC)
     {
         Byte Value = Data[PC];
         PC++;
@@ -69,7 +69,7 @@ struct Mem
     }
 
     // Fetch a word (2 bytes) from the program counter and increment it
-    Word FetchWord(u32& Cycles, Word& PC)
+    Word FetchWord(s32& Cycles, Word& PC)
     {
         Word Value = Data[PC];
         PC++;
@@ -80,14 +80,14 @@ struct Mem
     }
 
     // Write a byte to a memory address
-    void WriteByte(u32& Cycles, Word Address, Byte Value)
+    void WriteByte(s32& Cycles, Word Address, Byte Value)
     {
         Data[Address] = Value;
         Cycles--;
     }
 
     // Write a word (2 bytes) to a memory address
-    void WriteWord(u32& Cycles, Word Address, Word Value)
+    void WriteWord(s32& Cycles, Word Address, Word Value)
     {
         Data[Address] = Value & 0xFF;
         Data[Address + 1] = (Value >> 8) & 0xFF;
@@ -126,7 +126,7 @@ struct CPU
     const Byte V = 0b01000000; // Overflow Flag
     const Byte N = 0b10000000; // Negative Flag
 
-    u32 Cycles;
+    s32 Cycles;
     Mem mem;
 
     // Sets a given flag in the processor status register
@@ -147,7 +147,7 @@ struct CPU
     }
 
     // Turn a zero-page byte into a workable 16-bit address
-    Word ZPByteToAddress(u32& Cycles, Byte ZPByte)
+    Word ZPByteToAddress(s32& Cycles, Byte ZPByte)
     {
         Cycles--;
         return (0x0000 | ZPByte);
@@ -173,7 +173,7 @@ struct CPU
     }
 
     // Fetch the next operation from memory
-    Operation FetchOperation(u32& Cycles) {
+    Operation FetchOperation(s32& Cycles) {
         Byte Opcode = mem.FetchByte(Cycles, PC);
         Operation instruction;
         try {
@@ -738,7 +738,10 @@ struct CPU
     }
 
     // Run the emulator
-    int Run(u32 Cycles, bool noStop = false)
+	//    status > 0 -- overused cycles
+    //    status < 0 -- error code
+	//    status = 0 -- normal termination
+    int Run(s32 Cycles, bool noStop = false)
     {
         int exit_status = 0;
         while (Cycles > 0 || noStop)
