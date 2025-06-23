@@ -147,7 +147,7 @@ struct CPU
     }
 
     // Turn a zero-page byte into a workable 16-bit address
-    Word ZPByteToAddress(s32& Cycles, Byte ZPByte)
+    Word ZPByteToAddress(Byte ZPByte)
     {
         return (0x0000 | ZPByte);
     }
@@ -201,8 +201,8 @@ struct CPU
         case ZERO_PAGE:
         {
             Byte ZPByte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(Cycles, ZPByte);
-            return mem.ReadByte(Cycles, ZPByteToAddress(Cycles, ZPByte));
+            Word ZPAddr = ZPByteToAddress(ZPByte);
+            return mem.ReadByte(Cycles, ZPAddr);
         }
         case IMPLIED:
             return 0;
@@ -231,7 +231,7 @@ struct CPU
         case X_ZERO_PAGE:
         {
             Byte ZPBYte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
+            Word ZPAddr = ZPByteToAddress(ZPBYte);
             ZPAddr += X;
 			Cycles--;
             (ZPAddr & 0xFF00) ? ZPAddr &= 0x00FF : ZPAddr;
@@ -240,7 +240,7 @@ struct CPU
         case Y_ZERO_PAGE:
         {
             Byte ZPBYte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
+            Word ZPAddr = ZPByteToAddress(ZPBYte);
             ZPAddr += Y;
 			Cycles--;
             (ZPAddr & 0xFF00) ? ZPAddr &= 0x00FF : ZPAddr;
@@ -249,7 +249,7 @@ struct CPU
         case X_INDEX_ZP_INDIRECT:
         {
             Byte ZPBYte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
+            Word ZPAddr = ZPByteToAddress(ZPBYte);
             ZPAddr += X;
 			Cycles--;
             (ZPAddr & 0xFF00) ? ZPAddr &= 0x00FF : ZPAddr;
@@ -259,7 +259,7 @@ struct CPU
         case ZP_INDIRECT_Y_INDEX:
         {
             Byte ZPByte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(Cycles, ZPByte);
+            Word ZPAddr = ZPByteToAddress(ZPByte);
             Word indirect_addr = mem.ReadWord(Cycles, ZPAddr);
             Byte high = (indirect_addr >> 8) & 0xFF;
             indirect_addr += Y;
@@ -289,7 +289,7 @@ struct CPU
         case ZERO_PAGE:
         {
             Byte ZPByte = mem.FetchByte(Cycles, PC);
-            return ZPByteToAddress(Cycles, ZPByte);
+            return ZPByteToAddress(ZPByte);
         }
         case IMPLIED:
             return 0;
@@ -301,38 +301,49 @@ struct CPU
         case X_ABSOLUTE:
         {
             Word addr = mem.FetchWord(Cycles, PC);
-            return addr += X;
+			addr += X;
+			Cycles--;
+            return addr;
         }
         case Y_ABSOLUTE:
         {
             Word addr = mem.FetchWord(Cycles, PC);
-            return addr += Y;
+            addr += Y;
+            Cycles--;
+            return addr;
         }
         case X_ZERO_PAGE:
         {
             Byte ZPBYte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
-            return ZPAddr += X;
+            Word ZPAddr = ZPByteToAddress(ZPBYte);
+			ZPAddr += X;
+			Cycles--;
+			(ZPAddr & 0xFF00) ? ZPAddr &= 0x00FF : ZPAddr;
+            return ZPAddr;
         }
         case Y_ZERO_PAGE:
         {
             Byte ZPBYte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
+            Word ZPAddr = ZPByteToAddress(ZPBYte);
             return ZPAddr += Y;
         }
         case X_INDEX_ZP_INDIRECT:
         {
             Byte ZPBYte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
+            Word ZPAddr = ZPByteToAddress(ZPBYte);
             ZPAddr += X;
+			Cycles--;
+            (ZPAddr & 0xFF00) ? ZPAddr &= 0x00FF : ZPAddr;
             return mem.ReadWord(Cycles, ZPAddr);
         }
         case ZP_INDIRECT_Y_INDEX:
         {
             Byte ZPByte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(Cycles, ZPByte);
+            Word ZPAddr = ZPByteToAddress(ZPByte);
             Word indirect_addr = mem.ReadWord(Cycles, ZPAddr);
-            return indirect_addr += Y;
+            indirect_addr += Y;
+            Cycles--;
+            return indirect_addr;
         }
         }
         throw std::runtime_error("Invalid address mode encountered while fetching data.");
@@ -361,16 +372,19 @@ struct CPU
         {
             Word addr = FetchAddress(operation);
             mem.WriteByte(Cycles, addr, A);
+            return;
         }
         case Instruction::STX:
         {
             Word addr = FetchAddress(operation);
             mem.WriteByte(Cycles, addr, X);
+            return;
         }
         case Instruction::STY:
         {
             Word addr = FetchAddress(operation);
             mem.WriteByte(Cycles, addr, Y);
+            return;
         }
         case Instruction::TAX:
             X = A;

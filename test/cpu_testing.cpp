@@ -1021,6 +1021,7 @@ TEST(STA_TEST, AbsoluteX_WithPageCross) {
 	// Initialize CPU
 	CPU cpu;
 	cpu.Reset();
+	cpu.A = 0x4F;
 	cpu.X = 0xF3;
 
 	// Initialize memory
@@ -1068,6 +1069,7 @@ TEST(STA_TEST, AbsoluteY_WithPageCross) {
 	// Initialize CPU
 	CPU cpu;
 	cpu.Reset();
+	cpu.A = 0x4F;
 	cpu.Y = 0xF3;
 
 	// Initialize memory
@@ -1145,7 +1147,7 @@ TEST(STA_TEST, IndirectY) {
 	cpu.Y = 0x20;
 
 	// Initialize memory
-	cpu.mem[0x200] = INS_LDA_INDY;
+	cpu.mem[0x200] = INS_STA_INDY;
 	cpu.mem[0x201] = 0x30;
 	cpu.mem[0x30] = 0x10;
 	cpu.mem[0x31] = 0xAF;
@@ -1170,7 +1172,7 @@ TEST(STA_TEST, IndirectY_WithPageCross) {
 	cpu.Y = 0xF0;
 
 	// Initialize memory
-	cpu.mem[0x200] = INS_LDA_INDY;
+	cpu.mem[0x200] = INS_STA_INDY;
 	cpu.mem[0x201] = 0x30;
 	cpu.mem[0x30] = 0x10;
 	cpu.mem[0x31] = 0xAF;
