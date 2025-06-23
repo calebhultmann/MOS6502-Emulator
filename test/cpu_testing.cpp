@@ -1186,3 +1186,191 @@ TEST(STA_TEST, IndirectY_WithPageCross) {
 	EXPECT_EQ(cpu.P, 0);
 	EXPECT_EQ(cpu.mem[0xB000], 0x4F);
 }
+
+/*----------------------------------------------------------------------------------------------------------------*/
+/*      STX                                                                                              STX      */
+/*----------------------------------------------------------------------------------------------------------------*/
+TEST(STX_TEST, ZeroPage) {
+	// 2 Bytes, 3 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.X = 0x4F;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STX_ZP;
+	cpu.mem[0x201] = 0x10;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(3);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0x10], 0x4F);
+}
+
+TEST(STX_TEST, ZeroPageY) {
+	// 2 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.X = 0x4F;
+	cpu.Y = 0x84;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STX_ZPY;
+	cpu.mem[0x201] = 0x10;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0x94], 0x4F);
+}
+
+TEST(STX_TEST, ZeroPageY_WithWrapAround) {
+	// 2 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.X = 0x4F;
+	cpu.Y = 0xF5;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STX_ZPY;
+	cpu.mem[0x201] = 0xD0;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xC5], 0x4F);
+}
+
+TEST(STX_TEST, Absolute) {
+	// 3 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.X = 0x4F;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STX_ABS;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x202] = 0xAF;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xAF10], 0x4F);
+}
+
+/*----------------------------------------------------------------------------------------------------------------*/
+/*      STY                                                                                              STY      */
+/*----------------------------------------------------------------------------------------------------------------*/
+TEST(STY_TEST, ZeroPage) {
+	// 2 Bytes, 3 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.Y = 0x4F;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STY_ZP;
+	cpu.mem[0x201] = 0x10;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(3);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0x10], 0x4F);
+}
+
+TEST(STY_TEST, ZeroPageX) {
+	// 2 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.Y = 0x4F;
+	cpu.X = 0x84;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STY_ZPX;
+	cpu.mem[0x201] = 0x10;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0x94], 0x4F);
+}
+
+TEST(STY_TEST, ZeroPageX_WithWrapAround) {
+	// 2 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.Y = 0x4F;
+	cpu.X = 0xF5;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STY_ZPX;
+	cpu.mem[0x201] = 0xD0;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xC5], 0x4F);
+}
+
+TEST(STY_TEST, Absolute) {
+	// 3 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.Y = 0x4F;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STY_ABS;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x202] = 0xAF;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xAF10], 0x4F);
+}

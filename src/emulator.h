@@ -325,7 +325,10 @@ struct CPU
         {
             Byte ZPBYte = mem.FetchByte(Cycles, PC);
             Word ZPAddr = ZPByteToAddress(ZPBYte);
-            return ZPAddr += Y;
+            ZPAddr += Y;
+            Cycles--;
+            (ZPAddr & 0xFF00) ? ZPAddr &= 0x00FF : ZPAddr;
+            return ZPAddr;
         }
         case X_INDEX_ZP_INDIRECT:
         {
