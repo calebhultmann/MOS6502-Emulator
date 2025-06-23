@@ -13,11 +13,9 @@
   },
   "ExpandedNodes": [
     "",
-    "\\build",
-    "\\build\\test",
     "\\src",
     "\\test"
   ],
-  "SelectedNode": "\\out",
+  "SelectedNode": "\\test\\register_transfer_ops.cpp",
   "PreviewInSolutionExplorer": false
 }

@@ -174,9 +174,21 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\arithmetic_tests.vcxproj">
+      <Project>{701832B1-68EF-346A-A7BB-057AEB93F8E4}</Project>
+      <Name>arithmetic_tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\branch_tests.vcxproj">
+      <Project>{6ACAC465-90FE-3DA0-A5C4-13F700B4F886}</Project>
+      <Name>branch_tests</Name>
+    </ProjectReference>
     <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\src\emulator.vcxproj">
       <Project>{2CDC1A40-D918-37F9-8CA2-0DCE2060F45C}</Project>
       <Name>emulator</Name>
+    </ProjectReference>
+    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\full_system_tests.vcxproj">
+      <Project>{F6C3CA57-A382-36F4-9EAC-1C6C5E170EDD}</Project>
+      <Name>full_system_tests</Name>
     </ProjectReference>
     <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\_deps\googletest-build\googlemock\gmock.vcxproj">
       <Project>{295C117F-403F-3716-921D-3DAF7D285253}</Project>
@@ -194,13 +206,45 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{5F4E571F-58CC-3033-BAFA-B5709CE1812C}</Project>
       <Name>gtest_main</Name>
     </ProjectReference>
+    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\inc_dec_tests.vcxproj">
+      <Project>{B10794BC-16B0-3A17-834A-425E4CCD9863}</Project>
+      <Name>inc_dec_tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\jump_tests.vcxproj">
+      <Project>{2CA37367-6EB0-333D-82D9-E95C93453264}</Project>
+      <Name>jump_tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\load_store_tests.vcxproj">
+      <Project>{76289DE8-7858-35BF-895C-8033AD1539A1}</Project>
+      <Name>load_store_tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\logical_tests.vcxproj">
+      <Project>{1E2A8EE6-B66E-3D35-BB4A-9FD66D708842}</Project>
+      <Name>logical_tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\register_transfer_tests.vcxproj">
+      <Project>{30351E58-23C7-35A6-B62F-2D86CD9BEDCE}</Project>
+      <Name>register_transfer_tests</Name>
+    </ProjectReference>
     <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\rooster.vcxproj">
       <Project>{9FCBD002-F7A7-3E97-8855-9E276027338B}</Project>
       <Name>rooster</Name>
     </ProjectReference>
-    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\unit_tests.vcxproj">
-      <Project>{D8FCC977-AB4A-3496-A845-603141FD9FF7}</Project>
-      <Name>unit_tests</Name>
+    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\shift_tests.vcxproj">
+      <Project>{FFFB6BEF-49E9-30F6-BE50-64F697E0956B}</Project>
+      <Name>shift_tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\stack_tests.vcxproj">
+      <Project>{868A587A-7204-36E7-998F-BFBF13AA8B1C}</Project>
+      <Name>stack_tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\status_change_tests.vcxproj">
+      <Project>{93F14AE9-99C5-3686-97F0-50A23B105BDA}</Project>
+      <Name>status_change_tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="G:\VS_repos\PortfolioProjects\6502-Emulator\build\test\system_tests.vcxproj">
+      <Project>{5FD75146-BAF1-393D-89C7-A854400FDA64}</Project>
+      <Name>system_tests</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

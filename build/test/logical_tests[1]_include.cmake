@@ -1,0 +1,5 @@
+if(EXISTS "G:/VS_repos/PortfolioProjects/6502-Emulator/build/test/logical_tests[1]_tests.cmake")
+  include("G:/VS_repos/PortfolioProjects/6502-Emulator/build/test/logical_tests[1]_tests.cmake")
+else()
+  add_test(logical_tests_NOT_BUILT logical_tests_NOT_BUILT)
+endif()
