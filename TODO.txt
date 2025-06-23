@@ -1,5 +1,5 @@
 Each test should check:
 1. Exit status/Cycle count
-2. Program counter
+2. Program counter (checks correct number of bytes used)
 3. Correct Processor status
 4. Correct instruction result (registers, memory, etc.)

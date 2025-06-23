@@ -13,9 +13,11 @@
   },
   "ExpandedNodes": [
     "",
+    "\\build",
+    "\\build\\test",
     "\\src",
     "\\test"
   ],
-  "SelectedNode": "\\src\\exitcodes.h",
+  "SelectedNode": "\\build\\test\\unit_tests.vcxproj",
   "PreviewInSolutionExplorer": false
 }

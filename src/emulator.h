@@ -42,7 +42,7 @@ struct Mem
     }
 
     // Read a byte from a memory address
-    Byte ReadByte(S32& Cycles, Word Address)
+    Byte ReadByte(s32& Cycles, Word Address)
     {
         Byte Value = Data[Address];
         Cycles--;
@@ -139,7 +139,7 @@ struct CPU
         P &= ~flag;
     }
 
-    // Set the Z and N flags with respect to a register; Very common result of many opcodes
+    // Set the Z and N flags with respect to a byte of data; Very common result of many opcodes
     void RegisterSetZNStatus(Byte Data)
     {
         P = (P & ~Z) | ((Data == 0) * Z);
@@ -149,7 +149,6 @@ struct CPU
     // Turn a zero-page byte into a workable 16-bit address
     Word ZPByteToAddress(s32& Cycles, Byte ZPByte)
     {
-        Cycles--;
         return (0x0000 | ZPByte);
     }
 
@@ -173,7 +172,7 @@ struct CPU
     }
 
     // Fetch the next operation from memory
-    Operation FetchOperation(s32& Cycles) {
+    Operation FetchOperation() {
         Byte Opcode = mem.FetchByte(Cycles, PC);
         Operation instruction;
         try {
@@ -217,12 +216,14 @@ struct CPU
         {
             Word addr = mem.FetchWord(Cycles, PC);
             addr += X;
+			Cycles--;
             return mem.ReadByte(Cycles, addr);
         }
         case Y_ABSOLUTE:
         {
             Word addr = mem.FetchWord(Cycles, PC);
             addr += Y;
+			Cycles--;
             return mem.ReadByte(Cycles, addr);
         }
         case X_ZERO_PAGE:
@@ -230,6 +231,8 @@ struct CPU
             Byte ZPBYte = mem.FetchByte(Cycles, PC);
             Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
             ZPAddr += X;
+			Cycles--;
+            (ZPAddr & 0xFF00) ? ZPAddr &= 0x00FF : ZPAddr;
             return mem.ReadByte(Cycles, ZPAddr);
         }
         case Y_ZERO_PAGE:
@@ -237,6 +240,8 @@ struct CPU
             Byte ZPBYte = mem.FetchByte(Cycles, PC);
             Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
             ZPAddr += Y;
+			Cycles--;
+            (ZPAddr & 0xFF00) ? ZPAddr &= 0x00FF : ZPAddr;
             return mem.ReadByte(Cycles, ZPAddr);
         }
         case X_INDEX_ZP_INDIRECT:
@@ -244,6 +249,8 @@ struct CPU
             Byte ZPBYte = mem.FetchByte(Cycles, PC);
             Word ZPAddr = ZPByteToAddress(Cycles, ZPBYte);
             ZPAddr += X;
+			Cycles--;
+            (ZPAddr & 0xFF00) ? ZPAddr &= 0x00FF : ZPAddr;
             Word indirect_addr = mem.ReadWord(Cycles, ZPAddr);
             return mem.ReadByte(Cycles, indirect_addr);
         }
@@ -253,6 +260,7 @@ struct CPU
             Word ZPAddr = ZPByteToAddress(Cycles, ZPByte);
             Word indirect_addr = mem.ReadWord(Cycles, ZPAddr);
             indirect_addr += Y;
+			Cycles--;
             return mem.ReadByte(Cycles, indirect_addr);
         }
         }
@@ -741,12 +749,13 @@ struct CPU
 	//    status > 0 -- overused cycles
     //    status < 0 -- error code
 	//    status = 0 -- normal termination
-    int Run(s32 Cycles, bool noStop = false)
+    int Run(s32 CyclesRequested, bool noStop = false)
     {
+		Cycles = CyclesRequested;
         int exit_status = 0;
         while (Cycles > 0 || noStop)
         {
-            Operation operation = FetchOperation(Cycles);
+            Operation operation = FetchOperation();
             if (operation.instruction == Instruction::INVALID)
             {
                 //std::cout << "Unknown operation encountered. Stopping execution." << std::endl;
