@@ -261,8 +261,9 @@ struct CPU
             Byte ZPByte = mem.FetchByte(Cycles, PC);
             Word ZPAddr = ZPByteToAddress(Cycles, ZPByte);
             Word indirect_addr = mem.ReadWord(Cycles, ZPAddr);
+            Byte high = (indirect_addr >> 8) & 0xFF;
             indirect_addr += Y;
-			Cycles--;
+            (indirect_addr >> 8 != high) ? Cycles-- : Cycles;
             return mem.ReadByte(Cycles, indirect_addr);
         }
         }

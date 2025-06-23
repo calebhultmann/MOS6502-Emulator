@@ -247,7 +247,7 @@ TEST(LDA_TEST, LDA_IndirectX) {
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.PC, 0x202);
 	EXPECT_EQ(cpu.P, 0);
 	EXPECT_EQ(cpu.A, 0x4F);
 }
@@ -272,7 +272,7 @@ TEST(LDA_TEST, LDA_IndirectX_WithWrapAround) {
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.PC, 0x202);
 	EXPECT_EQ(cpu.P, 0);
 	EXPECT_EQ(cpu.A, 0x4F);
 }
@@ -287,8 +287,9 @@ TEST(LDA_TEST, LDA_IndirectY) {
 
 	// Initialize memory
 	cpu.mem[0x200] = INS_LDA_INDY;
-	cpu.mem[0x201] = 0x10;
-	cpu.mem[0x202] = 0xAF;
+	cpu.mem[0x201] = 0x30;
+	cpu.mem[0x30] = 0x10;
+	cpu.mem[0x31] = 0xAF;
 	cpu.mem[0xAF30] = 0x4F;
 
 	// Run the expected number of cycles
@@ -296,7 +297,7 @@ TEST(LDA_TEST, LDA_IndirectY) {
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.PC, 0x202);
 	EXPECT_EQ(cpu.P, 0);
 	EXPECT_EQ(cpu.A, 0x4F);
 }
@@ -307,20 +308,21 @@ TEST(LDA_TEST, LDA_IndirectY_WithPageCross) {
 	// Initialize CPU
 	CPU cpu;
 	cpu.Reset();
-	cpu.Y = 0xF3;
+	cpu.Y = 0xF0;
 
 	// Initialize memory
-	cpu.mem[0x200] = INS_LDA_ABS;
-	cpu.mem[0x201] = 0x10;
-	cpu.mem[0x202] = 0xA1;
-	cpu.mem[0xA203] = 0x4F;
+	cpu.mem[0x200] = INS_LDA_INDY;
+	cpu.mem[0x201] = 0x30;
+	cpu.mem[0x30] = 0x10;
+	cpu.mem[0x31] = 0xAF;
+	cpu.mem[0xB000] = 0x4F;
 
 	// Run the expected number of cycles
 	int status = cpu.Run(6);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.PC, 0x202);
 	EXPECT_EQ(cpu.P, 0);
 	EXPECT_EQ(cpu.A, 0x4F);
 }
@@ -359,7 +361,7 @@ TEST(LDA_TEST, LDA_ClearsZeroFlag) {
 	cpu.mem[0x201] = 0x4F;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(6);
+	int status = cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
