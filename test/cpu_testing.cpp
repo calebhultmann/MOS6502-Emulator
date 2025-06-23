@@ -2,6 +2,9 @@
 #include "emulator.h"
 #include "instructions.h"
 
+/*----------------------------------------------------------------------------------------------------------------*/
+/*      LDA                                                                                              LDA      */
+/*----------------------------------------------------------------------------------------------------------------*/
 TEST(LDA_TEST, Immediate) {
 	// 2 Bytes, 2 Cycles
 
@@ -396,6 +399,9 @@ TEST(LDA_TEST, ClearsNegativeFlag) {
 	EXPECT_EQ(cpu.A, 0x4F);
 }
 
+/*----------------------------------------------------------------------------------------------------------------*/
+/*      LDX                                                                                              LDX      */
+/*----------------------------------------------------------------------------------------------------------------*/
 TEST(LDX_TEST, Immediate) {
 	// 2 Bytes, 2 Cycles
 
@@ -642,6 +648,9 @@ TEST(LDX_TEST, ClearsNegativeFlag) {
 	EXPECT_EQ(cpu.X, 0x4F);
 }
 
+/*----------------------------------------------------------------------------------------------------------------*/
+/*      LDY                                                                                              LDY      */
+/*----------------------------------------------------------------------------------------------------------------*/
 TEST(LDY_TEST, Immediate) {
 	// 2 Bytes, 2 Cycles
 
@@ -886,4 +895,292 @@ TEST(LDY_TEST, ClearsNegativeFlag) {
 	EXPECT_EQ(cpu.PC, 0x202);
 	EXPECT_EQ(cpu.P, 0);
 	EXPECT_EQ(cpu.Y, 0x4F);
+}
+
+/*----------------------------------------------------------------------------------------------------------------*/
+/*      STA                                                                                              STA      */
+/*----------------------------------------------------------------------------------------------------------------*/
+TEST(STA_TEST, ZeroPage) {
+	// 2 Bytes, 3 Cycles
+	
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0x4F;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STA_ZP;
+	cpu.mem[0x201] = 0x10;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(3);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0x10], 0x4F);
+}
+
+TEST(STA_TEST, ZeroPageX) {
+	// 2 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0x4F;
+	cpu.X = 0x84;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STA_ZPX;
+	cpu.mem[0x201] = 0x10;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0x94], 0x4F);
+}
+
+TEST(STA_TEST, ZeroPageX_WithWrapAround) {
+	// 2 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0x4F;
+	cpu.X = 0xF5;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STA_ZPX;
+	cpu.mem[0x201] = 0xD0;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xC5], 0x4F);
+}
+
+TEST(STA_TEST, Absolute) {
+	// 3 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0x4F;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STA_ABS;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x202] = 0xAF;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xAF10], 0x4F);
+}
+
+TEST(STA_TEST, AbsoluteX) {
+	// 3 Bytes, 5 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0x4F;
+	cpu.X = 0x84;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STA_ABSX;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x202] = 0xAF;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(5);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xAF94], 0x4F);
+}
+
+TEST(STA_TEST, AbsoluteX_WithPageCross) {
+	// 3 Bytes, 5 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.X = 0xF3;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STA_ABSX;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x202] = 0xAF;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(5);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xB003], 0x4F);
+}
+
+TEST(STA_TEST, AbsoluteY) {
+	// 3 Bytes, 5 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0x4F;
+	cpu.Y = 0x84;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STA_ABSY;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x202] = 0xAF;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(5);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xAF94], 0x4F);
+}
+
+TEST(STA_TEST, AbsoluteY_WithPageCross) {
+	// 3 Bytes, 5 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.Y = 0xF3;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STA_ABSY;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x202] = 0xAF;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(5);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xB003], 0x4F);
+}
+
+TEST(STA_TEST, IndirectX) {
+	// 2 Bytes, 6 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0x4F;
+	cpu.X = 0x20;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STA_INDX;
+	cpu.mem[0x201] = 0x3B;
+	cpu.mem[0x5B] = 0x10;
+	cpu.mem[0x5C] = 0xAF;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(6);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xAF10], 0x4F);
+}
+
+TEST(STA_TEST, IndirectX_WithWrapAround) {
+	// 2 Bytes, 6 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0x4F;
+	cpu.X = 0xF1;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_STA_INDX;
+	cpu.mem[0x201] = 0x3B;
+	cpu.mem[0x2C] = 0x10;
+	cpu.mem[0x2D] = 0xAF;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(6);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xAF10], 0x4F);
+}
+
+TEST(STA_TEST, IndirectY) {
+	// 2 Bytes, 6 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0x4F;
+	cpu.Y = 0x20;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDA_INDY;
+	cpu.mem[0x201] = 0x30;
+	cpu.mem[0x30] = 0x10;
+	cpu.mem[0x31] = 0xAF;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(6);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xAF30], 0x4F);
+}
+
+TEST(STA_TEST, IndirectY_WithPageCross) {
+	// 2 Bytes, 6 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0x4F;
+	cpu.Y = 0xF0;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDA_INDY;
+	cpu.mem[0x201] = 0x30;
+	cpu.mem[0x30] = 0x10;
+	cpu.mem[0x31] = 0xAF;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(6);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.mem[0xB000], 0x4F);
 }
