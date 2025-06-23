@@ -188,7 +188,7 @@ TEST(LDA_TEST, LDA_AbsoluteY) {
 	cpu.Y = 0x84;
 
 	// Initialize memory
-	cpu.mem[0x200] = INS_LDA_ABSX;
+	cpu.mem[0x200] = INS_LDA_ABSY;
 	cpu.mem[0x201] = 0x10;
 	cpu.mem[0x202] = 0xAF;
 	cpu.mem[0xAF94] = 0x4F;
@@ -212,7 +212,7 @@ TEST(LDA_TEST, LDA_AbsoluteY_WithPageCross) {
 	cpu.Y = 0xF3;
 
 	// Initialize memory
-	cpu.mem[0x200] = INS_LDA_ABSX;
+	cpu.mem[0x200] = INS_LDA_ABSY;
 	cpu.mem[0x201] = 0x10;
 	cpu.mem[0x202] = 0xAF;
 	cpu.mem[0xB003] = 0x4F;

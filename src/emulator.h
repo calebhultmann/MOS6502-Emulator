@@ -55,7 +55,7 @@ struct Mem
         Word Value = Data[Address];
         Address++;
         Value |= (Data[Address] << 8);
-        Cycles -= 2;
+		Cycles -= 2;
         return Value;
     }
 
@@ -215,15 +215,17 @@ struct CPU
         case X_ABSOLUTE:
         {
             Word addr = mem.FetchWord(Cycles, PC);
+			Byte high = (addr >> 8) & 0xFF;
             addr += X;
-			Cycles--;
+			(addr >> 8 != high) ? Cycles-- : Cycles;
             return mem.ReadByte(Cycles, addr);
         }
         case Y_ABSOLUTE:
         {
             Word addr = mem.FetchWord(Cycles, PC);
+            Byte high = (addr >> 8) & 0xFF;
             addr += Y;
-			Cycles--;
+            (addr >> 8 != high) ? Cycles-- : Cycles;
             return mem.ReadByte(Cycles, addr);
         }
         case X_ZERO_PAGE:
