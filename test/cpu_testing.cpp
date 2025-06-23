@@ -641,3 +641,249 @@ TEST(LDX_TEST, ClearsNegativeFlag) {
 	EXPECT_EQ(cpu.P, 0);
 	EXPECT_EQ(cpu.X, 0x4F);
 }
+
+TEST(LDY_TEST, Immediate) {
+	// 2 Bytes, 2 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDY_IM;
+	cpu.mem[0x201] = 0x4F;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(2);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.Y, 0x4F);
+}
+
+TEST(LDY_TEST, ZeroPage) {
+	// 2 Bytes, 3 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDY_ZP;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x10] = 0x4F;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(3);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.Y, 0x4F);
+}
+
+TEST(LDY_TEST, ZeroPageX) {
+	// 2 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.X = 0x84;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDY_ZPX;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x0094] = 0x4F;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.Y, 0x4F);
+}
+
+TEST(LDY_TEST, ZeroPageX_WithWrapAround) {
+	// 2 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.X = 0xF5;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDY_ZPX;
+	cpu.mem[0x201] = 0xD0;
+	cpu.mem[0x00C5] = 0x4F;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.Y, 0x4F);
+}
+
+TEST(LDY_TEST, Absolute) {
+	// 3 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDY_ABS;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x202] = 0xAF;
+	cpu.mem[0xAF10] = 0x4F;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.Y, 0x4F);
+}
+
+TEST(LDY_TEST, AbsoluteX) {
+	// 3 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.X = 0x84;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDY_ABSX;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x202] = 0xAF;
+	cpu.mem[0xAF94] = 0x4F;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.Y, 0x4F);
+}
+
+TEST(LDY_TEST, AbsoluteX_WithPageCross) {
+	// 3 Bytes, 5 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.X = 0xF3;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDY_ABSX;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x202] = 0xAF;
+	cpu.mem[0xB003] = 0x4F;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(5);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.Y, 0x4F);
+}
+
+TEST(LDY_TEST, SetsZeroFlag) {
+	// 2 Bytes, 2 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDY_IM;
+	cpu.mem[0x201] = 0;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(2);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, cpu.Z);
+	EXPECT_EQ(cpu.Y, 0);
+}
+
+TEST(LDY_TEST, ClearsZeroFlag) {
+	// 2 Bytes, 2 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.P |= cpu.Z;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDY_IM;
+	cpu.mem[0x201] = 0x4F;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(2);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.Y, 0x4F);
+}
+
+TEST(LDY_TEST, SetsNegativeFlag) {
+	// 2 Bytes, 2 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDY_IM;
+	cpu.mem[0x201] = 0xFF;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(2);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, cpu.N);
+	EXPECT_EQ(cpu.Y, 0xFF);
+}
+
+TEST(LDY_TEST, ClearsNegativeFlag) {
+	// 2 Bytes, 2 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.P |= cpu.N;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_LDY_IM;
+	cpu.mem[0x201] = 0x4F;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(2);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.Y, 0x4F);
+}
