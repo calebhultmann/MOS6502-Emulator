@@ -449,9 +449,11 @@ struct CPU
             return;
         case Instruction::BIT:
         {
-            Byte result = A & FetchData(operation);
+			Byte data = FetchData(operation);
+            Byte result = A & data;
             RegisterSetZNStatus(result);
-			((result & 0b01000000) > 0) ? SetFlag(V) : ClearFlag(V);
+			((data & V) > 0) ? SetFlag(V) : ClearFlag(V);
+			((data & N) > 0) ? SetFlag(N) : ClearFlag(N);
             return;
         }
         case Instruction::ADC:

@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:test\\logical_ops.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\load_store_ops.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:test\\load_store_ops.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\emulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\load_store_ops.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:test\\load_store_ops.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\instructions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -70,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 262,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
@@ -86,15 +86,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "emulator.h",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h",
               "RelativeDocumentMoniker": "src\\emulator.h",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h",
               "RelativeToolTip": "src\\emulator.h",
-              "ViewState": "AgIAAFUCAAAAAAAAAAAAAAEDAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAALgAAAAAAAAAAAAgwL4AAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-12T04:59:24.472Z"
+              "WhenOpened": "2025-06-12T04:59:24.472Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -110,13 +111,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "load_store_ops.cpp",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\load_store_ops.cpp",
               "RelativeDocumentMoniker": "test\\load_store_ops.cpp",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\load_store_ops.cpp",
               "RelativeToolTip": "test\\load_store_ops.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAI8BAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAPIAAAAAAAAAAAAAAE0BAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-20T03:40:50.19Z",
               "EditorCaption": ""
@@ -243,7 +244,7 @@
               "RelativeDocumentMoniker": "test\\logical_ops.cpp",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\logical_ops.cpp",
               "RelativeToolTip": "test\\logical_ops.cpp",
-              "ViewState": "AgIAACgDAAAAAAAAAAAAAEkDAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAACsFAAAAAAAAAAAiwEoFAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-23T21:56:47.771Z",
               "EditorCaption": ""

@@ -1243,3 +1243,194 @@ TEST(ORA_TEST, ClearsNegativeFlag) {
 	EXPECT_EQ(cpu.P, 0);
 	EXPECT_EQ(cpu.A, 0b01110111);
 }
+
+/*----------------------------------------------------------------------------------------------------------------*/
+/*      BIT                                                                                              BIT      */
+/*----------------------------------------------------------------------------------------------------------------*/
+TEST(BIT_TEST, ZeroPage) {
+	// 2 Bytes, 3 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0b01010101;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_BIT_ZP;
+	cpu.mem[0x201] = 0xC4;
+	cpu.mem[0xC4] = 0b00110011;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(3);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.A, 0b01010101);
+}
+
+TEST(BIT_TEST, Absolute) {
+	// 3 Bytes, 4 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0b01010101;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_BIT_ABS;
+	cpu.mem[0x201] = 0x10;
+	cpu.mem[0x202] = 0xAF;
+	cpu.mem[0xAF10] = 0b00110011;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(4);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x203);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.A, 0b01010101);
+}
+
+TEST(BIT_TEST, SetsZeroFlag) {
+	// 2 Bytes, 3 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0b01010101;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_BIT_ZP;
+	cpu.mem[0x201] = 0xC4;
+	cpu.mem[0xC4] = 0b00001010;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(3);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, cpu.Z);
+	EXPECT_EQ(cpu.A, 0b01010101);
+}
+
+TEST(BIT_TEST, ClearsZeroFlag) {
+	// 2 Bytes, 3 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.P |= cpu.Z;
+	cpu.A = 0b01010101;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_BIT_ZP;
+	cpu.mem[0x201] = 0xC4;
+	cpu.mem[0xC4] = 0b00110011;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(3);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.A, 0b01010101);
+}
+
+TEST(BIT_TEST, SetsNegativeFlag) {
+	// 2 Bytes, 3 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0b01010101;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_BIT_ZP;
+	cpu.mem[0x201] = 0xC4;
+	cpu.mem[0xC4] = 0b10000101;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(3);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, cpu.N);
+	EXPECT_EQ(cpu.A, 0b01010101);
+}
+
+TEST(BIT_TEST, ClearsNegativeFlag) {
+	// 2 Bytes, 3 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.P |= cpu.N;
+	cpu.A = 0b01010101;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_BIT_ZP;
+	cpu.mem[0x201] = 0xC4;
+	cpu.mem[0xC4] = 0b00110011;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(3);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.A, 0b01010101);
+}
+
+TEST(BIT_TEST, SetsOverflowFlag) {
+	// 2 Bytes, 3 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.A = 0b01010101;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_BIT_ZP;
+	cpu.mem[0x201] = 0xC4;
+	cpu.mem[0xC4] = 0b01001010;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(3);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, cpu.V);
+	EXPECT_EQ(cpu.A, 0b01010101);
+}
+
+TEST(BIT_TEST, ClearsOverflowFlag) {
+	// 2 Bytes, 3 Cycles
+
+	// Initialize CPU
+	CPU cpu;
+	cpu.Reset();
+	cpu.P |= cpu.V;
+	cpu.A = 0b01010101;
+
+	// Initialize memory
+	cpu.mem[0x200] = INS_BIT_ZP;
+	cpu.mem[0x201] = 0xC4;
+	cpu.mem[0xC4] = 0b00110011;
+
+	// Run the expected number of cycles
+	int status = cpu.Run(3);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(cpu.PC, 0x202);
+	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(cpu.A, 0b01010101);
+}
