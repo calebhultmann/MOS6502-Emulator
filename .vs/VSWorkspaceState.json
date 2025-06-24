@@ -14,11 +14,13 @@
   "ExpandedNodes": [
     "",
     "\\build",
+    "\\build\\test",
     "\\build\\_deps",
     "\\build\\_deps\\googletest-build",
     "\\build\\_deps\\googletest-build\\googletest",
     "\\src",
     "\\test"
   ],
+  "SelectedNode": "\\build\\test\\stack_tests.vcxproj",
   "PreviewInSolutionExplorer": false
 }

@@ -95,16 +95,18 @@ struct Mem
     }
 
     // Push a byte onto the stack
-    void PushStack(Byte& SP, Byte Value)
+    void PushStack(s32& Cycles, Byte& SP, Byte Value)
     {
         Data[0x100 | SP--] = Value;
+		Cycles -= 2;
     }
 
     // Pull a byte from the stack
-    Byte PullStack(Byte& SP)
+    Byte PullStack(s32& Cycles, Byte& SP)
     {
         Byte Value = Data[0x100 | ++SP];
         Data[0x100 | SP] = 0xFF;
+		Cycles -= 2;
         return Value;
     }
 };
@@ -419,17 +421,19 @@ struct CPU
             Cycles--;
             return;
         case Instruction::PHA:
-            mem.PushStack(S, A);
+            mem.PushStack(Cycles, S, A);
             return;
         case Instruction::PHP:
-            mem.PushStack(S, P);
+            mem.PushStack(Cycles, S, P);
             return;
         case Instruction::PLA:
-            A = mem.PullStack(S);
+            A = mem.PullStack(Cycles, S);
+            Cycles--;
             RegisterSetZNStatus(A);
             return;
         case Instruction::PLP:
-            P = mem.PullStack(S);
+            P = mem.PullStack(Cycles, S);
+            Cycles--;
             return;
         case Instruction::AND:
             A = A & FetchData(operation);
@@ -580,15 +584,15 @@ struct CPU
         {
             Word addr = FetchAddress(operation);
             Word jmp_addr = mem.ReadWord(Cycles, addr);
-            mem.PushStack(S, (PC >> 8) & 0xFF);
-            mem.PushStack(S, PC & 0xFF);
+            mem.PushStack(Cycles, S, (PC >> 8) & 0xFF);
+            mem.PushStack(Cycles, S, PC & 0xFF);
             PC = jmp_addr;
             return;
         }
         case Instruction::RTS:
         {
-            Word low = mem.PullStack(S);
-            Word high = mem.PullStack(S);
+            Word low = mem.PullStack(Cycles, S);
+            Word high = mem.PullStack(Cycles, S);
             Word return_addr = (low | (high << 8));
             PC = return_addr;
             return;
@@ -751,9 +755,9 @@ struct CPU
             SetFlag(I);
             return;
         case Instruction::BRK:
-            mem.PushStack(S, (PC >> 8) & 0xFF);
-            mem.PushStack(S, PC & 0xFF);
-            mem.PushStack(S, P);
+            mem.PushStack(Cycles, S, (PC >> 8) & 0xFF);
+            mem.PushStack(Cycles, S, PC & 0xFF);
+            mem.PushStack(Cycles, S, P);
             SetFlag(B);
             PC = mem.ReadWord(Cycles, 0xFFFE);
             return;
@@ -761,9 +765,9 @@ struct CPU
             return;
         case Instruction::RTI:
         {
-            P = mem.PullStack(S);
-            Word low = mem.PullStack(S);
-            Word high = mem.PullStack(S);
+            P = mem.PullStack(Cycles, S);
+            Word low = mem.PullStack(Cycles, S);
+            Word high = mem.PullStack(Cycles, S);
             S = low | high << 8;
             return;
         }
