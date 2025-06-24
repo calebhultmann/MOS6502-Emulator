@@ -13,9 +13,13 @@
   },
   "ExpandedNodes": [
     "",
+    "\\build",
+    "\\build\\_deps",
+    "\\build\\_deps\\googletest-build",
+    "\\build\\_deps\\googletest-build\\googletest",
     "\\src",
     "\\test"
   ],
-  "SelectedNode": "\\test\\register_transfer_ops.cpp",
+  "SelectedNode": "\\build\\_deps\\googletest-build\\googletest\\gtest.sln",
   "PreviewInSolutionExplorer": false
 }

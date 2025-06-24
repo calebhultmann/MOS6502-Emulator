@@ -391,26 +391,32 @@ struct CPU
         }
         case Instruction::TAX:
             X = A;
+            Cycles--;
             RegisterSetZNStatus(X);
             return;
         case Instruction::TAY:
             Y = A;
+            Cycles--;
             RegisterSetZNStatus(Y);
             return;
         case Instruction::TXA:
             A = X;
+            Cycles--;
             RegisterSetZNStatus(A);
             return;
         case Instruction::TYA:
             A = Y;
+            Cycles--;
             RegisterSetZNStatus(A);
             return;
         case Instruction::TSX:
             X = S;
+            Cycles--;
             RegisterSetZNStatus(X);
             return;
         case Instruction::TXS:
             S = X;
+            Cycles--;
             return;
         case Instruction::PHA:
             mem.PushStack(S, A);
