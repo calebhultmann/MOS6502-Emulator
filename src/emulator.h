@@ -104,7 +104,7 @@ struct Mem
     Byte PullStack(Byte& SP)
     {
         Byte Value = Data[0x100 | ++SP];
-        Data[0x100 | SP] = 0x00;
+        Data[0x100 | SP] = 0xFF;
         return Value;
     }
 };
