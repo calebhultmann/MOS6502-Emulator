@@ -152,6 +152,25 @@ struct CPU
         return (0x0000 | ZPByte);
     }
 
+	// Branch to a new address based on the current program counter and an offset
+    void Branch() {
+        Byte offset = mem.FetchByte(Cycles, PC);
+        const Word oldPC = PC;
+        PC += static_cast<SByte>(offset);
+        Cycles--;
+
+        const bool PageCross = (PC >> 8) != (oldPC >> 8);
+        if (PageCross)
+        {
+            Cycles--;
+        }
+    }
+
+	// Branches if the given flag in the processor status matches the given value
+    void MaybeBranch(Byte flag, Byte value) {
+        (P & flag) == value ? Branch() : (void) mem.FetchByte(Cycles, PC);
+    }
+
     // Reset CPU
     void Reset()
     {
@@ -553,141 +572,29 @@ struct CPU
             return;
         }
         case Instruction::BCC:
-        {
-            Byte offset = mem.FetchByte(Cycles, PC);
-
-            if ((P & C) == 0)
-            {
-                const Word oldPC = PC;
-                PC += static_cast<SByte>(offset);
-                Cycles--;
-
-                const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                if (PageCross)
-                {
-                    Cycles--;
-                }
-            }
-        }
+			MaybeBranch(C, 0);
+            return;
         case Instruction::BCS:
-        {
-            Byte offset = mem.FetchByte(Cycles, PC);
-
-            if ((P & C) == C)
-            {
-                const Word oldPC = PC;
-                PC += static_cast<SByte>(offset);
-                Cycles--;
-
-                const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                if (PageCross)
-                {
-                    Cycles--;
-                }
-            }
-        }
+            MaybeBranch(C, C);
+            return;
         case Instruction::BEQ:
-        {
-            Byte offset = mem.FetchByte(Cycles, PC);
-
-            if ((P & Z) == Z)
-            {
-                const Word oldPC = PC;
-                PC += static_cast<SByte>(offset);
-                Cycles--;
-
-                const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                if (PageCross)
-                {
-                    Cycles--;
-                }
-            }
-        }
+			MaybeBranch(Z, Z);
+            return;
         case Instruction::BMI:
-        {
-            Byte offset = mem.FetchByte(Cycles, PC);
-
-            if ((P & N) == N)
-            {
-                const Word oldPC = PC;
-                PC += static_cast<SByte>(offset);
-                Cycles--;
-
-                const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                if (PageCross)
-                {
-                    Cycles--;
-                }
-            }
-        }
+            MaybeBranch(N, N);
+            return;
         case Instruction::BNE:
-        {
-            Byte offset = mem.FetchByte(Cycles, PC);
-
-            if ((P & Z) == 0)
-            {
-                const Word oldPC = PC;
-                PC += static_cast<SByte>(offset);
-                Cycles--;
-
-                const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                if (PageCross)
-                {
-                    Cycles--;
-                }
-            }
-        }
+            MaybeBranch(Z, 0);
+            return;
         case Instruction::BPL:
-        {
-            Byte offset = mem.FetchByte(Cycles, PC);
-
-            if ((P & N) == 0)
-            {
-                const Word oldPC = PC;
-                PC += static_cast<SByte>(offset);
-                Cycles--;
-
-                const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                if (PageCross)
-                {
-                    Cycles--;
-                }
-            }
-        }
+            MaybeBranch(N, 0);
+            return;
         case Instruction::BVC:
-        {
-            Byte offset = mem.FetchByte(Cycles, PC);
-
-            if ((P & V) == 0)
-            {
-                const Word oldPC = PC;
-                PC += static_cast<SByte>(offset);
-                Cycles--;
-
-                const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                if (PageCross)
-                {
-                    Cycles--;
-                }
-            }
-        }
+            MaybeBranch(V, 0);
+            return;
         case Instruction::BVS:
-        {
-            Byte offset = mem.FetchByte(Cycles, PC);
-
-            if ((P & V) == V)
-            {
-                const Word oldPC = PC;
-                PC += static_cast<SByte>(offset);
-                Cycles--;
-
-                const bool PageCross = (PC >> 8) != (oldPC >> 8);
-                if (PageCross)
-                {
-                    Cycles--;
-                }
-            }
-        }
+            MaybeBranch(V, V);
+            return;
         case Instruction::CLC:
             ClearFlag(C);
             return;
