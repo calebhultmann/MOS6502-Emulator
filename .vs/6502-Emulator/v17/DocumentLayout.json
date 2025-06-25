@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\status_change_ops.cpp||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:test\\status_change_ops.cpp||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\system_ops.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:test\\system_ops.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\emulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\load_store_ops.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:test\\load_store_ops.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\system_ops.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:test\\system_ops.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\CMakeLists.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -62,7 +58,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 10,
               "Title": "bimap.h",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\bimap.h",
               "RelativeDocumentMoniker": "src\\bimap.h",
@@ -74,20 +70,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "emulator.h",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h",
               "RelativeDocumentMoniker": "src\\emulator.h",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h",
               "RelativeToolTip": "src\\emulator.h",
-              "ViewState": "AgIAABwCAAAAAAAAAAAAAJoAAABOAAAAAAAAAA==",
+              "ViewState": "AgIAAFwCAAAAAAAAAAAmwHgCAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-12T04:59:24.472Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "CMakeLists.txt",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\CMakeLists.txt",
               "RelativeDocumentMoniker": "test\\CMakeLists.txt",
@@ -99,19 +95,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "load_store_ops.cpp",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\load_store_ops.cpp",
               "RelativeDocumentMoniker": "test\\load_store_ops.cpp",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\load_store_ops.cpp",
               "RelativeToolTip": "test\\load_store_ops.cpp",
-              "ViewState": "AgIAAKUAAAAAAAAAAAAAADsBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAFIFAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-20T03:40:50.19Z"
+              "WhenOpened": "2025-06-20T03:40:50.19Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "exitcodes.h",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\exitcodes.h",
               "RelativeDocumentMoniker": "src\\exitcodes.h",
@@ -125,11 +122,11 @@
         },
         {
           "DockedWidth": 305,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "system_ops.cpp",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\system_ops.cpp",
               "RelativeDocumentMoniker": "test\\system_ops.cpp",
@@ -142,20 +139,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "status_change_ops.cpp",
-              "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\status_change_ops.cpp",
-              "RelativeDocumentMoniker": "test\\status_change_ops.cpp",
-              "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\status_change_ops.cpp",
-              "RelativeToolTip": "test\\status_change_ops.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T21:58:23.917Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
               "Title": "branch_ops.cpp",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\branch_ops.cpp",
               "RelativeDocumentMoniker": "test\\branch_ops.cpp",
@@ -167,7 +151,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "jump_ops.cpp",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\jump_ops.cpp",
               "RelativeDocumentMoniker": "test\\jump_ops.cpp",
@@ -179,7 +163,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
               "Title": "shift_ops.cpp",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\shift_ops.cpp",
               "RelativeDocumentMoniker": "test\\shift_ops.cpp",
@@ -191,7 +175,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 9,
               "Title": "arithmetic_ops.cpp",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\arithmetic_ops.cpp",
               "RelativeDocumentMoniker": "test\\arithmetic_ops.cpp",
@@ -203,7 +187,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "TODO.txt",
               "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\TODO.txt",
               "RelativeDocumentMoniker": "TODO.txt",

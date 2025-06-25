@@ -597,24 +597,31 @@ struct CPU
             return;
         case Instruction::CLC:
             ClearFlag(C);
+            Cycles--;
             return;
         case Instruction::CLD:
             ClearFlag(D);
+            Cycles--;
             return;
         case Instruction::CLI:
             ClearFlag(I);
+            Cycles--;
             return;
         case Instruction::CLV:
             ClearFlag(V);
+            Cycles--;
             return;
         case Instruction::SEC:
             SetFlag(C);
+            Cycles--;
             return;
         case Instruction::SED:
             SetFlag(D);
+            Cycles--;
             return;
         case Instruction::SEI:
             SetFlag(I);
+            Cycles--;
             return;
         case Instruction::BRK:
             mem.PushStack(Cycles, S, (PC >> 8) & 0xFF);
