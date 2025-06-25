@@ -173,106 +173,6 @@ struct CPU
         }
     }
 
-    // Fetch the next operation from memory
-    Operation FetchOperation() {
-        Byte Opcode = mem.FetchByte(Cycles, PC);
-        Operation instruction;
-        try {
-            instruction = instruction_opcode_bimap.right.at(Opcode);
-        }
-        catch (std::out_of_range& e) {
-            //std::cout << "Unrecognized opcode: " << std::hex << (int)Opcode << std::dec << std::endl;
-            instruction = Operation{ Instruction::INVALID, UNKNOWN };
-        }
-        return instruction;
-    }
-
-    // Fetch data for the current instruction based on address mode
-    Byte FetchData(Operation operation) {
-        AddressMode mode = operation.mode;
-        switch (mode) {
-        case ACCUMULATOR:
-            return A;
-        case IMMEDIATE:
-            return mem.FetchByte(Cycles, PC);
-        case ABSOLUTE:
-        {
-            Word addr = mem.FetchWord(Cycles, PC);
-            return mem.ReadByte(Cycles, addr);
-        }
-        case ZERO_PAGE:
-        {
-            Byte ZPByte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(ZPByte);
-            return mem.ReadByte(Cycles, ZPAddr);
-        }
-        case IMPLIED:
-            return 0;
-        case ABS_INDIRECT:
-        {
-            Word absolute_address = mem.FetchWord(Cycles, PC);
-            Word indirect_address = mem.ReadWord(Cycles, absolute_address);
-            return mem.ReadByte(Cycles, indirect_address);
-        }
-        case X_ABSOLUTE:
-        {
-            Word addr = mem.FetchWord(Cycles, PC);
-			Byte high = (addr >> 8) & 0xFF;
-            addr += X;
-			(addr >> 8 != high) ? Cycles-- : Cycles;
-            return mem.ReadByte(Cycles, addr);
-        }
-        case Y_ABSOLUTE:
-        {
-            Word addr = mem.FetchWord(Cycles, PC);
-            Byte high = (addr >> 8) & 0xFF;
-            addr += Y;
-            (addr >> 8 != high) ? Cycles-- : Cycles;
-            return mem.ReadByte(Cycles, addr);
-        }
-        case X_ZERO_PAGE:
-        {
-            Byte ZPBYte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(ZPBYte);
-            ZPAddr += X;
-			Cycles--;
-            (ZPAddr & 0xFF00) ? ZPAddr &= 0x00FF : ZPAddr;
-            return mem.ReadByte(Cycles, ZPAddr);
-        }
-        case Y_ZERO_PAGE:
-        {
-            Byte ZPBYte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(ZPBYte);
-            ZPAddr += Y;
-			Cycles--;
-            (ZPAddr & 0xFF00) ? ZPAddr &= 0x00FF : ZPAddr;
-            return mem.ReadByte(Cycles, ZPAddr);
-        }
-        case X_INDEX_ZP_INDIRECT:
-        {
-            Byte ZPBYte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(ZPBYte);
-            ZPAddr += X;
-			Cycles--;
-            (ZPAddr & 0xFF00) ? ZPAddr &= 0x00FF : ZPAddr;
-            Word indirect_addr = mem.ReadWord(Cycles, ZPAddr);
-            return mem.ReadByte(Cycles, indirect_addr);
-        }
-        case ZP_INDIRECT_Y_INDEX:
-        {
-            Byte ZPByte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(ZPByte);
-            Word indirect_addr = mem.ReadWord(Cycles, ZPAddr);
-            Byte high = (indirect_addr >> 8) & 0xFF;
-            indirect_addr += Y;
-            (indirect_addr >> 8 != high) ? Cycles-- : Cycles;
-            return mem.ReadByte(Cycles, indirect_addr);
-        }
-        }
-		throw std::runtime_error("Invalid address mode encountered while fetching data.");
-		return 0; // Default return value, should not be reached
-    }
-
     // Acquires the effective address of the current instruction. Useful for instructions that write to memory
     Word FetchAddress(Operation operation) {
         AddressMode mode = operation.mode;
@@ -355,8 +255,61 @@ struct CPU
         return 0; // Default return value, should not be reached
     }
 
+    // Fetch data for the current instruction based on address mode
+    Byte FetchData(Operation operation) {
+        AddressMode mode = operation.mode;
+        switch (mode) {
+        case ACCUMULATOR:
+            return A;
+        case IMMEDIATE:
+            return mem.FetchByte(Cycles, PC);
+        case X_ABSOLUTE:
+        {
+            Word addr = mem.FetchWord(Cycles, PC);
+            Byte high = (addr >> 8) & 0xFF;
+            addr += X;
+            (addr >> 8 != high) ? Cycles-- : Cycles;
+            return mem.ReadByte(Cycles, addr);
+        }
+        case Y_ABSOLUTE:
+        {
+            Word addr = mem.FetchWord(Cycles, PC);
+            Byte high = (addr >> 8) & 0xFF;
+            addr += Y;
+            (addr >> 8 != high) ? Cycles-- : Cycles;
+            return mem.ReadByte(Cycles, addr);
+        }
+        case ZP_INDIRECT_Y_INDEX:
+        {
+            Byte ZPByte = mem.FetchByte(Cycles, PC);
+            Word ZPAddr = ZPByteToAddress(ZPByte);
+            Word indirect_addr = mem.ReadWord(Cycles, ZPAddr);
+            Byte high = (indirect_addr >> 8) & 0xFF;
+            indirect_addr += Y;
+            (indirect_addr >> 8 != high) ? Cycles-- : Cycles;
+            return mem.ReadByte(Cycles, indirect_addr);
+        }
+        default:
+			return mem.ReadByte(Cycles, FetchAddress(operation));        
+        }
+    }
+
+    // Fetch the next operation from memory
+    Operation FetchOperation() {
+        Byte Opcode = mem.FetchByte(Cycles, PC);
+        Operation operation;
+        try {
+            operation = instruction_opcode_bimap.right.at(Opcode);
+        }
+        catch (std::out_of_range& e) {
+            //std::cout << "Unrecognized opcode: " << std::hex << (int)Opcode << std::dec << std::endl;
+            operation = Operation{ Instruction::INVALID, UNKNOWN };
+        }
+        return operation;
+    }
+
     // Execute the current instruction
-    void ExecuteInstruction(Operation operation) {
+    void ExecuteOperation(Operation operation) {
         Instruction instruction = operation.instruction;
         switch (instruction) {
         case Instruction::INVALID:
@@ -794,7 +747,7 @@ struct CPU
                 return -1;
                 break;
             }
-            ExecuteInstruction(operation);
+            ExecuteOperation(operation);
         }
 
         if (exit_status != 0) {
