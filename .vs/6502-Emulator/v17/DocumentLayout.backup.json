@@ -61,7 +61,7 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 234,
+          "DockedWidth": 141,
           "SelectedChildIndex": 1,
           "Children": [
             {
@@ -84,7 +84,7 @@
               "RelativeDocumentMoniker": "src\\emulator.h",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h",
               "RelativeToolTip": "src\\emulator.h",
-              "ViewState": "AgIAABEAAAAAAAAAAAAwwCcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACMAAAAAAAAAAAAwwCcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-12T04:59:24.472Z",
               "EditorCaption": ""
@@ -99,8 +99,7 @@
               "RelativeToolTip": "test\\CMakeLists.txt",
               "ViewState": "AgIAAFEAAAAAAAAAAAAAAHQAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-06-23T03:50:54.935Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-23T03:50:54.935Z"
             },
             {
               "$type": "Document",
@@ -112,8 +111,7 @@
               "RelativeToolTip": "test\\load_store_ops.cpp",
               "ViewState": "AgIAAKUAAAAAAAAAAAAAADsBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-20T03:40:50.19Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-20T03:40:50.19Z"
             },
             {
               "$type": "Document",
@@ -130,7 +128,7 @@
           ]
         },
         {
-          "DockedWidth": 353,
+          "DockedWidth": 446,
           "SelectedChildIndex": 0,
           "Children": [
             {
@@ -141,7 +139,7 @@
               "RelativeDocumentMoniker": "test\\inc_dec_ops.cpp",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\inc_dec_ops.cpp",
               "RelativeToolTip": "test\\inc_dec_ops.cpp",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAAAIQAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAJ4BAAAAAAAAAAAYwLwBAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-23T21:57:15.13Z",
               "EditorCaption": ""
@@ -228,8 +226,7 @@
               "RelativeToolTip": "TODO.txt",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-06-20T03:16:41.734Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-20T03:16:41.734Z"
             }
           ]
         }
