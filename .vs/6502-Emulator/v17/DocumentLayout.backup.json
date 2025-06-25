@@ -84,7 +84,7 @@
               "RelativeDocumentMoniker": "src\\emulator.h",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h",
               "RelativeToolTip": "src\\emulator.h",
-              "ViewState": "AgIAAIkBAAAAAAAAAAAAAKoBAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAAwwCcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-12T04:59:24.472Z",
               "EditorCaption": ""
@@ -131,8 +131,21 @@
         },
         {
           "DockedWidth": 353,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "inc_dec_ops.cpp",
+              "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\inc_dec_ops.cpp",
+              "RelativeDocumentMoniker": "test\\inc_dec_ops.cpp",
+              "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\inc_dec_ops.cpp",
+              "RelativeToolTip": "test\\inc_dec_ops.cpp",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAAAIQAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-23T21:57:15.13Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 8,
@@ -192,19 +205,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-23T21:57:29.099Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "inc_dec_ops.cpp",
-              "DocumentMoniker": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\inc_dec_ops.cpp",
-              "RelativeDocumentMoniker": "test\\inc_dec_ops.cpp",
-              "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\inc_dec_ops.cpp",
-              "RelativeToolTip": "test\\inc_dec_ops.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T21:57:15.13Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
