@@ -1,5 +1,0 @@
-if(EXISTS "G:/VS_repos/PortfolioProjects/6502-Emulator/build/test/status_change_tests[1]_tests.cmake")
-  include("G:/VS_repos/PortfolioProjects/6502-Emulator/build/test/status_change_tests[1]_tests.cmake")
-else()
-  add_test(status_change_tests_NOT_BUILT status_change_tests_NOT_BUILT)
-endif()
