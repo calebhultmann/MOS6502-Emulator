@@ -13,9 +13,11 @@
   },
   "ExpandedNodes": [
     "",
+    "\\build",
+    "\\build\\test",
     "\\src",
     "\\test"
   ],
-  "SelectedNode": "\\test\\CMakeLists.txt",
+  "SelectedNode": "\\build\\test\\inc_dec_tests.vcxproj",
   "PreviewInSolutionExplorer": false
 }

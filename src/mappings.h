@@ -1,3 +1,5 @@
+#pragma once
+
 #include <map>
 #include "bimap.h"
 // Instruction and their valid addressing modes

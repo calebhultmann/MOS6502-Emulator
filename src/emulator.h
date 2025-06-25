@@ -1,10 +1,8 @@
 #pragma once
 
-#include "emulator.h"
 #include "instructions.h"
 #include "mappings.h"
 #include <stdexcept>
-#include <iostream>
 
 using SByte = int8_t;
 using Byte = uint8_t;
@@ -177,8 +175,6 @@ struct CPU
     Word FetchAddress(Operation operation) {
         AddressMode mode = operation.mode;
         switch (mode) {
-        case ACCUMULATOR:
-            return 0;
         case RELATIVE:
         {
             SByte offset = mem.FetchByte(Cycles, PC);
@@ -193,8 +189,6 @@ struct CPU
             Byte ZPByte = mem.FetchByte(Cycles, PC);
             return ZPByteToAddress(ZPByte);
         }
-        case IMPLIED:
-            return 0;
         case ABS_INDIRECT:
         {
             Word absolute_address = mem.FetchWord(Cycles, PC);
@@ -432,28 +426,34 @@ struct CPU
         {
             Word addr = FetchAddress(operation);
             RegisterSetZNStatus(++mem[addr]);
+            Cycles -= 3;
             return;
         }
         case Instruction::INX:
             X++;
+			Cycles--;
             RegisterSetZNStatus(X);
             return;
         case Instruction::INY:
             Y++;
+			Cycles--;
             RegisterSetZNStatus(Y);
             return;
         case Instruction::DEC:
         {
             Word addr = FetchAddress(operation);
             RegisterSetZNStatus(--mem[addr]);
+            Cycles -= 3;
             return;
         }
         case Instruction::DEX:
             X--;
+            Cycles--;
             RegisterSetZNStatus(X);
             return;
         case Instruction::DEY:
             Y--;
+            Cycles--;
             RegisterSetZNStatus(X);
             return;
         case Instruction::ASL:
