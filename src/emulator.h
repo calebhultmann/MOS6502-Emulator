@@ -454,7 +454,7 @@ struct CPU
         case Instruction::DEY:
             Y--;
             Cycles--;
-            RegisterSetZNStatus(X);
+            RegisterSetZNStatus(Y);
             return;
         case Instruction::ASL:
         {
