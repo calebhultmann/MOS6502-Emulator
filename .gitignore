@@ -35,6 +35,7 @@
 *.vcxproj
 *.sln
 .vs
+.vs/
 
 # Visual C++ cache files
 ipch/
