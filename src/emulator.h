@@ -3,6 +3,7 @@
 #include "instructions.h"
 #include "mappings.h"
 #include <stdexcept>
+#include <iostream>
 
 using SByte = int8_t;
 using Byte = uint8_t;
@@ -641,15 +642,19 @@ struct CPU
             PC = mem.ReadWord(Cycles, 0xFFFE);
             return;
         case Instruction::NOP:
+            Cycles--;
             return;
         case Instruction::RTI:
         {
             P = mem[0x0100 | ++S];
+            mem[0x0100 | S] = 0xFF;
             ClearFlag(B);
             Word newPC = mem[0x0100 | ++S];
-			newPC |= (mem[0x0100 | ++S] << 8);
-            Cycles -= 3;
-            PC = mem.ReadWord(Cycles, 0xFFFE);
+            mem[0x0100 | S] = 0xFF;
+            newPC |= (mem[0x0100 | ++S] << 8);
+            mem[0x0100 | S] = 0xFF;
+            PC = newPC;
+            Cycles -= 5;
             return;
         }
         }
