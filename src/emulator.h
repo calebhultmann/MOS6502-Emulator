@@ -632,20 +632,24 @@ struct CPU
             Cycles--;
             return;
         case Instruction::BRK:
-            mem.PushStack(Cycles, S, (PC >> 8) & 0xFF);
-            mem.PushStack(Cycles, S, PC & 0xFF);
-            mem.PushStack(Cycles, S, P);
+			(void) mem.FetchByte(Cycles, PC);
+			mem[0x0100 | S--] = (PC >> 8) & 0xFF;
+			mem[0x0100 | S--] = PC & 0xFF;
             SetFlag(B);
+            mem[0x0100 | S--] = P;
+			Cycles -= 3;
             PC = mem.ReadWord(Cycles, 0xFFFE);
             return;
         case Instruction::NOP:
             return;
         case Instruction::RTI:
         {
-            P = mem.PullStack(Cycles, S);
-            Word low = mem.PullStack(Cycles, S);
-            Word high = mem.PullStack(Cycles, S);
-            S = low | high << 8;
+            P = mem[0x0100 | ++S];
+            ClearFlag(B);
+            Word newPC = mem[0x0100 | ++S];
+			newPC |= (mem[0x0100 | ++S] << 8);
+            Cycles -= 3;
+            PC = mem.ReadWord(Cycles, 0xFFFE);
             return;
         }
         }
