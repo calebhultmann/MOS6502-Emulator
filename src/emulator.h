@@ -478,7 +478,7 @@ struct CPU
         case Instruction::ASL:
         {
             if (operation.mode == ACCUMULATOR) {
-                ((A & 0x10000000) > 0) ? SetFlag(C) : ClearFlag(C);
+                ((A & 0b10000000) > 0) ? SetFlag(C) : ClearFlag(C);
                 A <<= 1;
                 Cycles--;
                 RegisterSetZNStatus(A);
@@ -486,7 +486,7 @@ struct CPU
             else {
                 Word addr = FetchAddress(operation);
                 Byte value = mem.ReadByte(Cycles, addr);
-                ((value & 0x10000000) > 0) ? SetFlag(C) : ClearFlag(C);
+                ((value & 0b10000000) > 0) ? SetFlag(C) : ClearFlag(C);
                 value <<= 1;
 				Cycles--;
                 mem.WriteByte(Cycles, addr, value);

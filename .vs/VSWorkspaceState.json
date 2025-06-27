@@ -13,7 +13,9 @@
   },
   "ExpandedNodes": [
     "",
+    "\\src",
     "\\test"
   ],
+  "SelectedNode": "\\src\\bimap.cpp",
   "PreviewInSolutionExplorer": false
 }

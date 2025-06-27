@@ -32,8 +32,9 @@ const boost::bimap<Operation, Byte>& construct_bimap() {
 		insert_pair(bm, Operation{ Instruction::AND, ZP_INDIRECT_Y_INDEX }, INS_AND_INDY);
 		insert_pair(bm, Operation{ Instruction::ASL, ACCUMULATOR }, INS_ASL_ACC);
 		insert_pair(bm, Operation{ Instruction::ASL, ZERO_PAGE }, INS_ASL_ZP);
-		insert_pair(bm, Operation{ Instruction::ASL, X_ZERO_PAGE }, INS_ASL_ABSX);
+		insert_pair(bm, Operation{ Instruction::ASL, X_ZERO_PAGE }, INS_ASL_ZPX);
 		insert_pair(bm, Operation{ Instruction::ASL, ABSOLUTE }, INS_ASL_ABS);
+		insert_pair(bm, Operation{ Instruction::ASL, X_ABSOLUTE }, INS_ASL_ABSX);
 		insert_pair(bm, Operation{ Instruction::BCC, RELATIVE }, INS_BCC);
 		insert_pair(bm, Operation{ Instruction::BCS, RELATIVE }, INS_BCS);
 		insert_pair(bm, Operation{ Instruction::BEQ, RELATIVE }, INS_BEQ);
