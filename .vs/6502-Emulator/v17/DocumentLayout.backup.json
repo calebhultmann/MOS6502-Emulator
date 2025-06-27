@@ -52,7 +52,7 @@
               "RelativeDocumentMoniker": "src\\emulator.h",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h",
               "RelativeToolTip": "src\\emulator.h",
-              "ViewState": "AgIAANgBAAAAAAAAAAAAAOgBAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAPkBAAAAAAAAAAAAACgCAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-12T04:59:24.472Z",
               "EditorCaption": ""
@@ -67,8 +67,7 @@
               "RelativeToolTip": "test\\load_store_ops.cpp",
               "ViewState": "AgIAANYAAAAAAAAAAAAAAM8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-20T03:40:50.19Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-20T03:40:50.19Z"
             }
           ]
         },
@@ -110,8 +109,7 @@
               "RelativeToolTip": "test\\jump_ops.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T21:57:43.599Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-23T21:57:43.599Z"
             },
             {
               "$type": "Document",
@@ -121,7 +119,7 @@
               "RelativeDocumentMoniker": "test\\shift_ops.cpp",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\shift_ops.cpp",
               "RelativeToolTip": "test\\shift_ops.cpp",
-              "ViewState": "AgIAAOwAAAAAAAAAAAAAAOsAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAMwBAAAAAAAAAAAqwPgBAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-23T21:57:29.099Z",
               "EditorCaption": ""
