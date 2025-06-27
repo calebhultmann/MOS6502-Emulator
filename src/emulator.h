@@ -478,7 +478,7 @@ struct CPU
         case Instruction::ASL:
         {
             if (operation.mode == ACCUMULATOR) {
-                ((A & 0b10000000) > 0) ? SetFlag(C) : ClearFlag(C);
+                (A & N) > 0 ? SetFlag(C) : ClearFlag(C);
                 A <<= 1;
                 Cycles--;
                 RegisterSetZNStatus(A);
@@ -486,7 +486,7 @@ struct CPU
             else {
                 Word addr = FetchAddress(operation);
                 Byte value = mem.ReadByte(Cycles, addr);
-                ((value & 0b10000000) > 0) ? SetFlag(C) : ClearFlag(C);
+                (value & N) > 0 ? SetFlag(C) : ClearFlag(C);
                 value <<= 1;
 				Cycles--;
                 mem.WriteByte(Cycles, addr, value);
@@ -497,15 +497,17 @@ struct CPU
         case Instruction::LSR:
         {
             if (operation.mode == ACCUMULATOR) {
-                (A & 1) ? SetFlag(C) : ClearFlag(C);
+                (A & C) ? SetFlag(C) : ClearFlag(C);
                 A >>= 1;
+                Cycles--;
                 RegisterSetZNStatus(A);
             }
             else {
                 Word addr = FetchAddress(operation);
                 Byte value = mem.ReadByte(Cycles, addr);
-                (value & 1) ? SetFlag(C) : ClearFlag(C);
+                (value & C) ? SetFlag(C) : ClearFlag(C);
                 value >>= 1;
+                Cycles--;
                 mem.WriteByte(Cycles, addr, value);
                 RegisterSetZNStatus(value);
             }
@@ -517,6 +519,7 @@ struct CPU
                 Byte carry = (P & C) ? 1 : 0;
                 (A & N) > 1 ? SetFlag(C) : ClearFlag(C);
                 A = (A << 1) | carry;
+                Cycles--;
                 RegisterSetZNStatus(A);
             }
             else {
@@ -525,6 +528,7 @@ struct CPU
                 Byte carry = (P & C) ? 1 : 0;
                 (value & N) > 1 ? SetFlag(C) : ClearFlag(C);
                 value = (value << 1) | carry;
+                Cycles--;
                 mem.WriteByte(Cycles, addr, value);
                 RegisterSetZNStatus(value);
             }
@@ -534,16 +538,18 @@ struct CPU
         {
             if (operation.mode == ACCUMULATOR) {
                 Byte carry = (P & C) ? 0x80 : 0;
-                (A & 1) ? SetFlag(C) : ClearFlag(C);
+                (A & C) ? SetFlag(C) : ClearFlag(C);
                 A = (A >> 1) | carry;
+                Cycles--;
                 RegisterSetZNStatus(A);
             }
             else {
                 Word addr = FetchAddress(operation);
                 Byte value = mem.ReadByte(Cycles, addr);
                 Byte carry = (P & C) ? 0x80 : 0;
-                (value & 1) ? SetFlag(C) : ClearFlag(C);
+                (value & C) ? SetFlag(C) : ClearFlag(C);
                 value = (value >> 1) | carry;
+                Cycles--;
                 mem.WriteByte(Cycles, addr, value);
                 RegisterSetZNStatus(value);
             }
