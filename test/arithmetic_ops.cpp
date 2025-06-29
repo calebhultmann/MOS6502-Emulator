@@ -919,13 +919,13 @@ TEST(SBC_TEST, ClearsNegativeFlag) {
 	// Initialize CPU
 	CPU cpu;
 	cpu.Reset();
-	cpu.A = 0x80;
+	cpu.A = 0x40;
 	cpu.P |= cpu.N;
 	cpu.P |= cpu.C;
 
 	// Initialize memory
 	cpu.mem[0x200] = INS_SBC_IM;
-	cpu.mem[0x201] = 0x40;
+	cpu.mem[0x201] = 0x30;
 
 	// Run the expected number of cycles
 	int status = cpu.Run(2);
@@ -934,7 +934,7 @@ TEST(SBC_TEST, ClearsNegativeFlag) {
 	EXPECT_EQ(status, 0);
 	EXPECT_EQ(cpu.PC, 0x202);
 	EXPECT_EQ(cpu.P, 0);
-	EXPECT_EQ(cpu.A, 0x40);
+	EXPECT_EQ(cpu.A, 0x10);
 }
 
 TEST(SBC_TEST, SetsCarryFlag) {
@@ -956,7 +956,7 @@ TEST(SBC_TEST, SetsCarryFlag) {
 	// Check test correctness
 	EXPECT_EQ(status, 0);
 	EXPECT_EQ(cpu.PC, 0x202);
-	EXPECT_EQ(cpu.P, cpu.C);
+	EXPECT_EQ(cpu.P, cpu.C | cpu.N);
 	EXPECT_EQ(cpu.A, 0xF0);
 }
 
@@ -966,12 +966,12 @@ TEST(SBC_TEST, ClearsCarryFlag) {
 	// Initialize CPU
 	CPU cpu;
 	cpu.Reset();
-	cpu.A = 0x80;
+	cpu.A = 0x40;
 	cpu.P |= cpu.C;
 
 	// Initialize memory
 	cpu.mem[0x200] = INS_SBC_IM;
-	cpu.mem[0x201] = 0x40;
+	cpu.mem[0x201] = 0x30;
 
 	// Run the expected number of cycles
 	int status = cpu.Run(2);
@@ -980,7 +980,7 @@ TEST(SBC_TEST, ClearsCarryFlag) {
 	EXPECT_EQ(status, 0);
 	EXPECT_EQ(cpu.PC, 0x202);
 	EXPECT_EQ(cpu.P, 0);
-	EXPECT_EQ(cpu.A, 0x3F);
+	EXPECT_EQ(cpu.A, 0x10);
 }
 
 TEST(SBC_TEST, SetsOverflowFlag) {
@@ -989,7 +989,7 @@ TEST(SBC_TEST, SetsOverflowFlag) {
 	// Initialize CPU
 	CPU cpu;
 	cpu.Reset();
-	cpu.A = 0x90;
+	cpu.A = 0x80;
 	cpu.P |= cpu.C;
 
 	// Initialize memory
@@ -1002,8 +1002,8 @@ TEST(SBC_TEST, SetsOverflowFlag) {
 	// Check test correctness
 	EXPECT_EQ(status, 0);
 	EXPECT_EQ(cpu.PC, 0x202);
-	EXPECT_EQ(cpu.P, cpu.C);
-	EXPECT_EQ(cpu.A, 0x81);
+	EXPECT_EQ(cpu.P, cpu.V);
+	EXPECT_EQ(cpu.A, 0x71);
 }
 
 TEST(SBC_TEST, ClearsOverflowFlag) {
@@ -1012,13 +1012,13 @@ TEST(SBC_TEST, ClearsOverflowFlag) {
 	// Initialize CPU
 	CPU cpu;
 	cpu.Reset();
-	cpu.A = 0x80;
+	cpu.A = 0x40;
 	cpu.P |= cpu.V;
 	cpu.P |= cpu.C;
 
 	// Initialize memory
 	cpu.mem[0x200] = INS_SBC_IM;
-	cpu.mem[0x201] = 0x40;
+	cpu.mem[0x201] = 0x30;
 
 	// Run the expected number of cycles
 	int status = cpu.Run(2);
@@ -1027,5 +1027,5 @@ TEST(SBC_TEST, ClearsOverflowFlag) {
 	EXPECT_EQ(status, 0);
 	EXPECT_EQ(cpu.PC, 0x202);
 	EXPECT_EQ(cpu.P, 0);
-	EXPECT_EQ(cpu.A, 0x40);
+	EXPECT_EQ(cpu.A, 0x10);
 }

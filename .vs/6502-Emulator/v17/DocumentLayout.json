@@ -21,7 +21,7 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 144,
+          "DockedWidth": 115,
           "SelectedChildIndex": 0,
           "Children": [
             {
@@ -32,7 +32,7 @@
               "RelativeDocumentMoniker": "src\\emulator.h",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h",
               "RelativeToolTip": "src\\emulator.h",
-              "ViewState": "AgIAAK0BAAAAAAAAAAAuwLkBAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAAJ4BAAAAAAAAAAAuwLoBAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-29T20:43:55.075Z",
               "EditorCaption": ""
@@ -40,7 +40,7 @@
           ]
         },
         {
-          "DockedWidth": 144,
+          "DockedWidth": 173,
           "SelectedChildIndex": 0,
           "Children": [
             {
@@ -51,7 +51,7 @@
               "RelativeDocumentMoniker": "test\\arithmetic_ops.cpp",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\arithmetic_ops.cpp",
               "RelativeToolTip": "test\\arithmetic_ops.cpp",
-              "ViewState": "AgIAACsDAAAAAAAAAAAAAEsDAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAO4DAAAAAAAAAAAiwL4DAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-23T21:57:06.806Z",
               "EditorCaption": ""

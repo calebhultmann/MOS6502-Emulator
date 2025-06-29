@@ -427,7 +427,8 @@ struct CPU
         {
             Byte data = FetchData(operation);
 			Word result = A + data + (P & C);
-            ((A ^ result) & (data ^ result) & N) ? SetFlag(V) : ClearFlag(V);
+            Byte byte_result = result & 0xFF;
+            ((A ^ byte_result) & (data ^ byte_result) & N) ? SetFlag(V) : ClearFlag(V);
 			(result & 0xFF00) ? SetFlag(C) : ClearFlag(C);
 			A = result & 0xFF;
             RegisterSetZNStatus(A);
@@ -438,9 +439,10 @@ struct CPU
             Byte data = FetchData(operation);
             data = ~data;
             Word result = A + data + (P & C);
-            ((A ^ result) & (data ^ result) & N) ? SetFlag(V) : ClearFlag(V);
+			Byte byte_result = result & 0xFF;
+            ((A ^ byte_result) & (A ^ ~data) & N) ? SetFlag(V) : ClearFlag(V);
             (result & 0xFF00) ? ClearFlag(C) : SetFlag(C);
-            A = result & 0xFF;
+            A = byte_result & 0xFF;
             RegisterSetZNStatus(A);
             return;
         }
