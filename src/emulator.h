@@ -468,9 +468,30 @@ struct CPU
             RegisterSetZNStatus(A);
             return;
         }
-        case Instruction::CMP: // NOT DONE
-        case Instruction::CPX: // NOT DONE
-        case Instruction::CPY: // NOT DONE
+        case Instruction::CMP:
+        {
+            Byte data = FetchData(operation);
+            Byte result = A - data;
+            RegisterSetZNStatus(result);
+            (A >= data) ? SetFlag(C) : ClearFlag(C);
+			return;
+        }
+        case Instruction::CPX:
+        {
+            Byte data = FetchData(operation);
+            Byte result = X - data;
+            RegisterSetZNStatus(result);
+            (X >= data) ? SetFlag(C) : ClearFlag(C);
+            return;
+        }
+        case Instruction::CPY:
+        {
+            Byte data = FetchData(operation);
+            Byte result = Y - data;
+            RegisterSetZNStatus(result);
+            (Y >= data) ? SetFlag(C) : ClearFlag(C);
+            return;
+        }
         case Instruction::INC:
         {
             Word addr = FetchAddress(operation);

@@ -40,7 +40,7 @@
               "RelativeDocumentMoniker": "src\\emulator.h",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\src\\emulator.h",
               "RelativeToolTip": "src\\emulator.h",
-              "ViewState": "AgIAAKkBAAAAAAAAAAAAALABAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAANABAAAAAAAAAAAAANYBAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-12T04:59:24.472Z",
               "EditorCaption": ""
@@ -55,8 +55,7 @@
               "RelativeToolTip": "test\\load_store_ops.cpp",
               "ViewState": "AgIAAMMBAAAAAAAAAAAAADoBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-20T03:40:50.19Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-20T03:40:50.19Z"
             }
           ]
         },
@@ -74,8 +73,7 @@
               "RelativeToolTip": "src\\bimap.cpp",
               "ViewState": "AgIAAAkAAAAAAAAAAAAnwBQAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-29T01:17:47.248Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-29T01:17:47.248Z"
             },
             {
               "$type": "Document",
@@ -87,8 +85,7 @@
               "RelativeToolTip": "test\\branch_ops.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T21:58:20.665Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-23T21:58:20.665Z"
             },
             {
               "$type": "Document",
@@ -98,7 +95,7 @@
               "RelativeDocumentMoniker": "test\\arithmetic_ops.cpp",
               "ToolTip": "G:\\VS_repos\\PortfolioProjects\\6502-Emulator\\test\\arithmetic_ops.cpp",
               "RelativeToolTip": "test\\arithmetic_ops.cpp",
-              "ViewState": "AgIAANcBAAAAAAAAAAAAAIUBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAPcBAAAAAAAAAAAAAIUBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-23T21:57:06.806Z",
               "EditorCaption": ""
