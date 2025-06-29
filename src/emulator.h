@@ -576,19 +576,21 @@ struct CPU
         }
         case Instruction::JSR:
         {
-            Word addr = FetchAddress(operation);
-            Word jmp_addr = mem.ReadWord(Cycles, addr);
-            mem.PushStack(Cycles, S, (PC >> 8) & 0xFF);
-            mem.PushStack(Cycles, S, PC & 0xFF);
+            Word jmp_addr = FetchAddress(operation);
+            mem[0x0100 | S--] = ((PC - 1) >> 8) & 0xFF;
+            mem[0x0100 | S--] = (PC - 1) & 0xFF;
             PC = jmp_addr;
+            Cycles -= 3;
             return;
         }
         case Instruction::RTS:
         {
-            Word low = mem.PullStack(Cycles, S);
-            Word high = mem.PullStack(Cycles, S);
-            Word return_addr = (low | (high << 8));
-            PC = return_addr;
+            Word newPC = mem[0x0100 | ++S];
+            mem[0x0100 | S] = 0xFF;
+            newPC |= (mem[0x0100 | ++S] << 8);
+            mem[0x0100 | S] = 0xFF;
+            PC = newPC + 1;
+			Cycles -= 5;
             return;
         }
         case Instruction::BCC:
