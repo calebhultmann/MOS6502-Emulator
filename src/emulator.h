@@ -426,45 +426,21 @@ struct CPU
         case Instruction::ADC:
         {
             Byte data = FetchData(operation);
-            Byte acc_sign = (A & N);
-			Byte data_sign = (data & N);
-            bool similar_sign = ((data_sign ^ acc_sign) != N);
-            Byte high_bits = (data & A) & N;
-            A += (data + (P & C));
-            if (similar_sign && ((A & N) != acc_sign)) {
-                SetFlag(V);
-            }
-            else {
-                ClearFlag(V);
-            }
-            // THIS IS INCORRECT
-            if (high_bits > 0 && (A & N) == 0) {
-                SetFlag(C);
-            }
-            else {
-                ClearFlag(C);
-			}
+			Word result = A + data + (P & C);
+            ((A ^ result) & (data ^ result) & N) ? SetFlag(V) : ClearFlag(V);
+			(result & 0xFF00) ? SetFlag(C) : ClearFlag(C);
+			A = result & 0xFF;
             RegisterSetZNStatus(A);
             return;
         }
         case Instruction::SBC:
         {
             Byte data = FetchData(operation);
-            Byte similar_sign = ~((data & N) ^ (A & N));
-            Byte high_bits = (data & N) & A;
-            A -= (data - (1 - (P & C)));
-            if ((similar_sign & N) != (A & N)) {
-                SetFlag(V);
-            }
-            else {
-                ClearFlag(V);
-            }
-            if (high_bits > 0 && (A & N) == 0) {
-                SetFlag(C);
-            }
-            else {
-                ClearFlag(C);
-            }
+            data = ~data;
+            Word result = A + data + (P & C);
+            ((A ^ result) & (data ^ result) & N) ? SetFlag(V) : ClearFlag(V);
+            (result & 0xFF00) ? ClearFlag(C) : SetFlag(C);
+            A = result & 0xFF;
             RegisterSetZNStatus(A);
             return;
         }

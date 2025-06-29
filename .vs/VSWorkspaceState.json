@@ -13,9 +13,9 @@
   },
   "ExpandedNodes": [
     "",
-    "\\src",
+    "\\build\\test",
     "\\test"
   ],
-  "SelectedNode": "\\test\\system_ops.cpp",
+  "SelectedNode": "\\TODO.txt",
   "PreviewInSolutionExplorer": false
 }
