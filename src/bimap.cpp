@@ -18,7 +18,7 @@ const boost::bimap<Operation, Byte>& construct_bimap() {
 		insert_pair(bm, Operation{ Instruction::ADC, ZERO_PAGE }, INS_ADC_ZP);
 		insert_pair(bm, Operation{ Instruction::ADC, X_ZERO_PAGE }, INS_ADC_ZPX);
 		insert_pair(bm, Operation{ Instruction::ADC, ABSOLUTE }, INS_ADC_ABS);
-		insert_pair(bm, Operation{ Instruction::ADC, X_ABSOLUTE }, INS_ADC_ABS);
+		insert_pair(bm, Operation{ Instruction::ADC, X_ABSOLUTE }, INS_ADC_ABSX);
 		insert_pair(bm, Operation{ Instruction::ADC, Y_ABSOLUTE }, INS_ADC_ABSY);
 		insert_pair(bm, Operation{ Instruction::ADC, X_INDEX_ZP_INDIRECT }, INS_ADC_INDX);
 		insert_pair(bm, Operation{ Instruction::ADC, ZP_INDIRECT_Y_INDEX }, INS_ADC_INDY);
