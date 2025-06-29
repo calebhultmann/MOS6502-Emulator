@@ -558,8 +558,19 @@ struct CPU
         }
         case Instruction::JMP:
         {
-            Word addr = FetchAddress(operation);
-            Word jmp_addr = mem.ReadWord(Cycles, addr);
+			Word jmp_addr;
+            if (operation.mode == ABSOLUTE) {
+                jmp_addr = mem.FetchWord(Cycles, PC);
+            }
+            else {
+                Word indirect_addr = mem.FetchWord(Cycles, PC);
+    			Word indirect_high = indirect_addr & 0xFF00;
+	    		Byte indirect_low = indirect_addr & 0x00FF;
+    			Word low_byte = mem.ReadByte(Cycles, indirect_high | indirect_low);
+                indirect_low++;
+                Word high_byte = mem.ReadByte(Cycles, indirect_high | indirect_low) << 8;
+	    		jmp_addr = high_byte | low_byte;
+            }
             PC = jmp_addr;
             return;
         }
