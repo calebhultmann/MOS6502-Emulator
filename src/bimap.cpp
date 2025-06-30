@@ -162,9 +162,9 @@ const boost::bimap<Operation, Byte>& construct_bimap() {
         insert_pair(bm, Operation{ Instruction::CPX, ABSOLUTE }, INS_CPX_ABS);
 
             // CPY
-        insert_pair(bm, Operation{ Instruction::CPY, IMMEDIATE }, INS_CPX_IM);
-        insert_pair(bm, Operation{ Instruction::CPY, ZERO_PAGE }, INS_CPX_ZP);
-        insert_pair(bm, Operation{ Instruction::CPY, ABSOLUTE }, INS_CPX_ABS);
+        insert_pair(bm, Operation{ Instruction::CPY, IMMEDIATE }, INS_CPY_IM);
+        insert_pair(bm, Operation{ Instruction::CPY, ZERO_PAGE }, INS_CPY_ZP);
+        insert_pair(bm, Operation{ Instruction::CPY, ABSOLUTE }, INS_CPY_ABS);
 
 		// Increments & Decrements
             // INC
