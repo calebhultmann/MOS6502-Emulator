@@ -703,6 +703,10 @@ struct CPU
     }
 
     // Run the emulator
+    //    Runs the emulator for a requested number of cycles, or indefinitely if chosen. The function
+    //    may return early in the case of an error in execution. The function may also return late if
+    //    an instruction requires more cycles than are left.
+    // 
 	//    status > 0 -- overused cycles
     //    status < 0 -- error code
 	//    status = 0 -- normal termination
