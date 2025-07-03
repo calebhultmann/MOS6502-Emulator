@@ -11,7 +11,7 @@ public:
 
 public: // Components
 	MOS6502 cpu;
-	Memory ram;
+	//Memory ram;
 	uint8_t directRam[32 * 1024]; // I should use this instead of a dedicated ram object, all mem methods can be handled by bus or cpu or both
 	// Program ROM
 	//     header: 1 byte, indicating number of chunks of rom data
