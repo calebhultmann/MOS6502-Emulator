@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include <cstdint>
 
 #include "MOS6502.h"
 
@@ -8,7 +8,6 @@ public:
 	Memory();
 	~Memory();
 
-	void ReadByte();
 	MOS6502 cpu;
 
 private:
@@ -16,5 +15,5 @@ private:
 	static constexpr uint32_t MAX_MEM = 1024 * 64;
 	uint8_t Data[MAX_MEM];
 	
-
+	int32_t* Cycles = nullptr;
 };
