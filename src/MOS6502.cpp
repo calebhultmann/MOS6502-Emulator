@@ -212,3 +212,337 @@ Operation MOS6502::FetchOperation() {
 	}
 	return operation;
 }
+
+// Execute the current instruction
+void MOS6502::ExecuteOperation(Operation operation) {
+	switch (operation.instruction) {
+	case Instruction::INVALID:
+		return;
+	case Instruction::LDA:
+		A = FetchData(operation);
+		UpdateZNFlags(A);
+		return;
+	case Instruction::LDX:
+		X = FetchData(operation);
+		UpdateZNFlags(X);
+		return;
+	case Instruction::LDY:
+		Y = FetchData(operation);
+		UpdateZNFlags(Y);
+		return;
+	case Instruction::STA:
+		WriteByte(FetchAddress(operation), A);
+		return;
+	case Instruction::STX:
+		WriteByte(FetchAddress(operation), X);
+		return;
+	case Instruction::STY:
+		WriteByte(FetchAddress(operation), Y);
+		return;
+	case Instruction::TAX:
+		Cycles++;
+		X = A;
+		UpdateZNFlags(X);
+		return;
+	case Instruction::TAY:
+		Cycles++;
+		Y = A;
+		UpdateZNFlags(Y);
+		return;
+	case Instruction::TXA:
+		Cycles++;
+		A = X;
+		UpdateZNFlags(A);
+		return;
+	case Instruction::TYA:
+		Cycles++;
+		A = Y;
+		UpdateZNFlags(A);
+		return;
+	case Instruction::TSX:
+		Cycles++;
+		X = SP;
+		UpdateZNFlags(X);
+		return;
+	case Instruction::TXS:
+		Cycles++;
+		SP = X;
+		return;
+	case Instruction::PHA:
+		PushStack(A);
+		return;
+	case Instruction::PHP:
+		PushStack(P);
+		return;
+	case Instruction::PLA:
+		Cycles++;
+		A = PullStack();
+		UpdateZNFlags(A);
+		return;
+	case Instruction::PLP:
+		Cycles++;
+		P = PullStack();
+		UpdateZNFlags(P);
+		return;
+	case Instruction::AND:
+		A = A & FetchData(operation);
+		UpdateZNFlags(A);
+		return;
+	case Instruction::EOR:
+		A = A ^ FetchData(operation);
+		UpdateZNFlags(A);
+		return;
+	case Instruction::ORA:
+		A = A | FetchData(operation);
+		UpdateZNFlags(A);
+		return;
+	case Instruction::BIT:
+	{
+		uint8_t data = FetchData(operation);
+		uint8_t result = A & data;
+		UpdateZNFlags(result);
+		SetFlag(V, data & V);
+		SetFlag(N, data & N);
+		return;
+	}
+	case Instruction::ADC:
+	{
+		uint8_t data = FetchData(operation);
+		uint16_t result = A + data + (P & C);
+		uint8_t byte_result = result & 0xFF;
+		SetFlag(V, (A ^ byte_result) & (data ^ byte_result) & N);
+		SetFlag(C, result & 0xFF00);
+		A = byte_result;
+		UpdateZNFlags(A);
+		return;
+	}
+	case Instruction::SBC:
+	{
+		uint8_t data = FetchData(operation);
+		data = ~data;
+		uint16_t result = A + data + (P & C);
+		uint8_t byte_result = result & 0xFF;
+		SetFlag(V, (A ^ byte_result) & (A ^ ~data) & N);
+		SetFlag(C, result & 0xFF00);
+		A = byte_result;
+		UpdateZNFlags(A);
+		return;
+	}
+	case Instruction::CMP:
+	{
+		uint8_t data = FetchData(operation);
+		uint8_t result = A - data;
+		UpdateZNFlags(result);
+		SetFlag(C, A >= data);
+		return;
+	}
+	case Instruction::CPX:
+	{
+		uint8_t data = FetchData(operation);
+		uint8_t result = X - data;
+		UpdateZNFlags(result);
+		SetFlag(C, X >= data);
+		return;
+	}
+	case Instruction::CPY:
+	{
+		uint8_t data = FetchData(operation);
+		uint8_t result = Y - data;
+		UpdateZNFlags(result);
+		SetFlag(C, Y >= data);
+		return;
+	}
+	case Instruction::INC:
+	{
+		Cycles += 3;
+		uint16_t addr = FetchAddress(operation);
+		uint8_t data = ReadByte(addr);
+		data++;
+		WriteByte(addr, data);
+		UpdateZNFlags(data);
+		return;
+	}
+	case Instruction::INX:
+		Cycles++;
+		X++;
+		UpdateZNFlags(X);
+		return;
+	case Instruction::INY:
+		Cycles++;
+		Y++;
+		UpdateZNFlags(Y);
+		return;
+	case Instruction::DEC:
+	{
+		Cycles += 3;
+		uint16_t addr = FetchAddress(operation);
+		uint8_t data = ReadByte(addr);
+		data--;
+		WriteByte(addr, data);
+		UpdateZNFlags(data);
+		return;
+	}
+	case Instruction::DEX:
+		Cycles++;
+		X--;
+		UpdateZNFlags(X);
+		return;
+	case Instruction::DEY:
+		Cycles++;
+		Y--;
+		UpdateZNFlags(Y);
+		return;
+	case Instruction::ASL:
+	{
+		Cycles++;
+		if (operation.mode == ACCUMULATOR) {
+			SetFlag(C, A & N);
+			A <<= 1;
+			UpdateZNFlags(A);
+		}
+		else {
+			uint16_t addr = FetchAddress(operation);
+			uint8_t data = ReadByte(addr);
+			SetFlag(C, data & N);
+			data <<= 1;
+			WriteByte(addr, data);
+			UpdateZNFlags(data);
+		}
+		return;
+	}
+	case Instruction::LSR:
+	{
+		Cycles++;
+		if (operation.mode == ACCUMULATOR) {
+			SetFlag(C, A & C);
+			A >>= 1;
+			UpdateZNFlags(A);
+		}
+		else {
+			uint16_t addr = FetchAddress(operation);
+			uint8_t data = ReadByte(addr);
+			SetFlag(C, data & C);
+			data >>= 1;
+			WriteByte(addr, data);
+			UpdateZNFlags(data);
+		}
+		return;
+	}
+	case Instruction::ROL:
+	{
+		Cycles++;
+		uint8_t carry = P & C;
+		if (operation.mode == ACCUMULATOR) {
+			SetFlag(C, A & N);
+			A = (A << 1) | carry;
+			UpdateZNFlags(A);
+		}
+		else {
+			uint16_t addr = FetchAddress(operation);
+			uint8_t data = ReadByte(addr);
+			SetFlag(C, data & N);
+			data = (data << 1) | carry;
+			WriteByte(addr, data);
+			UpdateZNFlags(data);
+		}
+		return;
+	}
+	case Instruction::ROR:
+	{
+		Cycles++;
+		uint8_t carry = (P & C) ? 0x80 : 0;
+		if (operation.mode == ACCUMULATOR) {
+			SetFlag(C, A & C);
+			A = (A >> 1) | carry;
+			UpdateZNFlags(A);
+		}
+		else {
+			uint16_t addr = FetchAddress(operation);
+			uint8_t data = ReadByte(addr);
+			SetFlag(C, data & C);
+			data = (data >> 1) | carry;
+			WriteByte(addr, data);
+			UpdateZNFlags(data);
+		}
+		return;
+	}
+	case Instruction::JMP:
+	{
+		uint16_t jmp_addr;
+		if (operation.mode == ABSOLUTE) {
+			jmp_addr = FetchWord();
+		}
+		else {
+			uint8_t  ind_low = FetchByte();
+			uint16_t ind_high = FetchByte();
+			uint16_t low = ReadByte(ind_high | ind_low);
+			ind_low++;
+			uint16_t high = ReadByte(ind_high | ind_low) << 8;
+			jmp_addr = high | low;
+		}
+		PC = jmp_addr;
+		return;
+	}
+	case Instruction::JSR: // Not done
+	case Instruction::RTS: // Not done
+	case Instruction::BCC:
+		MaybeBranch(C, 0);
+		return;
+	case Instruction::BCS:
+		MaybeBranch(C, 1);
+		return;
+	case Instruction::BEQ:
+		MaybeBranch(Z, 1);
+		return;
+	case Instruction::BMI:
+		MaybeBranch(N, 1);
+		return;
+	case Instruction::BNE:
+		MaybeBranch(Z, 0);
+		return;
+	case Instruction::BPL:
+		MaybeBranch(N, 0);
+		return;
+	case Instruction::BVC:
+		MaybeBranch(V, 0);
+		return;
+	case Instruction::BVS:
+		MaybeBranch(V, 1);
+		return;
+	case Instruction::CLC:
+		SetFlag(C, 0);
+		Cycles++;
+		return;
+	case Instruction::CLD:
+		SetFlag(D, 0);
+		Cycles++;
+		return;
+	case Instruction::CLI:
+		SetFlag(I, 0);
+		Cycles++;
+		return;
+	case Instruction::CLV:
+		SetFlag(V, 0);
+		Cycles++;
+		return;
+	case Instruction::SEC:
+		SetFlag(C, 1);
+		Cycles++;
+		return;
+	case Instruction::SED:
+		SetFlag(C, 1);
+		Cycles++;
+		return;
+	case Instruction::SEI:
+		SetFlag(C, 1);
+		Cycles++;
+		return;
+	case Instruction::BRK: // Not done
+	case Instruction::NOP:
+		Cycles++;
+		return;
+	case Instruction::RTI: // Not done
+
+	}
+
+}
