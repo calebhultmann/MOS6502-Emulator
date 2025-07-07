@@ -32,20 +32,20 @@ public: // Bus interface
 	void ConnectBus(Bus* m) { bus = m; }
 
 private: // Bus methods
-	uint8_t busRead(uint16_t addr);
-	void    busWrite(uint16_t addr, uint8_t data);
+	uint8_t BusRead(uint16_t addr);
+	void    BusWrite(uint16_t addr, uint8_t data);
 
 private: // CPU R/W methods
-	uint8_t  readByte(uint16_t addr);
-	uint16_t readWord(uint16_t addr);
-	void     writeByte(uint16_t addr, uint8_t data);
-	void     writeWord(uint16_t addr, uint16_t data);
+	uint8_t  ReadByte(uint16_t addr);
+	uint16_t ReadWord(uint16_t addr);
+	void     WriteByte(uint16_t addr, uint8_t data);
+	void     WriteWord(uint16_t addr, uint16_t data);
 
-	uint8_t  fetchByte();
-	uint16_t fetchWord();
+	uint8_t  FetchByte();
+	uint16_t FetchWord();
 
-	void    pushStack(uint8_t data);
-	uint8_t pullStack();
+	void    PushStack(uint8_t data);
+	uint8_t PullStack();
 
 private: // Helper functions
 	void SetFlag(uint8_t flag, bool value);
