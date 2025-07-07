@@ -8,14 +8,14 @@ target_link_libraries(
   arithmetic_tests PRIVATE emulator GTest::gtest_main
 )
 
-#add_executable(
-#  branch_tests
-#  branch_ops.cpp
-#)
-#target_link_libraries(
-#  branch_tests PRIVATE emulator GTest::gtest_main
-#)
-#
+add_executable(
+  branch_tests
+  branch_ops.cpp
+)
+target_link_libraries(
+  branch_tests PRIVATE emulator GTest::gtest_main
+)
+
 #add_executable(
 #  inc_dec_tests
 #  inc_dec_ops.cpp
@@ -108,7 +108,7 @@ target_link_libraries(
 #
 include(GoogleTest)
 gtest_discover_tests(arithmetic_tests)
-#gtest_discover_tests(branch_tests)
+gtest_discover_tests(branch_tests)
 #gtest_discover_tests(inc_dec_tests)
 #gtest_discover_tests(jump_tests)
 gtest_discover_tests(load_store_tests)
