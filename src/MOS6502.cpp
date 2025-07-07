@@ -575,3 +575,36 @@ void MOS6502::ExecuteOperation(Operation operation) {
 	}
 	}
 }
+
+// Run the emulator
+//    Runs the emulator for a requested number of cycles, or indefinitely if chosen. The function
+//    may return early in the case of an error in execution. The function may also return late if
+//    an instruction requires more cycles than are left.
+// 
+//    status > 0 -- overused cycles
+//    status < 0 -- error code
+//    status = 0 -- normal termination
+int MOS6502::Run(int32_t CyclesRequested, bool noStop = false) {
+	Cycles = 0;
+	int exit_status = 0;
+	while (Cycles < CyclesRequested || noStop)
+	{
+		Operation operation = FetchOperation();
+		if (operation.instruction == Instruction::INVALID)
+		{
+			exit_status = -1;
+			break;
+		}
+		ExecuteOperation(operation);
+	}
+
+	// return error status
+	if (exit_status != 0)
+		return exit_status;
+
+	// return excess cycle status
+	if (Cycles > CyclesRequested && !noStop)
+		return Cycles - CyclesRequested;
+
+	return 0;
+}
