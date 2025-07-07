@@ -51,7 +51,7 @@ private: // Helper functions
 	void SetFlag(uint8_t flag, bool value);
 	void UpdateZNFlags(uint8_t data);
 	void Branch();
-	void MaybeBranch(uint8_t flag, uint8_t value);
+	void MaybeBranch(uint8_t flag, bool value);
 	void Reset();
 	
 private: // Execution methods

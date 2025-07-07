@@ -39,35 +39,6 @@ struct CPU
         return (0x0000 | ZPByte);
     }
 
-	// Branch to a new address based on the current program counter and an offset
-    void Branch() {
-        Byte offset = mem.FetchByte(Cycles, PC);
-        const Word oldPC = PC;
-        PC += static_cast<SByte>(offset);
-        Cycles--;
-
-        const bool PageCross = (PC >> 8) != (oldPC >> 8);
-        if (PageCross)
-        {
-            Cycles--;
-        }
-    }
-
-	// Branches if the given flag in the processor status matches the given value
-    void MaybeBranch(Byte flag, Byte value) {
-        (P & flag) == value ? Branch() : (void) mem.FetchByte(Cycles, PC);
-    }
-
-    // Reset CPU
-    void Reset()
-    {
-        mem.initialize();
-        PC = (mem[0xFFFC] | (mem[0xFFFD] << 8));
-        S = 0xFF;
-        P = 0;
-        A = X = Y = 0;
-    }
-
     // Copy/import from an external Memory object into the CPUs internal memory
     void ImportCode(Mem& extMem)
     {
