@@ -3,6 +3,14 @@
 #include "mappings.h"
 #include <stdexcept>
 
+MOS6502::MOS6502() {
+
+}
+
+MOS6502::~MOS6502() {
+
+}
+
 // Read from the bus
 uint8_t MOS6502::BusRead(uint16_t addr)
 {
@@ -105,7 +113,6 @@ void MOS6502::MaybeBranch(uint8_t flag, bool value) {
 
 // Reset CPU
 void MOS6502::Reset() {
-	// Confirm: cycles should be reset to 0 on
 	Cycles = -2;
 	PC = ReadWord(0xFFFC);
 	SP = 0xFF;
@@ -495,7 +502,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 	{
 		Cycles += 5;
 		uint16_t newPC = ReadByte(0x0100 | ++SP);
-		newPC |= (ReadByte(0x0100 | ++SP) >> 8);
+		newPC |= (ReadByte(0x0100 | ++SP) << 8);
 		PC = newPC + 1;
 		return;
 	}
@@ -584,7 +591,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 //    status > 0 -- overused cycles
 //    status < 0 -- error code
 //    status = 0 -- normal termination
-int MOS6502::Run(int32_t CyclesRequested, bool noStop = false) {
+int MOS6502::Run(int32_t CyclesRequested, bool noStop) {
 	Cycles = 0;
 	int exit_status = 0;
 	while (Cycles < CyclesRequested || noStop)

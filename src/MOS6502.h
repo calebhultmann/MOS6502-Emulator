@@ -5,8 +5,10 @@
 class Bus;
 
 class MOS6502 {
+public:
+	MOS6502();
+	~MOS6502();
 
-private: // Variables
 	// Register
 	uint16_t PC; // Program Counter
 	uint8_t  SP; // Stack Pointer
@@ -15,6 +17,7 @@ private: // Variables
 	uint8_t  Y;  // Y Register
 	uint8_t  P;  // Processor Status
 
+private:
 	// Flags
 	const uint8_t C = (1 << 0); // Carry
 	const uint8_t Z = (1 << 1); // Zero
@@ -52,13 +55,14 @@ private: // Helper functions
 	void UpdateZNFlags(uint8_t data);
 	void Branch();
 	void MaybeBranch(uint8_t flag, bool value);
+public:
 	void Reset();
 	
 private: // Execution methods
-	uint16_t FetchAddress(Operation operation);
-	uint8_t  FetchData(Operation operation);
+	uint16_t  FetchAddress(Operation operation);
+	uint8_t   FetchData(Operation operation);
 	Operation FetchOperation();
-	void ExecuteOperation(Operation operation);
+	void      ExecuteOperation(Operation operation);
 
 public:
 	int Run(int32_t CyclesRequested, bool noStop = false);
