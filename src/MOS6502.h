@@ -17,7 +17,6 @@ public:
 	uint8_t  Y;  // Y Register
 	uint8_t  P;  // Processor Status
 
-private:
 	// Flags
 	const uint8_t C = (1 << 0); // Carry
 	const uint8_t Z = (1 << 1); // Zero
@@ -29,6 +28,7 @@ private:
 	const uint8_t N = (1 << 7); // Negative
 
 	int32_t Cycles;
+private:
 
 public: // Bus interface
 	Bus* bus = nullptr;
