@@ -48,59 +48,6 @@ struct CPU
         }
     }
 
-    // Fetch data for the current instruction based on address mode
-    Byte FetchData(Operation operation) {
-        AddressMode mode = operation.mode;
-        switch (mode) {
-        case ACCUMULATOR:
-            return A;
-        case IMMEDIATE:
-            return mem.FetchByte(Cycles, PC);
-        case X_ABSOLUTE:
-        {
-            Word addr = mem.FetchWord(Cycles, PC);
-            Byte high = (addr >> 8) & 0xFF;
-            addr += X;
-            (addr >> 8 != high) ? Cycles-- : Cycles;
-            return mem.ReadByte(Cycles, addr);
-        }
-        case Y_ABSOLUTE:
-        {
-            Word addr = mem.FetchWord(Cycles, PC);
-            Byte high = (addr >> 8) & 0xFF;
-            addr += Y;
-            (addr >> 8 != high) ? Cycles-- : Cycles;
-            return mem.ReadByte(Cycles, addr);
-        }
-        case ZP_INDIRECT_Y_INDEX:
-        {
-            Byte ZPByte = mem.FetchByte(Cycles, PC);
-            Word ZPAddr = ZPByteToAddress(ZPByte);
-            Word indirect_addr = mem.ReadWord(Cycles, ZPAddr);
-            Byte high = (indirect_addr >> 8) & 0xFF;
-            indirect_addr += Y;
-            (indirect_addr >> 8 != high) ? Cycles-- : Cycles;
-            return mem.ReadByte(Cycles, indirect_addr);
-        }
-        default:
-			return mem.ReadByte(Cycles, FetchAddress(operation));        
-        }
-    }
-
-    // Fetch the next operation from memory
-    Operation FetchOperation() {
-        Byte Opcode = mem.FetchByte(Cycles, PC);
-        Operation operation;
-        try {
-            operation = instruction_opcode_bimap.right.at(Opcode);
-        }
-        catch (std::out_of_range& e) {
-            //std::cout << "Unrecognized opcode: " << std::hex << (int)Opcode << std::dec << std::endl;
-            operation = Operation{ Instruction::INVALID, UNKNOWN };
-        }
-        return operation;
-    }
-
     // Execute the current instruction
     void ExecuteOperation(Operation operation) {
         Instruction instruction = operation.instruction;

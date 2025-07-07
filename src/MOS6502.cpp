@@ -1,5 +1,7 @@
 #include "MOS6502.h"
 #include "bus.h"
+#include "mappings.h"
+#include <stdexcept>
 
 // Read from the bus
 uint8_t MOS6502::BusRead(uint16_t addr)
@@ -157,4 +159,56 @@ uint16_t MOS6502::FetchAddress(Operation operation) {
 		return ReadWord(0x0000 | FetchByte()) + Y;
 	}
 	return 0; // Default return value, should not be reached
+}
+
+// Fetch data for the current instruction based on address mode
+uint8_t MOS6502::FetchData(Operation operation) {
+	switch (operation.mode) {
+	case ACCUMULATOR:
+		return A;
+	case IMMEDIATE:
+		return FetchByte();
+	case X_ABSOLUTE:
+	{
+		uint16_t addr = FetchWord();
+		uint8_t high = addr >> 8;
+		addr += X;
+		if (addr >> 8 != high)
+			Cycles++;
+		return ReadByte(addr);
+	}
+	case Y_ABSOLUTE:
+	{
+		uint16_t addr = FetchWord();
+		uint8_t high = addr >> 8;
+		addr += Y;
+		if (addr >> 8 != high)
+			Cycles++;
+		return ReadByte(addr);
+	}
+	case ZP_INDIRECT_Y_INDEX:
+	{
+		uint16_t ind_addr = ReadWord(0x0000 | FetchByte());
+		uint8_t high = ind_addr >> 8;
+		ind_addr += Y;
+		if (ind_addr >> 8 != high)
+			Cycles++;
+		return ReadByte(ind_addr);
+	}
+	default:
+		return ReadByte(FetchAddress(operation));
+	}
+}
+
+// Fetch the next operation from memory
+Operation MOS6502::FetchOperation() {
+	uint8_t opcode = FetchByte();
+	Operation operation;
+	try {
+		operation = instruction_opcode_bimap.right.at(opcode);
+	}
+	catch (std::out_of_range& e) {
+		operation = Operation{ Instruction::INVALID, UNKNOWN };
+	}
+	return operation;
 }
