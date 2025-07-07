@@ -32,40 +32,6 @@ struct Mem
 
 struct CPU
 {
-    Word PC; // Program Counter
-    Byte A;  // Accumulator
-    Byte X;  // Index Register X
-    Byte Y;  // Index Register Y
-    Byte S;  // Stack Pointer
-    Byte P;  // Processor Status
-
-    const Byte C = 0b00000001; // Carry Flag
-    const Byte Z = 0b00000010; // Zero Flag
-    const Byte I = 0b00000100; // Interrupt Disable Flag
-    const Byte D = 0b00001000; // Decimal Mode Flag
-    const Byte B = 0b00010000; // Break Command Flag
-    const Byte V = 0b01000000; // Overflow Flag
-    const Byte N = 0b10000000; // Negative Flag
-
-    s32 Cycles;
-    Mem mem;
-
-    // Sets a given flag in the processor status register
-    void SetFlag(Byte flag) {
-        P |= flag;
-    }
-
-    // Clears a given flag in the processor status register
-    void ClearFlag(Byte flag) {
-        P &= ~flag;
-    }
-
-    // Set the Z and N flags with respect to a byte of data; Very common result of many opcodes
-    void RegisterSetZNStatus(Byte Data)
-    {
-        P = (P & ~Z) | ((Data == 0) * Z);
-        P = (P & ~N) | (Data & N);
-    }
 
     // Turn a zero-page byte into a workable 16-bit address
     Word ZPByteToAddress(Byte ZPByte)

@@ -1,24 +1,10 @@
 #pragma once
 #include <cstdint>
+#include "instructions.h"
 
 class Bus;
 
 class MOS6502 {
-
-public:
-	Bus* bus = nullptr;
-
-private: // CPU R/W methods
-	uint8_t  readByte(uint16_t addr);
-	uint16_t readWord(uint16_t addr);
-	void     writeByte(uint16_t addr, uint8_t data);
-	void     writeWord(uint16_t addr, uint16_t data);
-
-	uint8_t  fetchByte();
-	uint16_t fetchWord();
-
-	void    pushStack(uint8_t data);
-	uint8_t pullStack();
 
 private: // Variables
 	// Register
@@ -41,13 +27,39 @@ private: // Variables
 
 	int32_t Cycles;
 
-
 public: // Bus interface
+	Bus* bus = nullptr;
 	void ConnectBus(Bus* m) { bus = m; }
 
 private: // Bus methods
 	uint8_t busRead(uint16_t addr);
 	void    busWrite(uint16_t addr, uint8_t data);
 
+private: // CPU R/W methods
+	uint8_t  readByte(uint16_t addr);
+	uint16_t readWord(uint16_t addr);
+	void     writeByte(uint16_t addr, uint8_t data);
+	void     writeWord(uint16_t addr, uint16_t data);
 
+	uint8_t  fetchByte();
+	uint16_t fetchWord();
+
+	void    pushStack(uint8_t data);
+	uint8_t pullStack();
+
+private: // Helper functions
+	void SetFlag(uint8_t flag, bool value);
+	void UpdateZNFlags(uint8_t data);
+	void Branch();
+	void MaybeBranch(uint8_t flag, uint8_t value);
+	void Reset();
+	
+private: // Execution methods
+	uint16_t FetchAddress(Operation operation);
+	uint8_t  FetchData(Operation operation);
+	Operation FetchOperation();
+	void ExecuteOperation(Operation operation);
+
+public:
+	int Run(int32_t CyclesRequested, bool noStop = false);
 };
