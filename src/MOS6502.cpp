@@ -74,7 +74,6 @@ uint8_t MOS6502::PullStack()
 {
 	Cycles += 2;
 	uint8_t data = BusRead(0x0100 | ++SP);
-	BusWrite(0x0100 | ++SP, 0xFF);
 	return data;
 }
 
@@ -483,8 +482,23 @@ void MOS6502::ExecuteOperation(Operation operation) {
 		PC = jmp_addr;
 		return;
 	}
-	case Instruction::JSR: // Not done
-	case Instruction::RTS: // Not done
+	case Instruction::JSR:
+	{
+		Cycles += 3;
+		uint16_t jmp_addr = FetchAddress(operation);
+		WriteByte(0x0100 | SP--, (PC - 1) >> 8);
+		WriteByte(0x0100 | SP--, (PC - 1) & 0xFF);
+		PC = jmp_addr;
+		return;
+	}
+	case Instruction::RTS:
+	{
+		Cycles += 5;
+		uint16_t newPC = ReadByte(0x0100 | ++SP);
+		newPC |= (ReadByte(0x0100 | ++SP) >> 8);
+		PC = newPC + 1;
+		return;
+	}
 	case Instruction::BCC:
 		MaybeBranch(C, 0);
 		return;
@@ -537,12 +551,27 @@ void MOS6502::ExecuteOperation(Operation operation) {
 		SetFlag(C, 1);
 		Cycles++;
 		return;
-	case Instruction::BRK: // Not done
+	case Instruction::BRK:
+		Cycles += 3;
+		(void) FetchByte();
+		WriteByte(0x0100 | SP--, PC >> 8);
+		WriteByte(0x0100 | SP--, PC & 0xFF);
+		SetFlag(B, 1);
+		WriteByte(0x0100 | SP--, P);
+		PC = ReadWord(0xFFFE);
+		return;
 	case Instruction::NOP:
 		Cycles++;
 		return;
-	case Instruction::RTI: // Not done
-
+	case Instruction::RTI:
+	{
+		Cycles += 5;
+		P = ReadByte(0x0100 | ++SP);
+		SetFlag(B, 0);
+		uint16_t newPC = ReadByte(0x0100 | ++SP);
+		newPC |= (ReadByte(0x0100 | ++SP) << 8);
+		PC = newPC;
+		return;
 	}
-
+	}
 }

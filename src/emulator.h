@@ -42,55 +42,6 @@ struct CPU
         }
     }
 
-    // Execute the current instruction
-    void ExecuteOperation(Operation operation) {
-        Instruction instruction = operation.instruction;
-        switch (instruction) {
-        case Instruction::JSR:
-        {
-            Word jmp_addr = FetchAddress(operation);
-            mem[0x0100 | S--] = ((PC - 1) >> 8) & 0xFF;
-            mem[0x0100 | S--] = (PC - 1) & 0xFF;
-            PC = jmp_addr;
-            Cycles -= 3;
-            return;
-        }
-        case Instruction::RTS:
-        {
-            Word newPC = mem[0x0100 | ++S];
-            mem[0x0100 | S] = 0xFF;
-            newPC |= (mem[0x0100 | ++S] << 8);
-            mem[0x0100 | S] = 0xFF;
-            PC = newPC + 1;
-			Cycles -= 5;
-            return;
-        }
-        case Instruction::BRK:
-			(void) mem.FetchByte(Cycles, PC);
-			mem[0x0100 | S--] = (PC >> 8) & 0xFF;
-			mem[0x0100 | S--] = PC & 0xFF;
-            SetFlag(B);
-            mem[0x0100 | S--] = P;
-			Cycles -= 3;
-            PC = mem.ReadWord(Cycles, 0xFFFE);
-            return;
-        case Instruction::RTI:
-        {
-            P = mem[0x0100 | ++S];
-            mem[0x0100 | S] = 0xFF;
-            ClearFlag(B);
-            Word newPC = mem[0x0100 | ++S];
-            mem[0x0100 | S] = 0xFF;
-            newPC |= (mem[0x0100 | ++S] << 8);
-            mem[0x0100 | S] = 0xFF;
-            PC = newPC;
-            Cycles -= 5;
-            return;
-        }
-        }
-
-    }
-
     // Run the emulator
     //    Runs the emulator for a requested number of cycles, or indefinitely if chosen. The function
     //    may return early in the case of an error in execution. The function may also return late if
