@@ -118,7 +118,6 @@ TEST(LDA_TEST, AbsoluteX) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.X = 0x84;
 
 	// Initialize memory
@@ -142,7 +141,6 @@ TEST(LDA_TEST, AbsoluteX_WithPageCross) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.X = 0xF3;
 
 	// Initialize memory
@@ -166,7 +164,6 @@ TEST(LDA_TEST, AbsoluteY) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.Y = 0x84;
 
 	// Initialize memory
@@ -190,7 +187,6 @@ TEST(LDA_TEST, AbsoluteY_WithPageCross) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.Y = 0xF3;
 
 	// Initialize memory
@@ -214,7 +210,6 @@ TEST(LDA_TEST, IndirectX) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.X = 0x20;
 
 	// Initialize memory
@@ -239,7 +234,6 @@ TEST(LDA_TEST, IndirectX_WithWrapAround) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.X = 0xF1;
 
 	// Initialize memory
@@ -264,7 +258,6 @@ TEST(LDA_TEST, IndirectY) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.Y = 0x20;
 
 	// Initialize memory
@@ -289,7 +282,6 @@ TEST(LDA_TEST, IndirectY_WithPageCross) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.Y = 0xF0;
 
 	// Initialize memory
@@ -314,7 +306,6 @@ TEST(LDA_TEST, SetsZeroFlag) {
 
 	// Initialize system
 	Bus system;
-	
 
 	// Initialize memory
 	system.rom[0] = INS_LDA_IM;
@@ -335,7 +326,6 @@ TEST(LDA_TEST, ClearsZeroFlag) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.P |= system.cpu.Z;
 
 	// Initialize memory
@@ -357,7 +347,6 @@ TEST(LDA_TEST, SetsNegativeFlag) {
 
 	// Initialize system
 	Bus system;
-	
 
 	// Initialize memory
 	system.rom[0] = INS_LDA_IM;
@@ -378,7 +367,6 @@ TEST(LDA_TEST, ClearsNegativeFlag) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.P |= system.cpu.N;
 
 	// Initialize memory
@@ -403,7 +391,6 @@ TEST(LDX_TEST, Immediate) {
 
 	// Initialize system
 	Bus system;
-	
 
 	// Initialize memory
 	system.rom[0] = INS_LDX_IM;
@@ -424,7 +411,6 @@ TEST(LDX_TEST, ZeroPage) {
 
 	// Initialize system
 	Bus system;
-	
 
 	// Initialize memory
 	system.rom[0] = INS_LDX_ZP;
@@ -446,7 +432,6 @@ TEST(LDX_TEST, ZeroPageY) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.Y = 0x84;
 
 	// Initialize memory
@@ -469,7 +454,6 @@ TEST(LDX_TEST, ZeroPageY_WithWrapAround) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.Y = 0xF5;
 
 	// Initialize memory
@@ -492,7 +476,6 @@ TEST(LDX_TEST, Absolute) {
 
 	// Initialize system
 	Bus system;
-	
 
 	// Initialize memory
 	system.rom[0] = INS_LDX_ABS;
@@ -515,7 +498,6 @@ TEST(LDX_TEST, AbsoluteY) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.Y = 0x84;
 
 	// Initialize memory
@@ -539,7 +521,6 @@ TEST(LDX_TEST, AbsoluteY_WithPageCross) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.Y = 0xF3;
 
 	// Initialize memory
@@ -563,7 +544,6 @@ TEST(LDX_TEST, SetsZeroFlag) {
 
 	// Initialize system
 	Bus system;
-	
 
 	// Initialize memory
 	system.rom[0] = INS_LDX_IM;
@@ -584,7 +564,6 @@ TEST(LDX_TEST, ClearsZeroFlag) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.P |= system.cpu.Z;
 
 	// Initialize memory
@@ -606,7 +585,6 @@ TEST(LDX_TEST, SetsNegativeFlag) {
 
 	// Initialize system
 	Bus system;
-	
 
 	// Initialize memory
 	system.rom[0] = INS_LDX_IM;
@@ -627,7 +605,6 @@ TEST(LDX_TEST, ClearsNegativeFlag) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.P |= system.cpu.N;
 
 	// Initialize memory
@@ -652,7 +629,6 @@ TEST(LDY_TEST, Immediate) {
 
 	// Initialize system
 	Bus system;
-	
 
 	// Initialize memory
 	system.rom[0] = INS_LDY_IM;
@@ -673,7 +649,6 @@ TEST(LDY_TEST, ZeroPage) {
 
 	// Initialize system
 	Bus system;
-	
 
 	// Initialize memory
 	system.rom[0] = INS_LDY_ZP;
@@ -695,7 +670,6 @@ TEST(LDY_TEST, ZeroPageX) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.X = 0x84;
 
 	// Initialize memory
@@ -718,7 +692,6 @@ TEST(LDY_TEST, ZeroPageX_WithWrapAround) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.X = 0xF5;
 
 	// Initialize memory
@@ -741,7 +714,6 @@ TEST(LDY_TEST, Absolute) {
 
 	// Initialize system
 	Bus system;
-	
 
 	// Initialize memory
 	system.rom[0] = INS_LDY_ABS;
@@ -764,7 +736,6 @@ TEST(LDY_TEST, AbsoluteX) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.X = 0x84;
 
 	// Initialize memory
@@ -788,7 +759,6 @@ TEST(LDY_TEST, AbsoluteX_WithPageCross) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.X = 0xF3;
 
 	// Initialize memory
@@ -812,7 +782,6 @@ TEST(LDY_TEST, SetsZeroFlag) {
 
 	// Initialize system
 	Bus system;
-	
 
 	// Initialize memory
 	system.rom[0] = INS_LDY_IM;
@@ -833,7 +802,6 @@ TEST(LDY_TEST, ClearsZeroFlag) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.P |= system.cpu.Z;
 
 	// Initialize memory
@@ -855,7 +823,6 @@ TEST(LDY_TEST, SetsNegativeFlag) {
 
 	// Initialize system
 	Bus system;
-	
 
 	// Initialize memory
 	system.rom[0] = INS_LDY_IM;
@@ -876,7 +843,6 @@ TEST(LDY_TEST, ClearsNegativeFlag) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.P |= system.cpu.N;
 
 	// Initialize memory
@@ -901,7 +867,6 @@ TEST(STA_TEST, ZeroPage) {
 	
 	// Initialize system
 	Bus system;
-	
 	system.cpu.A = 0x4F;
 
 	// Initialize memory
@@ -923,7 +888,6 @@ TEST(STA_TEST, ZeroPageX) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.A = 0x4F;
 	system.cpu.X = 0x84;
 
@@ -946,7 +910,6 @@ TEST(STA_TEST, ZeroPageX_WithWrapAround) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.A = 0x4F;
 	system.cpu.X = 0xF5;
 
@@ -969,7 +932,6 @@ TEST(STA_TEST, Absolute) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.A = 0x4F;
 
 	// Initialize memory
@@ -992,7 +954,6 @@ TEST(STA_TEST, AbsoluteX) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.A = 0x4F;
 	system.cpu.X = 0x84;
 
@@ -1016,7 +977,6 @@ TEST(STA_TEST, AbsoluteX_WithPageCross) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.A = 0x4F;
 	system.cpu.X = 0xF3;
 
@@ -1040,7 +1000,6 @@ TEST(STA_TEST, AbsoluteY) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.A = 0x4F;
 	system.cpu.Y = 0x84;
 
@@ -1064,7 +1023,6 @@ TEST(STA_TEST, AbsoluteY_WithPageCross) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.A = 0x4F;
 	system.cpu.Y = 0xF3;
 
@@ -1088,7 +1046,6 @@ TEST(STA_TEST, IndirectX) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.A = 0x4F;
 	system.cpu.X = 0x20;
 
@@ -1113,7 +1070,6 @@ TEST(STA_TEST, IndirectX_WithWrapAround) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.A = 0x4F;
 	system.cpu.X = 0xF1;
 
@@ -1138,7 +1094,6 @@ TEST(STA_TEST, IndirectY) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.A = 0x4F;
 	system.cpu.Y = 0x20;
 
@@ -1163,7 +1118,6 @@ TEST(STA_TEST, IndirectY_WithPageCross) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.A = 0x4F;
 	system.cpu.Y = 0xF0;
 
@@ -1191,7 +1145,6 @@ TEST(STX_TEST, ZeroPage) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.X = 0x4F;
 
 	// Initialize memory
@@ -1213,7 +1166,6 @@ TEST(STX_TEST, ZeroPageY) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.X = 0x4F;
 	system.cpu.Y = 0x84;
 
@@ -1239,7 +1191,6 @@ TEST(STX_TEST, ZeroPageY_WithWrapAround) {
 	
 	system.cpu.X = 0x4F;
 	system.cpu.Y = 0xF5;
-
 	// Initialize memory
 	system.rom[0] = INS_STX_ZPY;
 	system.rom[1] = 0xD0;
@@ -1259,7 +1210,6 @@ TEST(STX_TEST, Absolute) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.X = 0x4F;
 
 	// Initialize memory
@@ -1285,7 +1235,6 @@ TEST(STY_TEST, ZeroPage) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.Y = 0x4F;
 
 	// Initialize memory
@@ -1307,7 +1256,6 @@ TEST(STY_TEST, ZeroPageX) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.Y = 0x4F;
 	system.cpu.X = 0x84;
 
@@ -1330,7 +1278,6 @@ TEST(STY_TEST, ZeroPageX_WithWrapAround) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.Y = 0x4F;
 	system.cpu.X = 0xF5;
 
@@ -1353,7 +1300,6 @@ TEST(STY_TEST, Absolute) {
 
 	// Initialize system
 	Bus system;
-	
 	system.cpu.Y = 0x4F;
 
 	// Initialize memory

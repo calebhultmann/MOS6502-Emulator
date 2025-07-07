@@ -329,7 +329,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 		uint16_t result = A + data + (P & C);
 		uint8_t byte_result = result & 0xFF;
 		SetFlag(V, (A ^ byte_result) & (A ^ ~data) & N);
-		SetFlag(C, result & 0xFF00);
+		SetFlag(C, !(result & 0xFF00));
 		A = byte_result;
 		UpdateZNFlags(A);
 		return;
