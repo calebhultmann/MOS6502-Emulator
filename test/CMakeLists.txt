@@ -16,21 +16,21 @@ target_link_libraries(
   branch_tests PRIVATE emulator GTest::gtest_main
 )
 
-#add_executable(
-#  inc_dec_tests
-#  inc_dec_ops.cpp
-#)
-#target_link_libraries(
-#  inc_dec_tests PRIVATE emulator GTest::gtest_main
-#)
-#
-#add_executable(
-#  jump_tests
-#  jump_ops.cpp
-#)
-#target_link_libraries(
-#  jump_tests PRIVATE emulator GTest::gtest_main
-#)
+add_executable(
+  inc_dec_tests
+  inc_dec_ops.cpp
+)
+target_link_libraries(
+  inc_dec_tests PRIVATE emulator GTest::gtest_main
+)
+
+add_executable(
+  jump_tests
+  jump_ops.cpp
+)
+target_link_libraries(
+  jump_tests PRIVATE emulator GTest::gtest_main
+)
 
 add_executable(
   load_store_tests
@@ -40,22 +40,22 @@ target_link_libraries(
   load_store_tests PRIVATE emulator GTest::gtest_main
 )
 
-#add_executable(
-#  logical_tests
-#  logical_ops.cpp
-#)
-#target_link_libraries(
-#  logical_tests PRIVATE emulator GTest::gtest_main
-#)
-#
-#add_executable(
-#  register_transfer_tests
-#  register_transfer_ops.cpp
-#)
-#target_link_libraries(
-#  register_transfer_tests PRIVATE emulator GTest::gtest_main
-#)
-#
+add_executable(
+  logical_tests
+  logical_ops.cpp
+)
+target_link_libraries(
+  logical_tests PRIVATE emulator GTest::gtest_main
+)
+
+add_executable(
+  register_transfer_tests
+  register_transfer_ops.cpp
+)
+target_link_libraries(
+  register_transfer_tests PRIVATE emulator GTest::gtest_main
+)
+
 #add_executable(
 #  shift_tests
 #  shift_ops.cpp
@@ -109,11 +109,11 @@ target_link_libraries(
 include(GoogleTest)
 gtest_discover_tests(arithmetic_tests)
 gtest_discover_tests(branch_tests)
-#gtest_discover_tests(inc_dec_tests)
-#gtest_discover_tests(jump_tests)
+gtest_discover_tests(inc_dec_tests)
+gtest_discover_tests(jump_tests)
 gtest_discover_tests(load_store_tests)
-#gtest_discover_tests(logical_tests)
-#gtest_discover_tests(register_transfer_tests)
+gtest_discover_tests(logical_tests)
+gtest_discover_tests(register_transfer_tests)
 #gtest_discover_tests(shift_tests)
 #gtest_discover_tests(stack_tests)
 #gtest_discover_tests(status_change_tests)

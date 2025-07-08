@@ -35,7 +35,7 @@ uint8_t Bus::read(uint16_t addr) {
 	if (addr >= 0x0000 && addr <= 0x7FFF)
 		return ram[addr];
 	else if (addr >= 0x8000 && addr <= 0xAFFF)
-		return rom[addr & 0x3FFF];
+		return rom[addr % 0x4000];
 	else if (addr >= 0xFFFA && addr <= 0xFFFF)
 		return vectors[addr - 0xFFFA];
 	return 0;

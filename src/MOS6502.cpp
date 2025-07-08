@@ -360,7 +360,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 	}
 	case Instruction::INC:
 	{
-		Cycles += 3;
+		Cycles += 1;
 		uint16_t addr = FetchAddress(operation);
 		uint8_t data = ReadByte(addr);
 		data++;
@@ -380,7 +380,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 		return;
 	case Instruction::DEC:
 	{
-		Cycles += 3;
+		Cycles += 1;
 		uint16_t addr = FetchAddress(operation);
 		uint8_t data = ReadByte(addr);
 		data--;
@@ -480,7 +480,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 		}
 		else {
 			uint8_t  ind_low = FetchByte();
-			uint16_t ind_high = FetchByte();
+			uint16_t ind_high = FetchByte() << 8;
 			uint16_t low = ReadByte(ind_high | ind_low);
 			ind_low++;
 			uint16_t high = ReadByte(ind_high | ind_low) << 8;
@@ -491,7 +491,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 	}
 	case Instruction::JSR:
 	{
-		Cycles += 3;
+		Cycles += 1;
 		uint16_t jmp_addr = FetchAddress(operation);
 		WriteByte(0x0100 | SP--, (PC - 1) >> 8);
 		WriteByte(0x0100 | SP--, (PC - 1) & 0xFF);
@@ -500,7 +500,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 	}
 	case Instruction::RTS:
 	{
-		Cycles += 5;
+		Cycles += 3;
 		uint16_t newPC = ReadByte(0x0100 | ++SP);
 		newPC |= (ReadByte(0x0100 | ++SP) << 8);
 		PC = newPC + 1;
