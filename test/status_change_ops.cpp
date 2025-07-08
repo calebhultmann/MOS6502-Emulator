@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include "emulator.h"
+#include "bus.h"
+#include "MOS6502.h"
 #include "instructions.h"
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -8,21 +9,20 @@
 TEST(CLC_TEST, ClearsCarryFlag) {
 	// 1 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.P |= cpu.C;
+	// Initialize system
+	Bus system;
+	system.cpu.P |= system.cpu.C;
 
 	// Initialize memory
-	cpu.mem[0x200] = INS_CLC;
+	system.rom[0] = INS_CLC;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x201);
-	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(system.cpu.PC, 0x8001);
+	EXPECT_EQ(system.cpu.P, 0);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -31,21 +31,20 @@ TEST(CLC_TEST, ClearsCarryFlag) {
 TEST(CLD_TEST, ClearsDecimalFlag) {
 	// 1 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.P |= cpu.D;
+	// Initialize system
+	Bus system;
+	system.cpu.P |= system.cpu.D;
 
 	// Initialize memory
-	cpu.mem[0x200] = INS_CLD;
+	system.rom[0] = INS_CLD;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x201);
-	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(system.cpu.PC, 0x8001);
+	EXPECT_EQ(system.cpu.P, 0);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -54,21 +53,20 @@ TEST(CLD_TEST, ClearsDecimalFlag) {
 TEST(CLI_TEST, ClearsInterruptFlag) {
 	// 1 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.P |= cpu.I;
+	// Initialize system
+	Bus system;
+	system.cpu.P |= system.cpu.I;
 
 	// Initialize memory
-	cpu.mem[0x200] = INS_CLI;
+	system.rom[0] = INS_CLI;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x201);
-	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(system.cpu.PC, 0x8001);
+	EXPECT_EQ(system.cpu.P, 0);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -77,21 +75,20 @@ TEST(CLI_TEST, ClearsInterruptFlag) {
 TEST(CLC_TEST, ClearsOverflowFlag) {
 	// 1 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.P |= cpu.V;
+	// Initialize system
+	Bus system;
+	system.cpu.P |= system.cpu.V;
 
 	// Initialize memory
-	cpu.mem[0x200] = INS_CLV;
+	system.rom[0] = INS_CLV;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x201);
-	EXPECT_EQ(cpu.P, 0);
+	EXPECT_EQ(system.cpu.PC, 0x8001);
+	EXPECT_EQ(system.cpu.P, 0);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -100,20 +97,19 @@ TEST(CLC_TEST, ClearsOverflowFlag) {
 TEST(SEC_TEST, SetsCarryFlag) {
 	// 1 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
+	// Initialize system
+	Bus system;
 
 	// Initialize memory
-	cpu.mem[0x200] = INS_SEC;
+	system.rom[0] = INS_SEC;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x201);
-	EXPECT_EQ(cpu.P, cpu.C);
+	EXPECT_EQ(system.cpu.PC, 0x8001);
+	EXPECT_EQ(system.cpu.P, system.cpu.C);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -122,20 +118,19 @@ TEST(SEC_TEST, SetsCarryFlag) {
 TEST(SED_TEST, SetsDecimalFlag) {
 	// 1 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
+	// Initialize system
+	Bus system;
 
 	// Initialize memory
-	cpu.mem[0x200] = INS_SED;
+	system.rom[0] = INS_SED;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x201);
-	EXPECT_EQ(cpu.P, cpu.D);
+	EXPECT_EQ(system.cpu.PC, 0x8001);
+	EXPECT_EQ(system.cpu.P, system.cpu.D);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -144,18 +139,17 @@ TEST(SED_TEST, SetsDecimalFlag) {
 TEST(SEI_TEST, SetsInterruptFlag) {
 	// 1 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
+	// Initialize system
+	Bus system;
 
 	// Initialize memory
-	cpu.mem[0x200] = INS_SEI;
+	system.rom[0] = INS_SEI;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x201);
-	EXPECT_EQ(cpu.P, cpu.I);
+	EXPECT_EQ(system.cpu.PC, 0x8001);
+	EXPECT_EQ(system.cpu.P, system.cpu.I);
 }

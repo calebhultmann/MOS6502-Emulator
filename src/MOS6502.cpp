@@ -288,7 +288,6 @@ void MOS6502::ExecuteOperation(Operation operation) {
 	case Instruction::PLP:
 		Cycles++;
 		P = PullStack();
-		UpdateZNFlags(P);
 		return;
 	case Instruction::AND:
 		A = A & FetchData(operation);
@@ -551,15 +550,14 @@ void MOS6502::ExecuteOperation(Operation operation) {
 		Cycles++;
 		return;
 	case Instruction::SED:
-		SetFlag(C, 1);
+		SetFlag(D, 1);
 		Cycles++;
 		return;
 	case Instruction::SEI:
-		SetFlag(C, 1);
+		SetFlag(I, 1);
 		Cycles++;
 		return;
 	case Instruction::BRK:
-		Cycles += 3;
 		(void) FetchByte();
 		WriteByte(0x0100 | SP--, PC >> 8);
 		WriteByte(0x0100 | SP--, PC & 0xFF);
@@ -572,7 +570,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 		return;
 	case Instruction::RTI:
 	{
-		Cycles += 5;
+		Cycles += 2;
 		P = ReadByte(0x0100 | ++SP);
 		SetFlag(B, 0);
 		uint16_t newPC = ReadByte(0x0100 | ++SP);
