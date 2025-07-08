@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include "emulator.h"
+#include "bus.h"
+#include "MOS6502.h"
 #include "instructions.h"
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -8,102 +9,97 @@
 TEST(BCC_TEST, BranchFails) {
 	// 2 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
-	cpu.P |= cpu.C;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
+	system.cpu.P |= system.cpu.C;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BCC;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BCC;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x352);
+	EXPECT_EQ(system.cpu.PC, 0x8152);
 }
 
 TEST(BCC_TEST, BranchSucceeds_PositiveJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BCC;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BCC;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x392);
+	EXPECT_EQ(system.cpu.PC, 0x8192);
 }
 
 TEST(BCC_TEST, BranchSucceeds_PositiveJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x3F0;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x81F0;
 
 	// Initialize memory
-	cpu.mem[0x3F0] = INS_BCC;
-	cpu.mem[0x3F1] = 0x10;
+	system.rom[0x1F0] = INS_BCC;
+	system.rom[0x1F1] = 0x10;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x402);
+	EXPECT_EQ(system.cpu.PC, 0x8202);
 }
 
 TEST(BCC_TEST, BranchSucceeds_NegativeJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BCC;
-	cpu.mem[0x351] = 0xC0;
+	system.rom[0x150] = INS_BCC;
+	system.rom[0x151] = 0xC0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x312);
+	EXPECT_EQ(system.cpu.PC, 0x8112);
 }
 
 TEST(BCC_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x310;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8110;
 
 	// Initialize memory
-	cpu.mem[0x310] = INS_BCC;
-	cpu.mem[0x311] = 0xE0;
+	system.rom[0x110] = INS_BCC;
+	system.rom[0x111] = 0xE0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x2F2);
+	EXPECT_EQ(system.cpu.PC, 0x80F2);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -112,105 +108,100 @@ TEST(BCC_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 TEST(BCS_TEST, BranchFails) {
 	// 2 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BCS;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BCS;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x352);
+	EXPECT_EQ(system.cpu.PC, 0x8152);
 }
 
 TEST(BCS_TEST, BranchSucceeds_PositiveJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
-	cpu.P |= cpu.C;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
+	system.cpu.P |= system.cpu.C;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BCS;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BCS;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x392);
+	EXPECT_EQ(system.cpu.PC, 0x8192);
 }
 
 TEST(BCS_TEST, BranchSucceeds_PositiveJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x3F0;
-	cpu.P |= cpu.C;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x81F0;
+	system.cpu.P |= system.cpu.C;
 
 	// Initialize memory
-	cpu.mem[0x3F0] = INS_BCS;
-	cpu.mem[0x3F1] = 0x10;
+	system.rom[0x1F0] = INS_BCS;
+	system.rom[0x1F1] = 0x10;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x402);
+	EXPECT_EQ(system.cpu.PC, 0x8202);
 }
 
 TEST(BCS_TEST, BranchSucceeds_NegativeJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
-	cpu.P |= cpu.C;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
+	system.cpu.P |= system.cpu.C;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BCS;
-	cpu.mem[0x351] = 0xC0;
+	system.rom[0x150] = INS_BCS;
+	system.rom[0x151] = 0xC0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x312);
+	EXPECT_EQ(system.cpu.PC, 0x8112);
 }
 
 TEST(BCS_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x310;
-	cpu.P |= cpu.C;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8110;
+	system.cpu.P |= system.cpu.C;
 
 	// Initialize memory
-	cpu.mem[0x310] = INS_BCS;
-	cpu.mem[0x311] = 0xE0;
+	system.rom[0x110] = INS_BCS;
+	system.rom[0x111] = 0xE0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x2F2);
+	EXPECT_EQ(system.cpu.PC, 0x80F2);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -219,105 +210,100 @@ TEST(BCS_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 TEST(BEQ_TEST, BranchFails) {
 	// 2 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BEQ;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BEQ;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x352);
+	EXPECT_EQ(system.cpu.PC, 0x8152);
 }
 
 TEST(BEQ_TEST, BranchSucceeds_PositiveJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
-	cpu.P |= cpu.Z;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
+	system.cpu.P |= system.cpu.Z;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BEQ;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BEQ;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x392);
+	EXPECT_EQ(system.cpu.PC, 0x8192);
 }
 
 TEST(BEQ_TEST, BranchSucceeds_PositiveJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x3F0;
-	cpu.P |= cpu.Z;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x81F0;
+	system.cpu.P |= system.cpu.Z;
 
 	// Initialize memory
-	cpu.mem[0x3F0] = INS_BEQ;
-	cpu.mem[0x3F1] = 0x10;
+	system.rom[0x1F0] = INS_BEQ;
+	system.rom[0x1F1] = 0x10;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x402);
+	EXPECT_EQ(system.cpu.PC, 0x8202);
 }
 
 TEST(BEQ_TEST, BranchSucceeds_NegativeJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
-	cpu.P |= cpu.Z;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
+	system.cpu.P |= system.cpu.Z;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BEQ;
-	cpu.mem[0x351] = 0xC0;
+	system.rom[0x150] = INS_BEQ;
+	system.rom[0x151] = 0xC0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x312);
+	EXPECT_EQ(system.cpu.PC, 0x8112);
 }
 
 TEST(BEQ_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x310;
-	cpu.P |= cpu.Z;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8110;
+	system.cpu.P |= system.cpu.Z;
 
 	// Initialize memory
-	cpu.mem[0x310] = INS_BEQ;
-	cpu.mem[0x311] = 0xE0;
+	system.rom[0x110] = INS_BEQ;
+	system.rom[0x111] = 0xE0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x2F2);
+	EXPECT_EQ(system.cpu.PC, 0x80F2);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -326,105 +312,100 @@ TEST(BEQ_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 TEST(BMI_TEST, BranchFails) {
 	// 2 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BMI;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BMI;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x352);
+	EXPECT_EQ(system.cpu.PC, 0x8152);
 }
 
 TEST(BMI_TEST, BranchSucceeds_PositiveJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
-	cpu.P |= cpu.N;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
+	system.cpu.P |= system.cpu.N;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BMI;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BMI;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x392);
+	EXPECT_EQ(system.cpu.PC, 0x8192);
 }
 
 TEST(BMI_TEST, BranchSucceeds_PositiveJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x3F0;
-	cpu.P |= cpu.N;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x81F0;
+	system.cpu.P |= system.cpu.N;
 
 	// Initialize memory
-	cpu.mem[0x3F0] = INS_BMI;
-	cpu.mem[0x3F1] = 0x10;
+	system.rom[0x1F0] = INS_BMI;
+	system.rom[0x1F1] = 0x10;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x402);
+	EXPECT_EQ(system.cpu.PC, 0x8202);
 }
 
 TEST(BMI_TEST, BranchSucceeds_NegativeJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
-	cpu.P |= cpu.N;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
+	system.cpu.P |= system.cpu.N;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BMI;
-	cpu.mem[0x351] = 0xC0;
+	system.rom[0x150] = INS_BMI;
+	system.rom[0x151] = 0xC0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x312);
+	EXPECT_EQ(system.cpu.PC, 0x8112);
 }
 
 TEST(BMI_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x310;
-	cpu.P |= cpu.N;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8110;
+	system.cpu.P |= system.cpu.N;
 
 	// Initialize memory
-	cpu.mem[0x310] = INS_BMI;
-	cpu.mem[0x311] = 0xE0;
+	system.rom[0x110] = INS_BMI;
+	system.rom[0x111] = 0xE0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x2F2);
+	EXPECT_EQ(system.cpu.PC, 0x80F2);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -433,102 +414,97 @@ TEST(BMI_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 TEST(BNE_TEST, BranchFails) {
 	// 2 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
-	cpu.P |= cpu.Z;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
+	system.cpu.P |= system.cpu.Z;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BNE;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BNE;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x352);
+	EXPECT_EQ(system.cpu.PC, 0x8152);
 }
 
 TEST(BNE_TEST, BranchSucceeds_PositiveJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BNE;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BNE;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x392);
+	EXPECT_EQ(system.cpu.PC, 0x8192);
 }
 
 TEST(BNE_TEST, BranchSucceeds_PositiveJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x3F0;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x81F0;
 
 	// Initialize memory
-	cpu.mem[0x3F0] = INS_BNE;
-	cpu.mem[0x3F1] = 0x10;
+	system.rom[0x1F0] = INS_BNE;
+	system.rom[0x1F1] = 0x10;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x402);
+	EXPECT_EQ(system.cpu.PC, 0x8202);
 }
 
 TEST(BNE_TEST, BranchSucceeds_NegativeJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BNE;
-	cpu.mem[0x351] = 0xC0;
+	system.rom[0x150] = INS_BNE;
+	system.rom[0x151] = 0xC0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x312);
+	EXPECT_EQ(system.cpu.PC, 0x8112);
 }
 
 TEST(BNE_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x310;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8110;
 
 	// Initialize memory
-	cpu.mem[0x310] = INS_BNE;
-	cpu.mem[0x311] = 0xE0;
+	system.rom[0x110] = INS_BNE;
+	system.rom[0x111] = 0xE0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x2F2);
+	EXPECT_EQ(system.cpu.PC, 0x80F2);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -537,102 +513,97 @@ TEST(BNE_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 TEST(BPL_TEST, BranchFails) {
 	// 2 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
-	cpu.P |= cpu.N;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
+	system.cpu.P |= system.cpu.N;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BPL;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BPL;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x352);
+	EXPECT_EQ(system.cpu.PC, 0x8152);
 }
 
 TEST(BPL_TEST, BranchSucceeds_PositiveJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BPL;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BPL;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x392);
+	EXPECT_EQ(system.cpu.PC, 0x8192);
 }
 
 TEST(BPL_TEST, BranchSucceeds_PositiveJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x3F0;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x81F0;
 
 	// Initialize memory
-	cpu.mem[0x3F0] = INS_BPL;
-	cpu.mem[0x3F1] = 0x10;
+	system.rom[0x1F0] = INS_BPL;
+	system.rom[0x1F1] = 0x10;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x402);
+	EXPECT_EQ(system.cpu.PC, 0x8202);
 }
 
 TEST(BPL_TEST, BranchSucceeds_NegativeJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BPL;
-	cpu.mem[0x351] = 0xC0;
+	system.rom[0x150] = INS_BPL;
+	system.rom[0x151] = 0xC0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x312);
+	EXPECT_EQ(system.cpu.PC, 0x8112);
 }
 
 TEST(BPL_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x310;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8110;
 
 	// Initialize memory
-	cpu.mem[0x310] = INS_BPL;
-	cpu.mem[0x311] = 0xE0;
+	system.rom[0x110] = INS_BPL;
+	system.rom[0x111] = 0xE0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x2F2);
+	EXPECT_EQ(system.cpu.PC, 0x80F2);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -641,102 +612,97 @@ TEST(BPL_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 TEST(BVC_TEST, BranchFails) {
 	// 2 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
-	cpu.P |= cpu.V;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
+	system.cpu.P |= system.cpu.V;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BVC;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BVC;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x352);
+	EXPECT_EQ(system.cpu.PC, 0x8152);
 }
 
 TEST(BVC_TEST, BranchSucceeds_PositiveJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BVC;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BVC;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x392);
+	EXPECT_EQ(system.cpu.PC, 0x8192);
 }
 
 TEST(BVC_TEST, BranchSucceeds_PositiveJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x3F0;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x81F0;
 
 	// Initialize memory
-	cpu.mem[0x3F0] = INS_BVC;
-	cpu.mem[0x3F1] = 0x10;
+	system.rom[0x1F0] = INS_BVC;
+	system.rom[0x1F1] = 0x10;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x402);
+	EXPECT_EQ(system.cpu.PC, 0x8202);
 }
 
 TEST(BVC_TEST, BranchSucceeds_NegativeJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BVC;
-	cpu.mem[0x351] = 0xC0;
+	system.rom[0x150] = INS_BVC;
+	system.rom[0x151] = 0xC0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x312);
+	EXPECT_EQ(system.cpu.PC, 0x8112);
 }
 
 TEST(BVC_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x310;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8110;
 
 	// Initialize memory
-	cpu.mem[0x310] = INS_BVC;
-	cpu.mem[0x311] = 0xE0;
+	system.rom[0x110] = INS_BVC;
+	system.rom[0x111] = 0xE0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x2F2);
+	EXPECT_EQ(system.cpu.PC, 0x80F2);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -745,103 +711,98 @@ TEST(BVC_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 TEST(BVS_TEST, BranchFails) {
 	// 2 Bytes, 2 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BVS;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BVS;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(2);
+	int status = system.cpu.Run(2);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x352);
+	EXPECT_EQ(system.cpu.PC, 0x8152);
 }
 
 TEST(BVS_TEST, BranchSucceeds_PositiveJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
-	cpu.P |= cpu.V;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
+	system.cpu.P |= system.cpu.V;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BVS;
-	cpu.mem[0x351] = 0x40;
+	system.rom[0x150] = INS_BVS;
+	system.rom[0x151] = 0x40;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x392);
+	EXPECT_EQ(system.cpu.PC, 0x8192);
 }
 
 TEST(BVS_TEST, BranchSucceeds_PositiveJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x3F0;
-	cpu.P |= cpu.V;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x81F0;
+	system.cpu.P |= system.cpu.V;
 
 	// Initialize memory
-	cpu.mem[0x3F0] = INS_BVS;
-	cpu.mem[0x3F1] = 0x10;
+	system.rom[0x1F0] = INS_BVS;
+	system.rom[0x1F1] = 0x10;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x402);
+	EXPECT_EQ(system.cpu.PC, 0x8202);
 }
 
 TEST(BVS_TEST, BranchSucceeds_NegativeJump) {
 	// 2 Bytes, 3 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x350;
-	cpu.P |= cpu.V;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8150;
+	system.cpu.P |= system.cpu.V;
 
 	// Initialize memory
-	cpu.mem[0x350] = INS_BVS;
-	cpu.mem[0x351] = 0xC0;
+	system.rom[0x150] = INS_BVS;
+	system.rom[0x151] = 0xC0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(3);
+	int status = system.cpu.Run(3);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x312);
+	EXPECT_EQ(system.cpu.PC, 0x8112);
 }
 
 TEST(BVS_TEST, BranchSucceeds_NegativeJump_WithPageCross) {
 	// 2 Bytes, 4 Cycles
 
-	// Initialize CPU
-	CPU cpu;
-	cpu.Reset();
-	cpu.PC = 0x310;
-	cpu.P |= cpu.V;
+	// Initialize system
+	Bus system;
+	system.cpu.PC = 0x8110;
+	system.cpu.P |= system.cpu.V;
 
 	// Initialize memory
-	cpu.mem[0x310] = INS_BVS;
-	cpu.mem[0x311] = 0xE0;
+	system.rom[0x110] = INS_BVS;
+	system.rom[0x111] = 0xE0;
 
 	// Run the expected number of cycles
-	int status = cpu.Run(4);
+	int status = system.cpu.Run(4);
 
 	// Check test correctness
 	EXPECT_EQ(status, 0);
-	EXPECT_EQ(cpu.PC, 0x2F2);
+	EXPECT_EQ(system.cpu.PC, 0x80F2);
 }
