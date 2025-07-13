@@ -95,11 +95,11 @@ Coming soon!
 
 ## TODO
 
-- [ ] Increase readability of code with comments
+- [X] Separate CPU and Bus class implementations to allow for future component additions
+- [X] Add exit status usage
 - [ ] Reorganize files and code implementation
-- [ ] Add exit status usage
+- [ ] Increase readability of code with comments
 - [ ] Implement git submodule for vcpkg to remove the necessity for a local installation
 - [ ] Complete in-progress 6502 assembler
-- [ ] Separate RAM and CPU implementations into two separate parallel components
 - [ ] Implement rudimentary I/O for text or graphics to expand CPU capabilities
 - [ ] Write test programs to feature functionalities

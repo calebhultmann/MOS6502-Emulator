@@ -1,6 +1,7 @@
 #include "MOS6502.h"
 #include "bus.h"
 #include "mappings.h"
+#include "exitcodes.h"
 #include <stdexcept>
 
 MOS6502::MOS6502() {
@@ -215,6 +216,7 @@ Operation MOS6502::FetchOperation() {
 	}
 	catch (std::out_of_range& e) {
 		operation = Operation{ Instruction::INVALID, UNKNOWN };
+		status = E_INV;
 	}
 	return operation;
 }
@@ -591,21 +593,18 @@ void MOS6502::ExecuteOperation(Operation operation) {
 //    status = 0 -- normal termination
 int MOS6502::Run(int32_t CyclesRequested, bool noStop) {
 	Cycles = 0;
-	int exit_status = 0;
 	while (Cycles < CyclesRequested || noStop)
 	{
 		Operation operation = FetchOperation();
-		if (operation.instruction == Instruction::INVALID)
-		{
-			exit_status = -1;
-			break;
-		}
+		if (status != 0)
+			return status;
+
 		ExecuteOperation(operation);
 	}
 
 	// return error status
-	if (exit_status != 0)
-		return exit_status;
+	if (status != 0)
+		return status;
 
 	// return excess cycle status
 	if (Cycles > CyclesRequested && !noStop)
