@@ -28,7 +28,7 @@ public:
 	const uint8_t N = (1 << 7); // Negative
 
 	int32_t Cycles;
-private:
+	int status = 0;
 
 public: // Bus interface
 	Bus* bus = nullptr;

@@ -1,4 +1,5 @@
 #include "bus.h"
+#include "exitcodes.h"
 #include <iostream>
 
 Bus::Bus() {
@@ -29,6 +30,7 @@ Bus::~Bus() {
 void Bus::write(uint16_t addr, uint8_t data) {
 	if (addr >= 0x0000 && addr <= 0x7FFF)
 		ram[addr] = data;
+	cpu.status = E_BADW;
 }
 
 uint8_t Bus::read(uint16_t addr) {
@@ -38,5 +40,7 @@ uint8_t Bus::read(uint16_t addr) {
 		return rom[addr % 0x4000];
 	else if (addr >= 0xFFFA && addr <= 0xFFFF)
 		return vectors[addr - 0xFFFA];
+
+	cpu.status = E_BADR;
 	return 0;
 }
