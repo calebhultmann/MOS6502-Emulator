@@ -18,6 +18,11 @@ Bus::Bus() {
 	vectors[4] = 0xFF;
 	vectors[5] = 0xFF;
 
+	// Terminal data
+	for (int i = 0; i < 16; i++) {
+		terminal_data[i] = 0xFF;
+	}
+
 	cpu.Reset();
 }
 

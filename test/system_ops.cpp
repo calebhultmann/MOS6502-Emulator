@@ -104,10 +104,10 @@ TEST(BRK_TEST, CorrectlyPushesInfoToStack) {
 	EXPECT_EQ(status, 0);
 	EXPECT_EQ(system.cpu.PC, 0xA000);
 	EXPECT_EQ(system.cpu.P, 0b11011111);
-	EXPECT_EQ(system.ram[0x1FF], 0x80);
-	EXPECT_EQ(system.ram[0x1FE], 0x02);
-	EXPECT_EQ(system.ram[0x1FD], 0b11011111);
-	EXPECT_EQ(system.cpu.SP, 0xFC);
+	EXPECT_EQ(system.ram[0x1FD], 0x80);
+	EXPECT_EQ(system.ram[0x1FC], 0x02);
+	EXPECT_EQ(system.ram[0x1FB], 0b11011111);
+	EXPECT_EQ(system.cpu.SP, 0xFA);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/

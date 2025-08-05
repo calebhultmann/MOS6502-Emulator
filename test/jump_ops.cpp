@@ -106,9 +106,9 @@ TEST(JSR_TEST, CorrectlyPushesToStack) {
 	// Check test correctness
 	EXPECT_EQ(status, 0);
 	EXPECT_EQ(system.cpu.PC, 0xAF10);
-	EXPECT_EQ(system.cpu.SP, 0xFD);
-	EXPECT_EQ(system.ram[0x01FE], 0x02);
-	EXPECT_EQ(system.ram[0x01FF], 0x80);
+	EXPECT_EQ(system.cpu.SP, 0xFB);
+	EXPECT_EQ(system.ram[0x01FC], 0x02);
+	EXPECT_EQ(system.ram[0x01FD], 0x80);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/

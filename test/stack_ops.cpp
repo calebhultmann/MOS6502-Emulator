@@ -63,7 +63,7 @@ TEST(TSX_TEST, SetsNegativeFlag) {
 	EXPECT_EQ(status, 0);
 	EXPECT_EQ(system.cpu.PC, 0x8001);
 	EXPECT_EQ(system.cpu.P, system.cpu.N);
-	EXPECT_EQ(system.cpu.X, 0xFF);
+	EXPECT_EQ(system.cpu.X, 0xFD);
 }
 
 TEST(TSX_TEST, ClearsNegativeFlag) {
@@ -130,8 +130,8 @@ TEST(PHA_TEST, CorrectlyPushesToStack) {
 	EXPECT_EQ(status, 0);
 	EXPECT_EQ(system.cpu.PC, 0x8001);
 	EXPECT_EQ(system.cpu.P, 0);
-	EXPECT_EQ(system.cpu.SP, 0xFE);
-	EXPECT_EQ(system.ram[0x1FF], 0x4F);
+	EXPECT_EQ(system.cpu.SP, 0xFC);
+	EXPECT_EQ(system.ram[0x1FD], 0x4F);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -154,8 +154,8 @@ TEST(PHP_TEST, CorrectlyPushesToStack) {
 	EXPECT_EQ(status, 0);
 	EXPECT_EQ(system.cpu.PC, 0x8001);
 	EXPECT_EQ(system.cpu.P, 0b11011111);
-	EXPECT_EQ(system.cpu.SP, 0xFE);
-	EXPECT_EQ(system.ram[0x1FF], 0b11011111);
+	EXPECT_EQ(system.cpu.SP, 0xFC);
+	EXPECT_EQ(system.ram[0x1FD], 0b11011111);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -303,8 +303,8 @@ TEST(PLA_TEST, WorksInTandemWithPHA) {
 	EXPECT_EQ(system.cpu.PC, 0x8002);
 	EXPECT_EQ(system.cpu.P, 0);
 	EXPECT_EQ(system.cpu.A, 0x4F);
-	EXPECT_EQ(system.cpu.SP, 0xFF);
-	EXPECT_EQ(system.ram[0x1FF], 0x4F);
+	EXPECT_EQ(system.cpu.SP, 0xFD);
+	EXPECT_EQ(system.ram[0x1FD], 0x4F);
 }
 
 /*----------------------------------------------------------------------------------------------------------------*/
@@ -355,6 +355,6 @@ TEST(PLP_TEST, WorksInTandemWithPHP) {
 	EXPECT_EQ(status, 0);
 	EXPECT_EQ(system.cpu.PC, 0x8002);
 	EXPECT_EQ(system.cpu.P, 0b11011111);
-	EXPECT_EQ(system.cpu.SP, 0xFF);
-	EXPECT_EQ(system.ram[0x1FF], 0b11011111);
+	EXPECT_EQ(system.cpu.SP, 0xFD);
+	EXPECT_EQ(system.ram[0x1FD], 0b11011111);
 }
