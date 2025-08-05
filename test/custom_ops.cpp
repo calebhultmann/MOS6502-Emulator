@@ -258,3 +258,33 @@ TEST(PRT_TEST, PrintsNewLines) {
 	EXPECT_EQ(system.cpu.PC, 0x8001);
 	EXPECT_EQ(capture.str(), "Line 1!\nLine 2!");
 }
+
+TEST(PRT_TEST, ClearsTerminalBuffer) {
+	// 1 Byte, 34 Cycles
+
+	// Initialize system
+	Bus system;
+
+	// Initialize memory
+	system.rom[0] = INS_PRT;
+	system.rom[1] = INS_PRT;
+
+	char str[] = "blahblah";
+	for (int i = 0; i < 8; i++) {
+		system.terminal_buffer[i] = (uint8_t)str[i];
+	}
+	system.custom_flags[ASCII_FLAG] = 1;
+
+	// Capture std::cout during CPU run
+	coutCapture capture;
+
+	// Run the expected number of cycles
+	int status = system.cpu.Run(34);
+	EXPECT_EQ(capture.str(), "blahblah");
+	status = system.cpu.Run(34);
+
+	// Check test correctness
+	EXPECT_EQ(status, 0);
+	EXPECT_EQ(system.cpu.PC, 0x8002);
+	EXPECT_EQ(capture.str(), "blahblah");
+}

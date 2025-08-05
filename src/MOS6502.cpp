@@ -587,7 +587,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 
 		for (uint8_t byte = 0; byte < 16; byte++) {
 			uint8_t data = ReadByte(0xFFE0 | byte);
-			WriteByte(0xFFF0 | byte, 0xFF);
+			WriteByte(0xFFE0 | byte, 0xFF);
 			if (data == 0xFF) {
 				Cycles += (30 - (byte * 2));
 				return;
