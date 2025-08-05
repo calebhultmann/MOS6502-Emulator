@@ -3,6 +3,7 @@
 #include "mappings.h"
 #include "exitcodes.h"
 #include <stdexcept>
+#include <iostream>
 
 MOS6502::MOS6502() {
 
@@ -116,7 +117,7 @@ void MOS6502::MaybeBranch(uint8_t flag, bool value) {
 void MOS6502::Reset() {
 	Cycles = -2;
 	PC = ReadWord(0xFFFC);
-	SP = 0xFF;
+	SP = 0xFD;
 	P = 0;
 	A = X = Y = 0;
 }
@@ -579,6 +580,28 @@ void MOS6502::ExecuteOperation(Operation operation) {
 		newPC |= (ReadByte(0x0100 | ++SP) << 8);
 		PC = newPC;
 		return;
+	}
+	case Instruction::PRT:
+	{
+		// 33 cycles
+
+		uint8_t ascii = ReadByte(0xFFF8);
+
+		for (uint8_t byte = 0; byte < 16; byte++) {
+			uint8_t data = ReadByte(0xFFE0 | byte);
+			WriteByte(0xFFF0 | byte, 0xFF);
+			if (data == 0xFF) {
+				Cycles += (30 - byte);
+				return;
+			}
+
+			if (ascii > 0) {
+				std::cout << (char)data;
+			}
+			else {
+				std::cout << data;
+			}
+		}
 	}
 	}
 }

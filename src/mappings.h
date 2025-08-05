@@ -82,6 +82,9 @@ static const map<Instruction, vector<AddressMode>> instruction_to_token_types =
     {Instruction::BRK, {IMPLIED}},
     {Instruction::NOP, {IMPLIED}},
     {Instruction::RTI, {IMPLIED}},
+
+    // Custom Functions
+    {Instruction::PRT, {IMPLIED}}
 };
 
 inline const auto& instruction_opcode_bimap = construct_bimap();

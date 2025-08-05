@@ -20,9 +20,9 @@ public: // Components
 /*
 Memory layout:
 
-0x0000 ----- 0x7FFF - 0x8000 ----- 0xBFFF - 0xC000 ----------------- 0xFFF0- 0xFFFA - 0xFFFF
-   |  32KB ram  |        |  16KB rom  |        |         unused        |        | vectors |
-   ----------------------------------------------------------------------------------------
+0x0000 ----- 0x7FFF - 0x8000 ----- 0xBFFF - 0xC000 ----------------- 0xFFE0 ------- 0xFFF0 - 0xFFFA - 0xFFFF
+   |  32KB ram  |        |  16KB rom  |        |         unused        | Terminal data |        | vectors |
+   --------------------------------------------------------------------------------------------------------
 */
 
 public: // Read and Write methods

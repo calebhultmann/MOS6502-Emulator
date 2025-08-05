@@ -223,18 +223,23 @@ static constexpr Byte INS_BRK = 0x00;
 static constexpr Byte INS_NOP = 0xEA;
 static constexpr Byte INS_RTI = 0x40;
 
+// Custom Opcodes
+static constexpr Byte INS_PRT = 0x80;
+
 // Instructions
 static const unordered_set<string> valid_instructions =
 { "LDA", "LDX", "LDY", "STA", "STX", "STY", "TAX", "TAY", "TXA", "TYA", "TSX", "TXS", "PHA", "PHP",
   "PLA", "PLP", "AND", "EOR", "ORA", "BIT", "ADC", "SBC", "CMP", "CPX", "CPY", "INC", "INX", "INY",
   "DEC", "DEX", "DEY", "ASL", "LSR", "ROL", "ROR", "JMP", "JSR", "RTS", "BCC", "BCS", "BEQ", "BMI",
-  "BNE", "BPL", "BVC", "BVS", "CLC", "CLD", "CLI", "CLV", "SEC", "SED", "SEI", "BRK", "NOP", "RTI" };
+  "BNE", "BPL", "BVC", "BVS", "CLC", "CLD", "CLI", "CLV", "SEC", "SED", "SEI", "BRK", "NOP", "RTI",
+  "PRT" };
 
 enum class Instruction {
 	LDA, LDX, LDY, STA, STX, STY, TAX, TAY, TXA, TYA, TSX, TXS, PHA, PHP,
 	PLA, PLP, AND, EOR, ORA, BIT, ADC, SBC, CMP, CPX, CPY, INC, INX, INY,
 	DEC, DEX, DEY, ASL, LSR, ROL, ROR, JMP, JSR, RTS, BCC, BCS, BEQ, BMI,
 	BNE, BPL, BVC, BVS, CLC, CLD, CLI, CLV, SEC, SED, SEI, BRK, NOP, RTI,
+    PRT,
     INVALID
 };
 
@@ -252,7 +257,8 @@ static const unordered_map<string, Instruction> instruction_map = {
     { "BEQ", Instruction::BEQ }, { "BMI", Instruction::BMI }, { "BNE", Instruction::BNE }, { "BPL", Instruction::BPL },
     { "BVC", Instruction::BVC }, { "BVS", Instruction::BVS }, { "CLC", Instruction::CLC }, { "CLD", Instruction::CLD },
     { "CLI", Instruction::CLI }, { "CLV", Instruction::CLV }, { "SEC", Instruction::SEC }, { "SED", Instruction::SED },
-    { "SEI", Instruction::SEI }, { "BRK" ,Instruction::BRK }, { "NOP", Instruction::NOP }, { "RTI", Instruction::RTI}
+    { "SEI", Instruction::SEI }, { "BRK" ,Instruction::BRK }, { "NOP", Instruction::NOP }, { "RTI", Instruction::RTI },
+    { "PRT", Instruction::PRT }
 };
 
 inline Instruction get_instruction(const string& str) {
