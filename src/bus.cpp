@@ -25,12 +25,17 @@ Bus::~Bus() {
 
 }
 
-
-//0x0000-0x7FFF ram 0x8000-0xFFFF rom
 void Bus::write(uint16_t addr, uint8_t data) {
 	if (addr >= 0x0000 && addr <= 0x7FFF)
 		ram[addr] = data;
-	cpu.status = E_BADW;
+	else if (addr >= 0xFFE0 && addr <= 0xFFEF)
+		terminal_data[addr - 0xFFE0] = data;
+	else if (addr >= 0xFFF0 && addr <= 0xFFF9)
+		custom_flags[addr & 0xF] = data;
+	else if (addr >= 0xFFFA && addr <= 0xFFFF)
+		vectors[addr - 0xFFFA] = data;
+	else
+		cpu.status = E_BADW;
 }
 
 uint8_t Bus::read(uint16_t addr) {
@@ -38,6 +43,10 @@ uint8_t Bus::read(uint16_t addr) {
 		return ram[addr];
 	else if (addr >= 0x8000 && addr <= 0xAFFF)
 		return rom[addr % 0x4000];
+	else if (addr >= 0xFFE0 && addr <= 0xFFEF)
+		return terminal_data[addr - 0xFFE0];
+	else if (addr >= 0xFFF0 && addr <= 0xFFF9)
+		return custom_flags[addr & 0xF];
 	else if (addr >= 0xFFFA && addr <= 0xFFFF)
 		return vectors[addr - 0xFFFA];
 

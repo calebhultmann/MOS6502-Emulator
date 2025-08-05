@@ -89,6 +89,14 @@ target_link_libraries(
 )
 
 add_executable(
+	custom_tests
+	custom_ops.cpp
+)
+target_link_libraries(
+	custom_tests PRIVATE emulator GTest::gtest_main
+)
+
+add_executable(
   full_system_tests
   arithmetic_ops.cpp
   branch_ops.cpp
@@ -101,6 +109,7 @@ add_executable(
   stack_ops.cpp
   status_change_ops.cpp
   system_ops.cpp
+  custom_ops.cpp
 )
 target_link_libraries(
   full_system_tests PRIVATE emulator GTest::gtest_main
@@ -118,4 +127,5 @@ gtest_discover_tests(shift_tests)
 gtest_discover_tests(stack_tests)
 gtest_discover_tests(status_change_tests)
 gtest_discover_tests(system_tests)
+gtest_discover_tests(custom_tests)
 gtest_discover_tests(full_system_tests)
