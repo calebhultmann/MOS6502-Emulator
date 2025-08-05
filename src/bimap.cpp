@@ -255,6 +255,9 @@ const boost::bimap<Operation, Byte>& construct_bimap() {
         insert_pair(bm, Operation{ Instruction::NOP, IMPLIED }, INS_NOP);
         insert_pair(bm, Operation{ Instruction::RTI, IMPLIED }, INS_RTI);
 
+        // Custom Functions
+        insert_pair(bm, Operation{ Instruction::PRT, IMPLIED }, INS_PRT);
+
         return bm;
     }();
 	return bimap;

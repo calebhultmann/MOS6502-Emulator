@@ -2,6 +2,8 @@
 #include "MOS6502.h"
 #include <cstdint>
 
+#define ASCII_FLAG	0
+
 class Bus
 {
 public:

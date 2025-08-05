@@ -5,6 +5,8 @@
 Bus::Bus() {
 	cpu.ConnectBus(this);
 	for (auto& i : ram) i = 0xFF;
+	for (auto& i : terminal_data) i = 0xFF;
+	for (auto& i : custom_flags) i = 0;
 
 	// NMI handler (not implemented)
 	vectors[0] = 0xFF;
@@ -17,11 +19,6 @@ Bus::Bus() {
 	// BRK/IRQ handler (not implemented)
 	vectors[4] = 0xFF;
 	vectors[5] = 0xFF;
-
-	// Terminal data
-	for (int i = 0; i < 16; i++) {
-		terminal_data[i] = 0xFF;
-	}
 
 	cpu.Reset();
 }

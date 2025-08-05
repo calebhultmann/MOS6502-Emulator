@@ -582,24 +582,22 @@ void MOS6502::ExecuteOperation(Operation operation) {
 		return;
 	}
 	case Instruction::PRT:
-	{
-		// 33 cycles
-
-		uint8_t ascii = ReadByte(0xFFF8);
+	{ // 33 cycles
+		uint8_t ascii = ReadByte(0xFFF0);
 
 		for (uint8_t byte = 0; byte < 16; byte++) {
 			uint8_t data = ReadByte(0xFFE0 | byte);
 			WriteByte(0xFFF0 | byte, 0xFF);
 			if (data == 0xFF) {
-				Cycles += (30 - byte);
+				Cycles += (30 - (byte * 2));
 				return;
 			}
 
 			if (ascii > 0) {
-				std::cout << (char)data;
+				std::cout << static_cast<char>(data);
 			}
 			else {
-				std::cout << data;
+				std::cout << static_cast<unsigned int>(data);
 			}
 		}
 	}
