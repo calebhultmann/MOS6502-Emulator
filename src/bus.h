@@ -12,12 +12,12 @@ public:
 
 public: // Components
 	MOS6502 cpu;
-	uint8_t ram[32 * 1024];		// 0x0000 - 0x7FFF
-	uint8_t rom[16 * 1024];		// 0x8000 - 0xBFFF
-					// unused	// 0xC000 - 0xFFDF
-	uint8_t terminal_data[16];	// 0xFFE0 - 0xFFEF
-	uint8_t custom_flags[10];	// 0xFFF0 - 0xFFF9
-	uint8_t vectors[6];			// 0xFFFA - 0xFFFF
+	uint8_t ram[32 * 1024];			// 0x0000 - 0x7FFF
+	uint8_t rom[16 * 1024];			// 0x8000 - 0xBFFF
+					// unused		// 0xC000 - 0xFFDF
+	uint8_t terminal_buffer[16];	// 0xFFE0 - 0xFFEF
+	uint8_t custom_flags[10];		// 0xFFF0 - 0xFFF9
+	uint8_t vectors[6];				// 0xFFFA - 0xFFFF
 	// Program ROM
 	//     header: 1 byte, indicating number of chunks of rom data
 	// I/O devices

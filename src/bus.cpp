@@ -5,7 +5,7 @@
 Bus::Bus() {
 	cpu.ConnectBus(this);
 	for (auto& i : ram) i = 0xFF;
-	for (auto& i : terminal_data) i = 0xFF;
+	for (auto& i : terminal_buffer) i = 0xFF;
 	for (auto& i : custom_flags) i = 0;
 
 	// NMI handler (not implemented)
@@ -31,7 +31,7 @@ void Bus::write(uint16_t addr, uint8_t data) {
 	if (addr >= 0x0000 && addr <= 0x7FFF)
 		ram[addr] = data;
 	else if (addr >= 0xFFE0 && addr <= 0xFFEF)
-		terminal_data[addr - 0xFFE0] = data;
+		terminal_buffer[addr - 0xFFE0] = data;
 	else if (addr >= 0xFFF0 && addr <= 0xFFF9)
 		custom_flags[addr & 0xF] = data;
 	else if (addr >= 0xFFFA && addr <= 0xFFFF)
@@ -46,7 +46,7 @@ uint8_t Bus::read(uint16_t addr) {
 	else if (addr >= 0x8000 && addr <= 0xAFFF)
 		return rom[addr % 0x4000];
 	else if (addr >= 0xFFE0 && addr <= 0xFFEF)
-		return terminal_data[addr - 0xFFE0];
+		return terminal_buffer[addr - 0xFFE0];
 	else if (addr >= 0xFFF0 && addr <= 0xFFF9)
 		return custom_flags[addr & 0xF];
 	else if (addr >= 0xFFFA && addr <= 0xFFFF)
