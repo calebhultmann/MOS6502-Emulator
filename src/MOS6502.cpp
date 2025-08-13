@@ -125,44 +125,44 @@ void MOS6502::Reset() {
 // Acquires the effective address of the current instruction. Useful for instructions that write to memory
 uint16_t MOS6502::FetchAddress(Operation operation) {
 	switch (operation.mode) {
-	case RELATIVE:
+	case AddressMode::RELATIVE:
 		return PC + FetchByte(); // Check this works with signed numbers
-	case IMMEDIATE:
+	case AddressMode::IMMEDIATE:
 		return ++PC; // Check if this is even used let alone if its correct (i dont think the answer to either is yes)
-	case ABSOLUTE:
+	case AddressMode::ABSOLUTE:
 		return FetchWord();
-	case ZERO_PAGE:
+	case AddressMode::ZERO_PAGE:
 		return 0x0000 | FetchByte();
-	case ABS_INDIRECT:
+	case AddressMode::ABS_INDIRECT:
 	{
 		uint16_t abs_addr = FetchWord();
 		return ReadWord(abs_addr);
 	}
-	case X_ABSOLUTE:
+	case AddressMode::X_ABSOLUTE:
 		Cycles++;
 		return FetchWord() + X;
-	case Y_ABSOLUTE:
+	case AddressMode::Y_ABSOLUTE:
 		Cycles++;
 		return FetchWord() + Y;
-	case X_ZERO_PAGE:
+	case AddressMode::X_ZERO_PAGE:
 	{
 		Cycles++;
 		uint8_t ZPByte = FetchByte() + X;
 		return 0x0000 | ZPByte;
 	}
-	case Y_ZERO_PAGE:
+	case AddressMode::Y_ZERO_PAGE:
 	{
 		Cycles++;
 		uint8_t ZPByte = FetchByte() + Y;
 		return 0x0000 | ZPByte;
 	}
-	case X_INDEX_ZP_INDIRECT:
+	case AddressMode::X_INDEX_ZP_INDIRECT:
 	{
 		Cycles++;
 		uint8_t ZPByte = FetchByte() + X;
 		return ReadWord(0x0000 | ZPByte);
 	}
-	case ZP_INDIRECT_Y_INDEX: // is this used? must be yeah?
+	case AddressMode::ZP_INDIRECT_Y_INDEX: // is this used? must be yeah?
 		Cycles++;
 		return ReadWord(0x0000 | FetchByte()) + Y;
 	}
@@ -172,11 +172,11 @@ uint16_t MOS6502::FetchAddress(Operation operation) {
 // Fetch data for the current instruction based on address mode
 uint8_t MOS6502::FetchData(Operation operation) {
 	switch (operation.mode) {
-	case ACCUMULATOR:
+	case AddressMode::ACCUMULATOR:
 		return A;
-	case IMMEDIATE:
+	case AddressMode::IMMEDIATE:
 		return FetchByte();
-	case X_ABSOLUTE:
+	case AddressMode::X_ABSOLUTE:
 	{
 		uint16_t addr = FetchWord();
 		uint8_t high = addr >> 8;
@@ -185,7 +185,7 @@ uint8_t MOS6502::FetchData(Operation operation) {
 			Cycles++;
 		return ReadByte(addr);
 	}
-	case Y_ABSOLUTE:
+	case AddressMode::Y_ABSOLUTE:
 	{
 		uint16_t addr = FetchWord();
 		uint8_t high = addr >> 8;
@@ -194,7 +194,7 @@ uint8_t MOS6502::FetchData(Operation operation) {
 			Cycles++;
 		return ReadByte(addr);
 	}
-	case ZP_INDIRECT_Y_INDEX:
+	case AddressMode::ZP_INDIRECT_Y_INDEX:
 	{
 		uint16_t ind_addr = ReadWord(0x0000 | FetchByte());
 		uint8_t high = ind_addr >> 8;
@@ -213,10 +213,11 @@ Operation MOS6502::FetchOperation() {
 	uint8_t opcode = FetchByte();
 	Operation operation;
 	try {
-		operation = instruction_opcode_bimap.right.at(opcode);
+		operation = opcode_to_operation_lookup.at(opcode);
 	}
 	catch (std::out_of_range& e) {
-		operation = Operation{ Instruction::INVALID, UNKNOWN };
+		(void)e;
+		operation = Operation{ Instruction::INVALID, AddressMode::UNKNOWN };
 		status = E_INV;
 	}
 	return operation;
@@ -403,7 +404,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 	case Instruction::ASL:
 	{
 		Cycles++;
-		if (operation.mode == ACCUMULATOR) {
+		if (operation.mode == AddressMode::ACCUMULATOR) {
 			SetFlag(C, A & N);
 			A <<= 1;
 			UpdateZNFlags(A);
@@ -421,7 +422,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 	case Instruction::LSR:
 	{
 		Cycles++;
-		if (operation.mode == ACCUMULATOR) {
+		if (operation.mode == AddressMode::ACCUMULATOR) {
 			SetFlag(C, A & C);
 			A >>= 1;
 			UpdateZNFlags(A);
@@ -440,7 +441,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 	{
 		Cycles++;
 		uint8_t carry = P & C;
-		if (operation.mode == ACCUMULATOR) {
+		if (operation.mode == AddressMode::ACCUMULATOR) {
 			SetFlag(C, A & N);
 			A = (A << 1) | carry;
 			UpdateZNFlags(A);
@@ -459,7 +460,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 	{
 		Cycles++;
 		uint8_t carry = (P & C) ? 0x80 : 0;
-		if (operation.mode == ACCUMULATOR) {
+		if (operation.mode == AddressMode::ACCUMULATOR) {
 			SetFlag(C, A & C);
 			A = (A >> 1) | carry;
 			UpdateZNFlags(A);
@@ -477,7 +478,7 @@ void MOS6502::ExecuteOperation(Operation operation) {
 	case Instruction::JMP:
 	{
 		uint16_t jmp_addr;
-		if (operation.mode == ABSOLUTE) {
+		if (operation.mode == AddressMode::ABSOLUTE) {
 			jmp_addr = FetchWord();
 		}
 		else {
@@ -619,7 +620,6 @@ int MOS6502::Run(int32_t CyclesRequested, bool noStop) {
 		Operation operation = FetchOperation();
 		if (status != 0)
 			return status;
-
 		ExecuteOperation(operation);
 	}
 
