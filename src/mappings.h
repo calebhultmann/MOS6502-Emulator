@@ -2,6 +2,8 @@
 #include <map>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
+#include "instructions.h"
 
 using Op = Operation;
 using i = Instruction;
@@ -127,3 +129,18 @@ static const std::unordered_map<std::string, Instruction> string_to_instruction 
     { "SEI", i::SEI }, { "BRK" ,i::BRK }, { "NOP", i::NOP }, { "RTI", i::RTI },
     { "PRT", i::PRT }
 };
+
+inline Instruction get_instruction(const std::string& str) {
+    auto it = string_to_instruction.find(str);
+    if (it != string_to_instruction.end()) {
+        return it->second;
+    }
+    return Instruction::INVALID;
+}
+
+static const std::unordered_set<std::string> valid_instructions =
+{ "LDA", "LDX", "LDY", "STA", "STX", "STY", "TAX", "TAY", "TXA", "TYA", "TSX", "TXS", "PHA", "PHP",
+  "PLA", "PLP", "AND", "EOR", "ORA", "BIT", "ADC", "SBC", "CMP", "CPX", "CPY", "INC", "INX", "INY",
+  "DEC", "DEX", "DEY", "ASL", "LSR", "ROL", "ROR", "JMP", "JSR", "RTS", "BCC", "BCS", "BEQ", "BMI",
+  "BNE", "BPL", "BVC", "BVS", "CLC", "CLD", "CLI", "CLV", "SEC", "SED", "SEI", "BRK", "NOP", "RTI",
+  "PRT" };

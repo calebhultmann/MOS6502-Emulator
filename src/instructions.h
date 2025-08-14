@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <unordered_set>
 
 enum class Instruction {
 	LDA, LDX, LDY, STA, STX, STY, TAX, TAY, TXA, TYA, TSX, TXS, PHA, PHP,
@@ -37,18 +36,3 @@ struct Operation {
         return std::tie(instruction, mode) < std::tie(other.instruction, other.mode);
     }
 };
-
-inline Instruction get_instruction(const std::string& str) {
-    auto it = string_to_instruction.find(str);
-    if (it != string_to_instruction.end()) {
-        return it->second;
-    }
-    return Instruction::INVALID;
-}
-
-static const std::unordered_set<std::string> valid_instructions =
-{ "LDA", "LDX", "LDY", "STA", "STX", "STY", "TAX", "TAY", "TXA", "TYA", "TSX", "TXS", "PHA", "PHP",
-  "PLA", "PLP", "AND", "EOR", "ORA", "BIT", "ADC", "SBC", "CMP", "CPX", "CPY", "INC", "INX", "INY",
-  "DEC", "DEX", "DEY", "ASL", "LSR", "ROL", "ROR", "JMP", "JSR", "RTS", "BCC", "BCS", "BEQ", "BMI",
-  "BNE", "BPL", "BVC", "BVS", "CLC", "CLD", "CLI", "CLV", "SEC", "SED", "SEI", "BRK", "NOP", "RTI",
-  "PRT" };
