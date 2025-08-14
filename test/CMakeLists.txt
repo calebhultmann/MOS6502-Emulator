@@ -1,11 +1,9 @@
-include(AddGoogleTest)
-
 add_executable(
   arithmetic_tests
   arithmetic_ops.cpp
 )
 target_link_libraries(
-  arithmetic_tests PRIVATE emulator GTest::gtest_main
+  arithmetic_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
 add_executable(
@@ -13,7 +11,7 @@ add_executable(
   branch_ops.cpp
 )
 target_link_libraries(
-  branch_tests PRIVATE emulator GTest::gtest_main
+  branch_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
 add_executable(
@@ -21,7 +19,7 @@ add_executable(
   inc_dec_ops.cpp
 )
 target_link_libraries(
-  inc_dec_tests PRIVATE emulator GTest::gtest_main
+  inc_dec_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
 add_executable(
@@ -29,7 +27,7 @@ add_executable(
   jump_ops.cpp
 )
 target_link_libraries(
-  jump_tests PRIVATE emulator GTest::gtest_main
+  jump_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
 add_executable(
@@ -37,7 +35,7 @@ add_executable(
   load_store_ops.cpp
 )
 target_link_libraries(
-  load_store_tests PRIVATE emulator GTest::gtest_main
+  load_store_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
 add_executable(
@@ -45,7 +43,7 @@ add_executable(
   logical_ops.cpp
 )
 target_link_libraries(
-  logical_tests PRIVATE emulator GTest::gtest_main
+  logical_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
 add_executable(
@@ -53,7 +51,7 @@ add_executable(
   register_transfer_ops.cpp
 )
 target_link_libraries(
-  register_transfer_tests PRIVATE emulator GTest::gtest_main
+  register_transfer_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
 add_executable(
@@ -61,7 +59,7 @@ add_executable(
   shift_ops.cpp
 )
 target_link_libraries(
-  shift_tests PRIVATE emulator GTest::gtest_main
+  shift_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
 add_executable(
@@ -69,7 +67,7 @@ add_executable(
   stack_ops.cpp
 )
 target_link_libraries(
-  stack_tests PRIVATE emulator GTest::gtest_main
+  stack_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
 add_executable(
@@ -77,7 +75,7 @@ add_executable(
   status_change_ops.cpp
 )
 target_link_libraries(
-  status_change_tests PRIVATE emulator GTest::gtest_main
+  status_change_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
 add_executable(
@@ -85,7 +83,7 @@ add_executable(
   system_ops.cpp
 )
 target_link_libraries(
-  system_tests PRIVATE emulator GTest::gtest_main
+  system_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
 add_executable(
@@ -93,9 +91,16 @@ add_executable(
 	custom_ops.cpp
 )
 target_link_libraries(
-	custom_tests PRIVATE emulator GTest::gtest_main
+	custom_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
+add_executable(
+	test_program
+	testing.cpp
+)
+target_link_libraries(
+	test_program PRIVATE GTest::gtest_main test_include_reqs
+)
 add_executable(
   full_system_tests
   arithmetic_ops.cpp
@@ -112,7 +117,7 @@ add_executable(
   custom_ops.cpp
 )
 target_link_libraries(
-  full_system_tests PRIVATE emulator GTest::gtest_main
+  full_system_tests PRIVATE GTest::gtest_main test_include_reqs
 )
 
 include(GoogleTest)
