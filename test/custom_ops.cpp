@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
-#include "MOS6502.h"
-#include "bus.h"
+#include "../src/MOS6502.h"
+#include "../src/bus.h"
+#include "../src/opcodes.h"
 #include <iostream>
 
 // custom cout override to test PRT stdout output

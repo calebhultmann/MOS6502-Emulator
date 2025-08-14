@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "bus.h"
-#include "MOS6502.h"
-#include <iostream>
+#include "../src/MOS6502.h"
+#include "../src/bus.h"
+#include "../src/opcodes.h"
 
 /*----------------------------------------------------------------------------------------------------------------*/
 /*      LDA                                                                                              LDA      */

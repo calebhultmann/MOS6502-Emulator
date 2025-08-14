@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "MOS6502.h"
-#include "bus.h"
-#include "instructions.h"
+#include "../src/MOS6502.h"
+#include "../src/bus.h"
+#include "../src/opcodes.h"
 
 /*----------------------------------------------------------------------------------------------------------------*/
 /*      ADC                                                                                              ADC      */
